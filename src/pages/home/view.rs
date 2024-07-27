@@ -8,8 +8,12 @@ pub fn HomePage() -> impl IntoView {
     // let on_click = move |_| set_count.update(|count| *count += 1);
 
     view! {
-      <section class="bg-red-300 py-10">
-        Hello
+      <section class="pt-10 h-screen bg-background-main min-h-fit">
+        <nav class="max-w-6xl w-full">
+        <ul>
+          <li>Hello World</li>
+        </ul>
+        </nav>
       </section>
     }
 }
