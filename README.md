@@ -27,7 +27,7 @@ Of course, you should explore around the project structure, but the best place t
 
 ## Running your project
 
-`npx tailwindcss -i ./style/main.scss -o ./style/output.scss --watch`
+`npx tailwindcss@3.4.12 -i ./style/main.scss -o ./style/output.scss --watch`
 
 `cargo leptos watch`
 
