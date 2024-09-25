@@ -2,6 +2,7 @@ use leptos::*;
 use leptos_meta::*;
 use leptos_router::*;
 
+use crate::global_components::{body::view::Body, nav::view::Nav};
 use crate::pages::{home::view::HomePage, not_found::view::NotFound};
 
 #[component]
@@ -17,14 +18,14 @@ pub fn App() -> impl IntoView {
         // sets the document title
         <Title text="Welcome to Leptos"/>
 
-        // content for this welcome page
         <Router>
-            <main>
+           <Body>
+                <Nav />
                 <Routes>
                     <Route path="" view=HomePage/>
                     <Route path="/*any" view=NotFound/>
                 </Routes>
-            </main>
+           </Body>
         </Router>
     }
 }

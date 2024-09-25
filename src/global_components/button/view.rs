@@ -1,15 +1,12 @@
 use leptos::*;
 
-/// Renders the home page of your application.
 #[component]
-pub fn HomePage() -> impl IntoView {
+pub fn Button() -> impl IntoView {
     // Creates a reactive value to update the button
     // let (count, set_count) = create_signal(0);
     // let on_click = move |_| set_count.update(|count| *count += 1);
 
     view! {
-      <main class="pt-36 bg-background-main min-h-screen items-center justify-center w-full">
-        Hello world
-      </main>
+       <button>Join Us</button>
     }
 }
