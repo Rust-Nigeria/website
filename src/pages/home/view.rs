@@ -1,6 +1,8 @@
 use leptos::*;
 
 /// Renders the home page of your application.
+use crate::components::community;
+
 #[component]
 pub fn HomePage() -> impl IntoView {
     // Creates a reactive value to update the button
@@ -12,6 +14,7 @@ pub fn HomePage() -> impl IntoView {
         <nav class="max-w-6xl w-full">
         <ul>
           <li>Hello World</li>
+          <Community/>
         </ul>
         </nav>
       </section>
