@@ -1,0 +1,20 @@
+# For more details, see: https://fly.io/docs/app-guides/continuous-deployment-with-github-actions/
+
+name: Deploy to Fly.io
+on:
+push:
+    branches:
+    - main
+jobs:
+deploy:
+    name: Deploy app
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: superfly/flyctl-actions/setup-flyctl@master
+    - name: Deploy to fly
+        id: deployment
+        run: |
+          flyctl deploy --remote-only | tail -n 1 >> $GITHUB_STEP_SUMMARY
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
