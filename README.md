@@ -18,6 +18,7 @@ vscode configurations are added in to allow tailwind classes auto-completion
 
 [Figma Design](https://www.figma.com/design/u1E8D25nhSb2nBBQChIV5u/Rust-Nigeria?m=auto&t=EJPY6TRsjBVMJkMk-6)
 
+## Animation reference
 [Animation reference](https://github.com/user-attachments/assets/44405bc9-3aee-49c9-8b90-66c6d20a54e0)
 
 
