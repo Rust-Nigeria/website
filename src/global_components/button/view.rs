@@ -1,4 +1,4 @@
-use leptos::*;
+use leptos::{either::Either, prelude::*};
 use tailwind_fuse::*;
 
 use crate::icons::right_arrow::RightArrow;
@@ -48,14 +48,11 @@ pub fn Button(
     let icon = RightArrow();
 
     match usecase {
-        ButtonUsecase::Button { on_click } => view! {
+        ButtonUsecase::Button { on_click } => Either::Left(view! {
           <button class=class>{children()}{icon}</button>
-        }
-        .into_view(),
-
-        ButtonUsecase::Link { href } => view! {
+        }),
+        ButtonUsecase::Link { href } => Either::Right(view! {
           <a class=class href=href>{children()}{icon}</a>
-        }
-        .into_view(),
+        }),
     }
 }

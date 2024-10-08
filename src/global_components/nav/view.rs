@@ -1,4 +1,4 @@
-use leptos::*;
+use leptos::prelude::*;
 
 use crate::global_components::button::view::{
     Button, ButtonColorVariants, ButtonSizeVariants, ButtonUsecase,

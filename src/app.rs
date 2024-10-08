@@ -1,6 +1,9 @@
-use leptos::*;
-use leptos_meta::*;
-use leptos_router::*;
+use leptos::prelude::*;
+use leptos_meta::{provide_meta_context, Stylesheet, Title};
+use leptos_router::{
+    components::{Route, Router, Routes},
+    StaticSegment, WildcardSegment,
+};
 
 use crate::global_components::nav::view::Nav;
 use crate::pages::{home::view::HomePage, not_found::view::NotFound};
@@ -18,14 +21,15 @@ pub fn App() -> impl IntoView {
         // sets the document title
         <Title text="Welcome to Leptos"/>
 
+        // content for this welcome page
         <Router>
-           <body class="relative flex flex-col w-full items-center">
+            <body class="relative flex flex-col w-full items-center">
                 <Nav />
-                <Routes>
-                    <Route path="" view=HomePage/>
-                    <Route path="/*any" view=NotFound/>
+                <Routes fallback=move || "Not found.">
+                    <Route path=StaticSegment("") view=HomePage/>
+                    <Route path=WildcardSegment("any") view=NotFound/>
                 </Routes>
-           </body>
+            </body>
         </Router>
     }
 }
