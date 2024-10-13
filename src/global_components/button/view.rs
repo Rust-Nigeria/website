@@ -46,13 +46,9 @@ pub enum IconSizeVariants {
     Lg,
 }
 
-trait IntoIconSize {
-    fn into_icon_size(&self) -> IconSizeVariants;
-}
-
-impl IntoIconSize for ButtonSizeVariants {
-    fn into_icon_size(&self) -> IconSizeVariants {
-        match self {
+impl From<ButtonSizeVariants> for IconSizeVariants {
+    fn from(value: ButtonSizeVariants) -> Self {
+        match value {
             ButtonSizeVariants::Lg => IconSizeVariants::Lg,
             ButtonSizeVariants::Md => IconSizeVariants::Md,
         }
@@ -81,10 +77,7 @@ pub fn Button(
     #[prop(optional)] icon: Option<ButtonIconTypes>,
 ) -> impl IntoView {
     let class = ButtonVariants { size, color }.to_class();
-    let icon_class = IconVariants {
-        size: size.into_icon_size(),
-    }
-    .to_class();
+    let icon_class = IconVariants { size: size.into() }.to_class();
 
     let icon_el = match icon {
         None => None,
