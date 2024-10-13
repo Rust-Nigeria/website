@@ -1,21 +1,19 @@
-use leptos::{either::Either, prelude::*};
+use leptos::{either::Either, ev::MouseEvent, prelude::*};
 use tailwind_fuse::*;
 
 use crate::icons::right_arrow::RightArrow;
 
 pub enum ButtonUsecase {
-    Button { on_click: Box<dyn Fn()> },
-    Link { href: String },
+    Button {
+        on_click: Box<dyn FnMut(MouseEvent)>,
+    },
+    Link {
+        href: String,
+    },
 }
 
-// Variant for size
-#[derive(TwVariant)]
-#[tw(class = "rounded-full")]
-pub enum ButtonSizeVariants {
-    #[tw(default, class = "py-4 px-8")]
-    Md,
-    #[tw(class = "py-6 px-10")]
-    Lg,
+pub enum ButtonIconTypes {
+    RightArrow,
 }
 
 // Variant for color
@@ -29,30 +27,78 @@ pub enum ButtonColorVariants {
     Grey,
 }
 
+// Variant for size
+#[derive(TwVariant)]
+#[tw(class = "rounded-full")]
+pub enum ButtonSizeVariants {
+    #[tw(default, class = "py-4 px-8 text-2xl")]
+    Md,
+    #[tw(class = "py-6 px-10 text-lg")]
+    Lg,
+}
+
+#[derive(TwVariant)]
+#[tw(class = "rounded-full")]
+pub enum IconSizeVariants {
+    #[tw(default, class = "w-6")]
+    Md,
+    #[tw(class = "w-6")]
+    Lg,
+}
+
+trait IntoIconSize {
+    fn into_icon_size(&self) -> IconSizeVariants;
+}
+
+impl IntoIconSize for ButtonSizeVariants {
+    fn into_icon_size(&self) -> IconSizeVariants {
+        match self {
+            ButtonSizeVariants::Lg => IconSizeVariants::Lg,
+            ButtonSizeVariants::Md => IconSizeVariants::Md,
+        }
+    }
+}
+
 #[derive(TwClass)]
-#[tw(class = "inline-flex")]
+#[tw(class = "inline-flex font-medium")]
 struct ButtonVariants {
     size: ButtonSizeVariants,
     color: ButtonColorVariants,
 }
 
+#[derive(TwClass)]
+#[tw(class = "ml-1")]
+struct IconVariants {
+    size: IconSizeVariants,
+}
+
 #[component]
 pub fn Button(
-    usecase: ButtonUsecase,
+    use_as: ButtonUsecase,
     children: Children,
     #[prop(default = ButtonSizeVariants::Md)] size: ButtonSizeVariants,
     #[prop(default = ButtonColorVariants::White)] color: ButtonColorVariants,
+    #[prop(optional)] icon: Option<ButtonIconTypes>,
 ) -> impl IntoView {
     let class = ButtonVariants { size, color }.to_class();
+    let icon_class = IconVariants {
+        size: size.into_icon_size(),
+    }
+    .to_class();
 
-    let icon = RightArrow();
+    let icon_el = match icon {
+        None => None,
+        Some(icon_type) => match icon_type {
+            ButtonIconTypes::RightArrow => Some(view! { <RightArrow {..} class=icon_class /> }),
+        },
+    };
 
-    match usecase {
+    match use_as {
         ButtonUsecase::Button { on_click } => Either::Left(view! {
-          <button class=class>{children()}{icon}</button>
+          <button class=class on:click=on_click>{children()}{icon_el}</button>
         }),
         ButtonUsecase::Link { href } => Either::Right(view! {
-          <a class=class href=href>{children()}{icon}</a>
+          <a class=class href=href>{children()}{icon_el}</a>
         }),
     }
 }

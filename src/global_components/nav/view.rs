@@ -1,20 +1,26 @@
 use leptos::prelude::*;
 
 use crate::global_components::button::view::{
-    Button, ButtonColorVariants, ButtonSizeVariants, ButtonUsecase,
+    Button, ButtonColorVariants, ButtonIconTypes, ButtonUsecase,
 };
+
+struct NavLink<'a> {
+    text: &'a str,
+    href: &'a str,
+}
 
 #[component]
 pub fn Nav() -> impl IntoView {
     view! {
-        <nav class="max-w-6xl absolute top-10 w-full mx-auto">
+        <nav class="max-w-6xl bg-red-300 h-14 absolute top-10 w-full mx-auto">
             <ul>
                 <li>
                     <Button
-                        usecase=ButtonUsecase::Link { href: String::from("youtube.com") }
+                        use_as=ButtonUsecase::Link { href: String::from("youtube.com") }
                         color=ButtonColorVariants::Black
+                        icon=ButtonIconTypes::RightArrow
                     >
-                    Hello
+                    Join Us
                     </Button>
                 </li>
             </ul>
