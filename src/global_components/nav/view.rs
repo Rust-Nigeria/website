@@ -6,10 +6,10 @@ use crate::global_components::button::view::{
 
 #[component]
 pub fn Nav() -> impl IntoView {
-    let LINKS = vec![
-        (String::from("Blogs"), String::from("/blogs")),
-        (String::from("Showcase"), String::from("/showcase")),
-        (String::from("Projects"), String::from("/projects")),
+    let LINKS = [
+        ("Blogs", "/blogs"),
+        ("Showcase", "/showcase"),
+        ("Projects", "/projects"),
     ];
 
     view! {
