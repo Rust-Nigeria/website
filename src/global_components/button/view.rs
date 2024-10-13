@@ -31,7 +31,7 @@ pub enum ButtonColorVariants {
 #[derive(TwVariant)]
 #[tw(class = "rounded-full")]
 pub enum ButtonSizeVariants {
-    #[tw(default, class = "py-4 px-8 text-2xl")]
+    #[tw(default, class = "py-4 px-6 xl:px-8")]
     Md,
     #[tw(class = "py-6 px-10 text-lg")]
     Lg,
@@ -40,7 +40,7 @@ pub enum ButtonSizeVariants {
 #[derive(TwVariant)]
 #[tw(class = "rounded-full")]
 pub enum IconSizeVariants {
-    #[tw(default, class = "w-6")]
+    #[tw(default, class = "w-5")]
     Md,
     #[tw(class = "w-6")]
     Lg,
@@ -60,7 +60,7 @@ impl IntoIconSize for ButtonSizeVariants {
 }
 
 #[derive(TwClass)]
-#[tw(class = "inline-flex font-medium")]
+#[tw(class = "inline-flex gap-x-1 font-medium")]
 struct ButtonVariants {
     size: ButtonSizeVariants,
     color: ButtonColorVariants,
