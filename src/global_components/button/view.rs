@@ -29,43 +29,24 @@ pub enum ButtonColorVariants {
 
 // Variant for size
 #[derive(TwVariant)]
-#[tw(class = "rounded-full")]
+#[tw(
+    class = "rounded-full group [&_>_.btn-inner]:duration-300 [&_>_.btn-icon]:duration-300 [&_>_.btn-icon]:rounded-full [&_>_.btn-icon]:bg-inherit [&_>_.btn-icon]:p-1"
+)]
 pub enum ButtonSizeVariants {
-    #[tw(default, class = "py-4 px-6 xl:px-8")]
+    #[tw(
+        default,
+        class = "py-4 px-6 xl:px-8 [&_>_.btn-icon]:size-7 [&_>_.btn-inner]:hover:translate-x-4 [&_>_.btn-icon]:hover:translate-x-16"
+    )]
     Md,
-    #[tw(class = "py-6 px-10 text-lg")]
+    #[tw(class = "py-6 px-10 text-lg [&_>_.btn-icon]:size-8")]
     Lg,
-}
-
-#[derive(TwVariant)]
-#[tw(class = "rounded-full")]
-pub enum IconSizeVariants {
-    #[tw(default, class = "w-5")]
-    Md,
-    #[tw(class = "w-6")]
-    Lg,
-}
-
-impl From<ButtonSizeVariants> for IconSizeVariants {
-    fn from(value: ButtonSizeVariants) -> Self {
-        match value {
-            ButtonSizeVariants::Lg => IconSizeVariants::Lg,
-            ButtonSizeVariants::Md => IconSizeVariants::Md,
-        }
-    }
 }
 
 #[derive(TwClass)]
-#[tw(class = "inline-flex gap-x-1 font-medium")]
+#[tw(class = "inline-flex gap-x-1 items-center font-medium")]
 struct ButtonVariants {
     size: ButtonSizeVariants,
     color: ButtonColorVariants,
-}
-
-#[derive(TwClass)]
-#[tw(class = "ml-1")]
-struct IconVariants {
-    size: IconSizeVariants,
 }
 
 #[component]
@@ -77,21 +58,20 @@ pub fn Button(
     #[prop(optional)] icon: Option<ButtonIconTypes>,
 ) -> impl IntoView {
     let class = ButtonVariants { size, color }.to_class();
-    let icon_class = IconVariants { size: size.into() }.to_class();
 
     let icon_el = match icon {
         None => None,
         Some(icon_type) => match icon_type {
-            ButtonIconTypes::RightArrow => Some(view! { <RightArrow {..} class=icon_class /> }),
+            ButtonIconTypes::RightArrow => Some(view! { <RightArrow {..} class="btn-icon" /> }),
         },
     };
 
     match use_as {
         ButtonUsecase::Button { on_click } => Either::Left(view! {
-          <button class=class on:click=on_click>{children()}{icon_el}</button>
+          <button class=class on:click=on_click><span class="btn-inner">{children()}</span>{icon_el}</button>
         }),
         ButtonUsecase::Link { href } => Either::Right(view! {
-          <a class=class href=href>{children()}{icon_el}</a>
+          <a class=class href=href><span class="btn-inner">{children()}</span>{icon_el}</a>
         }),
     }
 }

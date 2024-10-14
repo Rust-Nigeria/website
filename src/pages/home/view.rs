@@ -10,7 +10,7 @@ pub fn HomePage() -> impl IntoView {
     // let on_click = move |_| set_count.update(|count| *count += 1);
 
     view! {
-        <section class="pt-10 bg-background-main min-h-fit">
+        <section class="pt-10 bg-background-main h-[200vh] min-h-fit">
 
         </section>
     }

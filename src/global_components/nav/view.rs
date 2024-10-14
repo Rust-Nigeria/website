@@ -3,6 +3,7 @@ use leptos::prelude::*;
 use crate::global_components::button::view::{
     Button, ButtonColorVariants, ButtonIconTypes, ButtonUsecase,
 };
+use crate::icons::rust_logo::RustLogo;
 
 #[component]
 pub fn Nav() -> impl IntoView {
@@ -13,7 +14,11 @@ pub fn Nav() -> impl IntoView {
     ];
 
     view! {
-        <nav class="max-w-6xl h-14 absolute top-10 w-full mx-auto">
+        <nav class="w-full flex absolute top-10 justify-center">
+          <div class="max-w-6xl w-full flex justify-between items-center">
+            <a href="/">
+                <RustLogo {..} class="text-black size-9" />
+            </a>
             <ul class="flex gap-x-6 items-center">
             {
                 LINKS.into_iter()
@@ -33,6 +38,7 @@ pub fn Nav() -> impl IntoView {
                     </Button>
                 </li>
             </ul>
+            </div>
         </nav>
     }
 }
