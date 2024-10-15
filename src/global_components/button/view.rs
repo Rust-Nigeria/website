@@ -35,7 +35,7 @@ pub enum ButtonColorVariants {
 pub enum ButtonSizeVariants {
     #[tw(
         default,
-        class = "py-4 px-6 xl:px-8 [&_>_.btn-icon]:size-7 [&_>_.btn-inner]:hover:translate-x-4 [&_>_.btn-icon]:hover:translate-x-16"
+        class = "py-4 px-6 xl:px-8 [&_>_.btn-icon]:size-6 [&_>_.btn-inner]:hover:translate-x-4 [&_>_.btn-icon]:hover:translate-x-16 [&_>_.btn-icon]:hover:scale-110"
     )]
     Md,
     #[tw(class = "py-6 px-10 text-lg [&_>_.btn-icon]:size-8")]
