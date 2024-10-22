@@ -23,13 +23,11 @@ pub fn App() -> impl IntoView {
 
         // content for this welcome page
         <Router>
-            <body class="relative flex flex-col w-full items-center">
-                <Nav />
-                <Routes fallback=move || "Not found.">
-                    <Route path=StaticSegment("") view=HomePage/>
-                    <Route path=WildcardSegment("any") view=NotFound/>
-                </Routes>
-            </body>
+            <Nav />
+            <Routes fallback=move || "Not found.">
+                <Route path=StaticSegment("") view=HomePage/>
+                <Route path=WildcardSegment("any") view=NotFound/>
+            </Routes>
         </Router>
     }
 }
