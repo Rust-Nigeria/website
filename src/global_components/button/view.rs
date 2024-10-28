@@ -21,7 +21,7 @@ pub enum ButtonIconTypes {
 pub enum ButtonColorVariants {
     #[tw(default, class = "bg-grey-100 text-grey-10")]
     White,
-    #[tw(class = "bg-grey-10 text-grey-100")]
+    #[tw(class = "bg-grey-10 text-grey-100 hover:bg-neutral-800")]
     Black,
     #[tw(class = "bg-grey-30 text-grey-100")]
     Grey,
@@ -29,13 +29,11 @@ pub enum ButtonColorVariants {
 
 // Variant for size
 #[derive(TwVariant)]
-#[tw(
-    class = "rounded-full group [&_>_.btn-inner]:duration-300 [&_>_.btn-icon]:duration-300 [&_>_.btn-icon]:rounded-full [&_>_.btn-icon]:bg-inherit [&_>_.btn-icon]:p-1"
-)]
+#[tw(class = "rounded-full group [&_>_.btn-inner]:duration-300 [&_>_.btn-icon]:duration-300")]
 pub enum ButtonSizeVariants {
     #[tw(
         default,
-        class = "py-4 px-6 xl:px-8 [&_>_.btn-icon]:size-6 [&_>_.btn-inner]:hover:translate-x-4 [&_>_.btn-icon]:hover:translate-x-16 [&_>_.btn-icon]:hover:scale-110"
+        class = "py-4 px-6 xl:px-8 [&_>_.btn-icon]:size-6 [&_>_.btn-inner]:hover:translate-x-4 [&_>_.btn-icon]:hover:translate-x-16"
     )]
     Md,
     #[tw(class = "py-6 px-10 text-lg [&_>_.btn-icon]:size-8")]
@@ -43,7 +41,7 @@ pub enum ButtonSizeVariants {
 }
 
 #[derive(TwClass)]
-#[tw(class = "inline-flex gap-x-1 items-center font-medium")]
+#[tw(class = "inline-flex gap-x-1 items-center font-medium overflow-hidden duration-300")]
 struct ButtonVariants {
     size: ButtonSizeVariants,
     color: ButtonColorVariants,

@@ -1,5 +1,6 @@
 use leptos::{ev, prelude::*};
 
+use crate::cn;
 use crate::global_components::button::view::{
     Button, ButtonColorVariants, ButtonIconTypes, ButtonUsecase,
 };
@@ -30,8 +31,18 @@ pub fn Nav() -> impl IntoView {
     on_cleanup(move || load_handle.remove());
 
     view! {
-        <nav class="w-full flex fixed top-10 justify-center px-6">
-            <div class:bg-black=is_out_of_threshold class="max-w-6xl w-full flex justify-between items-center">
+        <nav
+            class=cn!(
+                #(is_out_of_threshold, "top-4"),
+                "w-full flex fixed top-10 justify-center px-6 duration-300",
+            )
+        >
+            <div
+                class=cn!(
+                    #(is_out_of_threshold, "bg-background-main px-4 py-2 border-primary-50"),
+                    "max-w-6xl w-full flex justify-between items-center duration-300 rounded-full border border-transparent"
+                )
+            >
                 <a href="/">
                     <RustLogo {..} class="text-black size-8" />
                 </a>
