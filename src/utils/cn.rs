@@ -1,20 +1,20 @@
-/// ## This macro handles conditional merging of tailwind classes based on reactive values.
-/// <br>
+/// This macro handles conditional merging of tailwind classes based on reactive values.
+///<br>
 ///
-/// ### You can define classes to merge with comma separated strings.
+/// You can define classes to merge with comma separated strings.
 /// ```
 /// cn!("bg-red-300", "bg-blue-300")
 /// ```
 ///<br>
 ///
-/// ### You can define non-reactive conditional classes (note: these have to come first) like so:
+/// You can define non-reactive conditional classes (note: these have to come first) like so:
 /// ```
 /// ✅ cn!((1 == 1, "bg-red-300"), "bg-blue-300")
 /// ❌ cn!("bg-blue-300", (1 == 1, "bg-red-300"))
 /// ```
 /// <br>
 ///
-/// ### You can define reactive conditional classes (note: these have to come first) like so:
+/// You can define reactive conditional classes (note: these have to come first) like so:
 /// ```
 /// ✅ cn!(#(reactive_value_or_expression, "bg-red-300"), "bg-blue-300")
 /// ❌ cn!("bg-blue-300", #(reactive_value_or_expression, "bg-red-300"))
