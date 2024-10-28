@@ -33,14 +33,14 @@ pub fn Nav() -> impl IntoView {
     view! {
         <nav
             class=cn!(
-                #(is_out_of_threshold, "top-4"),
-                "w-full flex fixed top-10 justify-center px-6 duration-300",
+                #(is_out_of_threshold, "md:top-4"),
+                "w-full flex fixed md:top-10 justify-center md:px-6 duration-300 bg-background-main md:bg-transparent",
             )
         >
             <div
                 class=cn!(
                     #(is_out_of_threshold, "bg-background-main pl-4 pr-2 py-2 border-primary-50"),
-                    "max-w-6xl w-full flex justify-between items-center duration-300 rounded-full border border-transparent"
+                    "max-w-6xl w-full justify-between items-center duration-300 rounded-full border border-transparent hidden md:flex"
                 )
             >
                 <a href="/">
@@ -65,6 +65,23 @@ pub fn Nav() -> impl IntoView {
                         </Button>
                     </li>
                 </ul>
+            </div>
+            <div class="md:hidden w-full relative px-6">
+                <div class="flex w-full justify-between py-4 items-center">
+                    <a href="/">
+                        <RustLogo {..} class="text-black size-8" />
+                    </a>
+
+                    <button>
+                      <div class="h-6 w-6 flex flex-col justify-evenly">
+                      {(0..3).into_iter().map(|_| view! {<div class="w-full h-0.5 bg-black rounded-full" />}).collect_view()}
+                      </div>
+                    </button>
+                </div>
+                <div class=cn!(
+                    #(is_out_of_threshold, "w-full"),
+                    "absolute bottom-0 w-0 h-px duration-300 origin-center left-0 bg-primary-50"
+                ) />
             </div>
         </nav>
     }
