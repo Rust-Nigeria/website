@@ -37,7 +37,7 @@ macro_rules! cn {
         || if $a {$b} else { "" }
      }};
 
-    ($(#($a:ident, $b:expr)),+ $(,)? $($c:expr),* $(,)?) => {{
+    ($(#($a:ident, $b:expr)),+ $(,)? $($c:expr),+ $(,)?) => {{
         use tailwind_fuse::tw_merge;
         move || tw_merge!(
             $($c)*,
@@ -45,7 +45,7 @@ macro_rules! cn {
         )
     }};
 
-    ($(#($a:expr, $b:expr)),+ $(,)? $($c:expr),* $(,)?) => {{
+    ($(#($a:expr, $b:expr)),+ $(,)? $($c:expr),+ $(,)?) => {{
         use tailwind_fuse::tw_merge;
         move || tw_merge!(
             $($c)*,
@@ -53,7 +53,7 @@ macro_rules! cn {
         )
     }};
 
-    ($(($a:expr, $b:expr)),+ $(,)? $($c:expr),* $(,)?) => {{
+    ($(($a:expr, $b:expr)),+ $(,)? $($c:expr),+ $(,)?) => {{
         use tailwind_fuse::tw_merge;
         tw_merge!(
             $($c)*,
