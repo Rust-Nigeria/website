@@ -39,7 +39,7 @@ pub fn Nav() -> impl IntoView {
         >
             <div
                 class=cn!(
-                    #(is_out_of_threshold, "bg-background-main px-4 py-2 border-primary-50"),
+                    #(is_out_of_threshold, "bg-background-main pl-4 pr-2 py-2 border-primary-50"),
                     "max-w-6xl w-full flex justify-between items-center duration-300 rounded-full border border-transparent"
                 )
             >
