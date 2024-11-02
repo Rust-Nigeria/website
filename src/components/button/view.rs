@@ -53,9 +53,10 @@ pub fn Button(
     children: Children,
     #[prop(default = ButtonSizeVariants::Md)] size: ButtonSizeVariants,
     #[prop(default = ButtonColorVariants::White)] color: ButtonColorVariants,
+    #[prop(default = "")] class: &'static str,
     #[prop(optional)] icon: Option<ButtonIconTypes>,
 ) -> impl IntoView {
-    let class = ButtonVariants { size, color }.to_class();
+    let class = ButtonVariants { size, color }.with_class(class);
 
     let icon_el = match icon {
         None => None,

@@ -1,7 +1,7 @@
 use leptos::{ev, prelude::*};
 
 use crate::cn;
-use crate::global_components::button::view::{
+use crate::components::button::view::{
     Button, ButtonColorVariants, ButtonIconTypes, ButtonUsecase,
 };
 use crate::icons::rust_logo::RustLogo;
@@ -45,20 +45,28 @@ pub fn Nav() -> impl IntoView {
                         (is_out_of_threshold(), "bg-background-main pl-4 pr-2 py-2 border-primary-50")
                     ))
                 >
-                    <a href="/">
+                    <a href="/" class="animate-scale-in">
                         <RustLogo {..} class="text-black size-8" />
                     </a>
                     <ul class="flex gap-x-6 items-center">
                     {
-                        LINKS.into_iter()
-                            .map(|(text, href)|
+                        LINKS.into_iter().enumerate()
+                            .map(|(index, (text, href))|
                                 view! {
-                                    <li><a class="hover:underline" href=href>{text}</a></li>
+                                    <li
+                                        style=format!("animation-delay: {}s", 0.3 + (index as f64 * 0.1))
+                                        class="opacity-0 animate-translate-in-from-b"
+                                    >
+                                        <a class="hover:underline" href=href>
+                                            {text}
+                                        </a>
+                                    </li>
                                 }
                             ).collect_view()
                     }
                         <li>
                             <Button
+                                class="animate-scale-in"
                                 use_as=ButtonUsecase::Link { href: String::from("youtube.com") }
                                 color=ButtonColorVariants::Black
                                 icon=ButtonIconTypes::RightArrow

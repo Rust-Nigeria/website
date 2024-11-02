@@ -57,10 +57,21 @@ module.exports = {
             scale: "1",
           },
         },
+        "translate-in-from-b": {
+          from: {
+            transform: "translateY(10px)",
+            opacity: "0",
+          },
+          to: {
+            transform: "translateY(0px)",
+            opacity: "1",
+          },
+        },
       },
       animation: {
         "fade-in": "fade-in 0.3s forwards",
-        "scale-in": "fade-in 0.3s forwards",
+        "scale-in": "scale-in 0.3s forwards",
+        "translate-in-from-b": "translate-in-from-b 0.3s forwards",
       },
     },
   },

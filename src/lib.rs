@@ -1,6 +1,5 @@
 pub mod app;
 pub mod components;
-pub mod global_components;
 pub mod icons;
 pub mod pages;
 pub mod utils;

@@ -5,7 +5,7 @@ use leptos_router::{
     StaticSegment, WildcardSegment,
 };
 
-use crate::global_components::nav::view::Nav;
+use crate::components::nav::view::Nav;
 use crate::pages::{home::view::HomePage, not_found::view::NotFound};
 
 #[component]
