@@ -2,7 +2,42 @@
 @tailwind components;
 @tailwind utilities;
 
+/**
+* This is a variable font
+* You can control variable axes as shown below:
+* font-variation-settings: wght 700.0;
+*
+* available axes:
+'wght' (range from 200.0 to 700.0
+*/
+@font-face {
+  font-family: "GeneralSans-Variable";
+  src: url("/assets/fonts/GeneralSans-Variable.woff2") format("woff2"),
+    url("/assets/fonts/GeneralSans-Variable.woff") format("woff"),
+    url("/assets/fonts/GeneralSans-Variable.ttf") format("truetype");
+  font-weight: 200 700;
+  font-display: swap;
+  font-style: normal;
+}
+/**
+* This is a variable font
+* You can control variable axes as shown below:
+* font-variation-settings: wght 700.0;
+*
+* available axes:
+'wght' (range from 200.0 to 700.0
+*/
+@font-face {
+  font-family: "GeneralSans-VariableItalic";
+  src: url("/assets/fonts/GeneralSans-VariableItalic.woff2") format("woff2"),
+    url("/assets/fonts/GeneralSans-VariableItalic.woff") format("woff"),
+    url("/assets/fonts/GeneralSans-VariableItalic.ttf") format("truetype");
+  font-weight: 200 700;
+  font-display: swap;
+  font-style: italic;
+}
+
 body {
-  font-family: sans-serif;
+  font-family: GeneralSans-Variable;
   text-align: center;
 }

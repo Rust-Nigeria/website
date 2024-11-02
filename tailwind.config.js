@@ -2,6 +2,9 @@
 module.exports = {
   content: {
     files: ["*.html", "./src/**/*.rs"],
+    transform: {
+      rs: (content) => content.replace(/(?:^|\s)class:/g, " "),
+    },
   },
   theme: {
     extend: {
@@ -34,6 +37,30 @@ module.exports = {
           main: "#FFF8F5",
           dark: "#030303",
         },
+      },
+      keyframes: {
+        "fade-in": {
+          from: {
+            opacity: "0",
+          },
+          to: {
+            opacity: "1",
+          },
+        },
+        "scale-in": {
+          from: {
+            opacity: "0",
+            scale: "0",
+          },
+          to: {
+            opacity: "1",
+            scale: "1",
+          },
+        },
+      },
+      animation: {
+        "fade-in": "fade-in 0.3s forwards",
+        "scale-in": "fade-in 0.3s forwards",
       },
     },
   },

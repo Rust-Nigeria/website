@@ -1,7 +1,11 @@
-use leptos::*;
-use leptos_meta::*;
-use leptos_router::*;
+use leptos::prelude::*;
+use leptos_meta::{provide_meta_context, Stylesheet, Title};
+use leptos_router::{
+    components::{Route, Router, Routes},
+    StaticSegment, WildcardSegment,
+};
 
+use crate::global_components::nav::view::Nav;
 use crate::pages::{home::view::HomePage, not_found::view::NotFound};
 
 #[component]
@@ -19,12 +23,11 @@ pub fn App() -> impl IntoView {
 
         // content for this welcome page
         <Router>
-            <main>
-                <Routes>
-                    <Route path="" view=HomePage/>
-                    <Route path="/*any" view=NotFound/>
-                </Routes>
-            </main>
+            <Nav />
+            <Routes fallback=move || "Not found.">
+                <Route path=StaticSegment("") view=HomePage/>
+                <Route path=WildcardSegment("any") view=NotFound/>
+            </Routes>
         </Router>
     }
 }
