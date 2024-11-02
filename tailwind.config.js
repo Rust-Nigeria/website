@@ -38,6 +38,30 @@ module.exports = {
           dark: "#030303",
         },
       },
+      keyframes: {
+        "fade-in": {
+          from: {
+            opacity: "0",
+          },
+          to: {
+            opacity: "1",
+          },
+        },
+        "scale-in": {
+          from: {
+            opacity: "0",
+            scale: "0",
+          },
+          to: {
+            opacity: "1",
+            scale: "1",
+          },
+        },
+      },
+      animation: {
+        "fade-in": "fade-in 0.3s forwards",
+        "scale-in": "fade-in 0.3s forwards",
+      },
     },
   },
   plugins: [],
