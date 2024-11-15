@@ -8,6 +8,14 @@ module.exports = {
   },
   theme: {
     extend: {
+      fontSize: {
+        "8xl": [
+          "4.5rem",
+          {
+            lineHeight: "5rem",
+          },
+        ],
+      },
       colors: {
         grey: {
           100: "#FFFFFF",
