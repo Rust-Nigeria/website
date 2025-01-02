@@ -19,11 +19,11 @@ pub enum ButtonIconTypes {
 // Variant for color
 #[derive(TwVariant)]
 pub enum ButtonColorVariants {
-    #[tw(default, class = "bg-grey-100 text-grey-10")]
+    #[tw(default, class = "bg-grey-100 hover:bg-grey-80 text-grey-10")]
     White,
     #[tw(class = "bg-grey-10 text-grey-100 hover:bg-neutral-800")]
     Black,
-    #[tw(class = "bg-grey-30 text-grey-100")]
+    #[tw(class = "bg-grey-30 text-grey-100 hover:bg-grey-50")]
     Grey,
 }
 

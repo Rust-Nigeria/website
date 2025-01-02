@@ -71,7 +71,7 @@ pub fn Nav() -> impl IntoView {
                                 color=ButtonColorVariants::Black
                                 icon=ButtonIconTypes::RightArrow
                             >
-                            Join Us
+                            Join Us!
                             </Button>
                         </li>
                     </ul>
