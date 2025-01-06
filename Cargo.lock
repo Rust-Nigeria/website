@@ -1995,6 +1995,7 @@ dependencies = [
  "actix-files",
  "actix-web",
  "console_error_panic_hook",
+ "futures",
  "http 1.2.0",
  "leptos",
  "leptos_actix",
@@ -2002,6 +2003,7 @@ dependencies = [
  "leptos_router",
  "tailwind_fuse",
  "wasm-bindgen",
+ "web-sys",
 ]
 
 [[package]]

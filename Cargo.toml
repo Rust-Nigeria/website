@@ -17,6 +17,21 @@ leptos_actix = { version = "0.7.2", optional = true }
 leptos_router = { version = "0.7.2", features = ["nightly"] }
 wasm-bindgen = "=0.2.99"
 tailwind_fuse = { version = "0.3.1", features = ["variant"] }
+futures = "0.3.31"
+
+[dependencies.web-sys]
+version = "0.3.76"
+features = [
+    "HtmlCanvasElement",
+    "WebGlBuffer",
+    "WebGlVertexArrayObject",
+    "WebGlRenderingContext",
+    "WebGlUniformLocation",
+    "WebGlProgram",
+    "WebGlShader",
+    "WebGlTexture",
+    "WebGlFramebuffer",
+]
 
 [features]
 csr = ["leptos/csr"]

@@ -1,7 +1,10 @@
+use leptos::prelude::*;
+
 use crate::components::button::view::{
     Button, ButtonColorVariants, ButtonSizeVariants, ButtonUsecase,
 };
-use leptos::prelude::*;
+
+use super::members_jigsaw::view::MembersJigsaw;
 
 #[component]
 pub fn CommunitySection() -> impl IntoView {
@@ -20,6 +23,10 @@ pub fn CommunitySection() -> impl IntoView {
                 >
                     Join Us!
                 </Button>
+            </div>
+
+            <div class="w-full mt-8 max-w-[858px] aspect-[857/571] bg-red-400">
+                <MembersJigsaw />
             </div>
         </section>
     }
