@@ -23,7 +23,7 @@ jobs:
           rustup component add clippy rustfmt
 
       - name: Compile Script
-        run: rustc Cargo_tool.rs -o FBUILD
+        run: rustc cargo_tool.rs -o FBUILD
 
       - name: Run Script
         run: ./FBUILD
