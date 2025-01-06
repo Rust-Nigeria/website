@@ -25,7 +25,7 @@ pub fn CommunitySection() -> impl IntoView {
                 </Button>
             </div>
 
-            <div class="w-full mt-8 max-w-[858px] aspect-[857/571] bg-red-400">
+            <div class="w-full mt-8 max-w-[858px]">
                 <MembersJigsaw />
             </div>
         </section>

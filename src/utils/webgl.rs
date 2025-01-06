@@ -1,7 +1,4 @@
-use web_sys::{
-    js_sys::Float32Array, js_sys::Promise, HtmlImageElement, WebGlProgram,
-    WebGlRenderingContext as GL, WebGlShader,
-};
+use web_sys::{js_sys::Float32Array, WebGlProgram, WebGlRenderingContext as GL, WebGlShader};
 
 pub fn create_shader(context: &GL, shader_type: u32, source: &str) -> Result<WebGlShader, String> {
     let shader = context.create_shader(shader_type).unwrap();
@@ -45,11 +42,11 @@ pub fn create_program(
     }
 }
 
-pub fn set_quad(context: &GL, x: f32, y: f32, width: f32, height: f32) {
-    let x1 = x;
-    let x2 = x + width;
-    let y1 = y;
-    let y2 = y + height;
+pub fn set_quad(context: &GL, width: f32, height: f32) {
+    let x1 = 0.0;
+    let x2 = width;
+    let y1 = 0.0;
+    let y2 = height;
 
     let arr = Float32Array::new_with_length(12);
 
