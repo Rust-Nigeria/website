@@ -1,0 +1,29 @@
+name: Rust Script CI
+
+on:
+  push:
+    branches:
+      - main
+      - "**/*"  # Trigger on all branches but  will set to on production branch only later
+jobs:
+  run-cargo-tool:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+
+      - name: Install Rust Components
+        run: |
+          rustup component add clippy rustfmt
+
+      - name: Compile Script
+        run: rustc Cargo_tool.rs -o FBUILD
+
+      - name: Run Script
+        run: ./FBUILD
