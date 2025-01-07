@@ -26,7 +26,7 @@ pub fn Footer() -> impl IntoView {
                         <RustLogo {..} class="text-black size-12" />
                     </a>
 
-                    <ul class="w-full flex md:gap-x-6 justify-between md:justify-normal items-center">
+                    <ul class="flex md:gap-x-6 justify-between md:justify-normal items-center">
                         {
                             LINKS.into_iter().enumerate()
                                 .map(|(index, (text, href))|
@@ -44,7 +44,7 @@ pub fn Footer() -> impl IntoView {
                         }
                     </ul>
 
-                    <div class="flex gap-x-6">
+                    <div class="flex gap-x-10 md:gap-x-6">
                         <a href="https://github.com" class="animate-scale-in" target="_blank" rel="noopener noreferrer">
                             <GitHubLogo {..} class="text-grey-10 size-6"/>
                         </a>
