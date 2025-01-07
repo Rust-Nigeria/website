@@ -23,9 +23,15 @@ pub const FRAGMENT_SHADER: &str = "
   varying vec2 v_texCoord;
 
   void main() {
-    vec4 color1 = texture2D(u_mainImage, v_texCoord);
-    vec4 color2 = texture2D(u_maskImage, v_texCoord);
+    vec3 baseColor = vec3(0.012,0.012,0.012);
+    vec4 imageColor = texture2D(u_mainImage, v_texCoord);
+    vec4 maskColor = texture2D(u_maskImage, v_texCoord);
+    
+    float opacity = 1.0 - maskColor.b;
 
-    gl_FragColor = vec4((color2).rgb, color1.a);
+    vec3 bg = baseColor * maskColor.b;
+    vec3 img = imageColor.rgb * opacity;
+
+    gl_FragColor = vec4(bg + img, 1.0);
   }
 ";
