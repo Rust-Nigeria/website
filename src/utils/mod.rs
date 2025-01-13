@@ -1,3 +1,4 @@
+pub mod clamp;
 pub mod cn;
 pub mod load_image;
 pub mod render_loop;

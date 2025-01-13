@@ -17,6 +17,8 @@ pub const VERTEX_SHADER: &str = r#"
 pub const FRAGMENT_SHADER: &str = "
   precision mediump float;
 
+  uniform float u_duration;
+  uniform float u_revealDuration;
   uniform sampler2D u_mainImage;
   uniform sampler2D u_maskImage;
 
@@ -32,6 +34,6 @@ pub const FRAGMENT_SHADER: &str = "
     vec3 bg = baseColor * maskColor.b;
     vec3 img = imageColor.rgb * opacity;
 
-    gl_FragColor = vec4(bg + img, 1.0);
+    gl_FragColor = vec4(bg + img, u_revealDuration / u_duration);
   }
 ";

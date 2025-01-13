@@ -1,6 +1,5 @@
 use leptos::{
     html,
-    leptos_dom::logging::console_log,
     prelude::{Get, NodeRef},
 };
 
@@ -44,10 +43,11 @@ pub struct Jigsaw {
     canvas_projection_matrix_uniform_loc: WebGlUniformLocation,
     canvas: HtmlCanvasElement,
     main_image: HtmlImageElement,
+    duration_uniform_loc: WebGlUniformLocation,
 }
 
 impl Jigsaw {
-    pub async fn new(canvas_ref: NodeRef<html::Canvas>) -> Self {
+    pub async fn new(canvas_ref: NodeRef<html::Canvas>, reveal_duration: f64) -> Self {
         let canvas = canvas_ref.get().unwrap();
 
         let gl = canvas
@@ -76,6 +76,12 @@ impl Jigsaw {
 
         let mask_image_uniform_loc = gl.get_uniform_location(&program, "u_maskImage").unwrap();
 
+        let reveal_duration_uniform_loc = gl
+            .get_uniform_location(&program, "u_revealDuration")
+            .unwrap();
+
+        let duration_uniform_loc = gl.get_uniform_location(&program, "u_duration").unwrap();
+
         let vertex_position_attribute_loc = gl.get_attrib_location(&program, "a_position");
 
         let texture_position_attribute_loc = gl.get_attrib_location(&program, "a_texCoord");
@@ -92,6 +98,8 @@ impl Jigsaw {
 
         gl.use_program(Some(&program));
 
+        gl.uniform1f(Some(&reveal_duration_uniform_loc), reveal_duration as f32);
+
         gl.uniform_matrix3fv_with_f32_array(
             Some(&texture_projection_matrix_uniform_loc),
             false,
@@ -100,12 +108,6 @@ impl Jigsaw {
                 main_image.height() as f32,
             ),
         );
-
-        console_log(&format!(
-            "w: {}, h: {}",
-            main_image.width(),
-            main_image.height()
-        ));
 
         let main_image_texture = create_texture(&gl);
         gl.tex_image_2d_with_u32_and_u32_and_image(
@@ -147,10 +149,11 @@ impl Jigsaw {
             canvas_projection_matrix_uniform_loc,
             canvas,
             main_image,
+            duration_uniform_loc,
         }
     }
 
-    pub fn render(&self) {
+    pub fn render(&self, duration: f64) {
         let Jigsaw {
             main_image,
             canvas,
@@ -161,6 +164,7 @@ impl Jigsaw {
             texture_position_buffer,
             texture_position_attribute_loc,
             canvas_projection_matrix_uniform_loc,
+            duration_uniform_loc,
         } = self;
 
         gl.use_program(Some(&program));
@@ -175,6 +179,8 @@ impl Jigsaw {
             false,
             &get_canvas_to_clipspace_projection_matrix(canvas_width, canvas_height),
         );
+
+        gl.uniform1f(Some(&duration_uniform_loc), duration as f32);
 
         gl.bind_buffer(GL::ARRAY_BUFFER, Some(&vertex_position_buffer));
         set_quad(&gl, canvas_width, canvas_height);
