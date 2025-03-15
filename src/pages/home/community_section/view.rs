@@ -4,7 +4,7 @@ use crate::components::button::view::{
     Button, ButtonColorVariants, ButtonSizeVariants, ButtonUsecase,
 };
 
-use super::members_jigsaw::view::MembersJigsaw;
+// use super::members_jigsaw::view::MembersJigsaw;
 
 #[component]
 pub fn CommunitySection() -> impl IntoView {
@@ -26,7 +26,8 @@ pub fn CommunitySection() -> impl IntoView {
             </div>
 
             <div class="w-full mt-8 max-w-[858px]">
-                <MembersJigsaw />
+                // <MembersJigsaw />
+                <img src="/assets/images/puzzle.png" class="aspect-[857/571] w-full" />
             </div>
         </section>
     }

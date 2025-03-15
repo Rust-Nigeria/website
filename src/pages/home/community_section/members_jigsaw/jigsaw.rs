@@ -20,14 +20,14 @@ use crate::utils::{
 
 use super::shaders::{FRAGMENT_SHADER, VERTEX_SHADER};
 
-fn create_texture(gl: &GL) -> WebGlTexture {
+fn create_texture(gl: &GL, filter: u32) -> WebGlTexture {
     let texture = gl.create_texture().unwrap();
     gl.bind_texture(GL::TEXTURE_2D, Some(&texture));
 
     gl.tex_parameteri(GL::TEXTURE_2D, GL::TEXTURE_WRAP_S, GL::CLAMP_TO_EDGE as i32);
     gl.tex_parameteri(GL::TEXTURE_2D, GL::TEXTURE_WRAP_T, GL::CLAMP_TO_EDGE as i32);
-    gl.tex_parameteri(GL::TEXTURE_2D, GL::TEXTURE_MIN_FILTER, GL::LINEAR as i32);
-    gl.tex_parameteri(GL::TEXTURE_2D, GL::TEXTURE_MAG_FILTER, GL::LINEAR as i32);
+    gl.tex_parameteri(GL::TEXTURE_2D, GL::TEXTURE_MIN_FILTER, filter as i32);
+    gl.tex_parameteri(GL::TEXTURE_2D, GL::TEXTURE_MAG_FILTER, filter as i32);
 
     texture
 }
@@ -76,6 +76,10 @@ impl Jigsaw {
 
         let mask_image_uniform_loc = gl.get_uniform_location(&program, "u_maskImage").unwrap();
 
+        let texture_location_uniform_loc = gl
+            .get_uniform_location(&program, "u_textureResolution")
+            .unwrap();
+
         let reveal_duration_uniform_loc = gl
             .get_uniform_location(&program, "u_revealDuration")
             .unwrap();
@@ -100,6 +104,11 @@ impl Jigsaw {
 
         gl.uniform1f(Some(&reveal_duration_uniform_loc), reveal_duration as f32);
 
+        gl.uniform2fv_with_f32_array(
+            Some(&texture_location_uniform_loc),
+            &[main_image.width() as f32, main_image.height() as f32],
+        );
+
         gl.uniform_matrix3fv_with_f32_array(
             Some(&texture_projection_matrix_uniform_loc),
             false,
@@ -109,7 +118,7 @@ impl Jigsaw {
             ),
         );
 
-        let main_image_texture = create_texture(&gl);
+        let main_image_texture = create_texture(&gl, GL::LINEAR);
         gl.tex_image_2d_with_u32_and_u32_and_image(
             GL::TEXTURE_2D,
             0,
@@ -121,7 +130,7 @@ impl Jigsaw {
         .unwrap();
         gl.uniform1i(Some(&main_image_uniform_loc), 0);
 
-        let mask_image_texture = create_texture(&gl);
+        let mask_image_texture = create_texture(&gl, GL::NEAREST);
         gl.tex_image_2d_with_u32_and_u32_and_image(
             GL::TEXTURE_2D,
             0,
