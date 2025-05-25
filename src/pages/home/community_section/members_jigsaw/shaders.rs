@@ -35,71 +35,71 @@ float remap(float v, float inMin, float inMax, float outMin, float outMax) {
 }
 
 void main() {
-  float numberOfPieces = 54.0;
-  vec3 backgroundColor = vec3(0.012, 0.012, 0.012); // Background color
-  vec4 imageColor = texture2D(u_mainImage, v_texCoord);
-  vec4 maskColor = texture2D(u_maskImage, v_texCoord);
+    float numberOfPieces = 54.0;
+    vec3 backgroundColor = vec3(0.012, 0.012, 0.012);
+    vec4 imageColor = texture2D(u_mainImage, v_texCoord);
+    vec4 maskColor = texture2D(u_maskImage, v_texCoord);
 
-  float perPieceTime = u_revealDuration / numberOfPieces;
-  float currentAnimPieceVal = u_duration / perPieceTime;
+    float greenValue = maskColor.g * 255.0;
+    float pieceIndex = floor(greenValue + 0.5) - 1.0;
 
-  float currentAnimPieceIndex = floor(currentAnimPieceVal) + 1.0;
-  float pieceProgress = fract(currentAnimPieceVal);
+    float pieceCols = 9.0;
+    float pieceRows = 6.0;
+    float pieceX = mod(pieceIndex, pieceCols);
+    float pieceY = floor(pieceIndex / pieceCols);
 
-  // Map maskColor.g to piece index
-  float greenValue = maskColor.g * 255.0; // Convert normalized [0, 1] to [0, 255]
-  float currentPieceIndex = floor(greenValue + 0.5) - 1.0; // Round to nearest index
+    float centerPieceX = mod(31.0, pieceCols); // 4.0
+    float centerPieceY = floor(31.0 / pieceCols); // 3.0
 
-  vec2 texelSize = vec2(1.0 / u_textureResolution.x, 1.0 / u_textureResolution.y);
+    // Use either Manhattan or Euclidean distance
+    float distanceFromCenter = abs(pieceX - centerPieceX) + abs(pieceY - centerPieceY);
+    // float distanceFromCenter = distance(vec2(pieceX, pieceY), vec2(centerPieceX, centerPieceY));
 
-  // Offsets for neighboring pixels
-  vec2 offsetRight = vec2(texelSize.x, 0.0);
-  vec2 offsetLeft = vec2(-texelSize.x, 0.0);
-  vec2 offsetUp = vec2(0.0, texelSize.y);
-  vec2 offsetDown = vec2(0.0, -texelSize.y);
+    float maxDistance = pieceCols + pieceRows;
+    float perRingTime = u_revealDuration / maxDistance;
 
-  float neighborG1 = texture2D(u_maskImage, v_texCoord + offsetRight).g * 255.0;
-  float neighborG2 = texture2D(u_maskImage, v_texCoord + offsetLeft).g * 255.0;
-  float neighborG3 = texture2D(u_maskImage, v_texCoord + offsetUp).g * 255.0;
-  float neighborG4 = texture2D(u_maskImage, v_texCoord + offsetDown).g * 255.0;
+    // Smooth fade per piece
+    float pieceRevealTime = distanceFromCenter * perRingTime;
+    float fade = smoothstep(pieceRevealTime, pieceRevealTime + perRingTime, u_duration);
 
-  float deltaG1 = abs(neighborG1 - greenValue);
-  float deltaG2 = abs(neighborG2 - greenValue);
-  float deltaG3 = abs(neighborG3 - greenValue);
-  float deltaG4 = abs(neighborG4 - greenValue);
+    // Edge detection
+    vec2 texelSize = vec2(1.0 / u_textureResolution.x, 1.0 / u_textureResolution.y);
+    vec2 offsetRight = vec2(texelSize.x, 0.0);
+    vec2 offsetLeft = vec2(-texelSize.x, 0.0);
+    vec2 offsetUp = vec2(0.0, texelSize.y);
+    vec2 offsetDown = vec2(0.0, -texelSize.y);
 
-  float edgeThreshold = 0.5; // Tolerance for blending
-  float isEdge = float(max(max(deltaG1, deltaG2), max(deltaG3, deltaG4)) > edgeThreshold);
+    float neighborG1 = texture2D(u_maskImage, v_texCoord + offsetRight).g * 255.0;
+    float neighborG2 = texture2D(u_maskImage, v_texCoord + offsetLeft).g * 255.0;
+    float neighborG3 = texture2D(u_maskImage, v_texCoord + offsetUp).g * 255.0;
+    float neighborG4 = texture2D(u_maskImage, v_texCoord + offsetDown).g * 255.0;
 
-  // Visibility logic
-  float pieceVisibilityMultiplier = step(currentPieceIndex, currentAnimPieceIndex);
+    float deltaG1 = abs(neighborG1 - greenValue);
+    float deltaG2 = abs(neighborG2 - greenValue);
+    float deltaG3 = abs(neighborG3 - greenValue);
+    float deltaG4 = abs(neighborG4 - greenValue);
 
-  float opacity = 0.0;
-  vec3 color = backgroundColor;
+    float edgeThreshold = 0.5;
+    float isEdge = float(max(max(deltaG1, deltaG2), max(deltaG3, deltaG4)) > edgeThreshold);
 
-  // Detect blue or blue-red blends in the mask
-  float isBlue = float(maskColor.b > 0.5); // Convert bool to float
-  float isRed = float(maskColor.r > 0.5);  // Convert bool to float
-  float isBlueOrBlend = max(isBlue, isRed * isBlue); // Blue or red-blue blend
+    float isBlue = float(maskColor.b > 0.5);
+    float isRed = float(maskColor.r > 0.5);
+    float isBlueOrBlend = max(isBlue, isRed * isBlue);
 
-  if (isBlueOrBlend > 0.0) {
-      // Blend background and image color based on the blue component
-      color = mix(backgroundColor, imageColor.rgb, maskColor.b);
-  } else if (pieceVisibilityMultiplier == 1.0) {
-      if (currentPieceIndex == currentAnimPieceIndex) {
-          opacity = pieceProgress; // Smooth fade-in for the current piece
-      } else {
-          opacity = 1.0; // Fully revealed pieces
-      }
+    float opacity = 0.0;
+    vec3 color = backgroundColor;
 
-      color = mix(backgroundColor, imageColor.rgb, opacity); // Blend smoothly
-  }
+    if (isBlueOrBlend > 0.0) {
+        color = mix(backgroundColor, imageColor.rgb, maskColor.b);
+    } else {
+        opacity = fade;
+        color = mix(backgroundColor, imageColor.rgb, opacity);
+    }
 
-  // Apply edge blending
-  if (isEdge > 0.0) {
-      color = backgroundColor;
-  }
+    if (isEdge > 0.0) {
+        color = backgroundColor;
+    }
 
-  gl_FragColor = vec4(color, opacity);
+    gl_FragColor = vec4(color, opacity);
 }
 ";

@@ -11,7 +11,7 @@ use crate::utils::render_loop::RenderLoop;
 
 use super::jigsaw::Jigsaw;
 
-const REVEAL_DURATION: f64 = 5000.0;
+const REVEAL_DURATION: f64 = 1000.0;
 
 pub fn start_animation_loop(jigsaw: Jigsaw, duration: RwSignal<f64>) {
     let render_loop: Rc<RefCell<RenderLoop>> = Rc::new(RefCell::new(RenderLoop::new(None, None)));
