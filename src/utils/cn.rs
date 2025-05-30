@@ -69,18 +69,20 @@ mod cn_tests {
 
     #[test]
     fn macro_syntax_works() {
+        let non_reactive_bool = true;
+        let non_reactive_value = 1;
         let reactive_bool = RwSignal::new(true);
         let reactive_value = RwSignal::new(1);
 
-        assert_eq!(cn!((reactive_bool(), "a")), "a");
-        assert_eq!(cn!("a", "b", (reactive_bool(), "c")), "a b c");
-        assert_eq!(cn!((reactive_value.get() == 1, "a"), "b"), "a b");
+        assert_eq!(cn!((non_reactive_bool, "a")), "a");
+        assert_eq!(cn!("a", "b", (non_reactive_bool, "c")), "a b c");
+        assert_eq!(cn!((non_reactive_value == 1, "a"), "b"), "a b");
         assert_eq!(
-            cn!((reactive_bool(), "a"), (reactive_bool(), "b"), "c"),
+            cn!((non_reactive_bool, "a"), (reactive_bool(), "b"), "c"),
             "a b c"
         );
-        assert_eq!(cn!("a", (reactive_bool(), "b"), "c"), "a b c");
-        assert_eq!(cn!((reactive_bool(), (reactive_bool(), "a"))), "a");
+        assert_eq!(cn!("a", (non_reactive_bool, "b"), "c"), "a b c");
+        assert_eq!(cn!((non_reactive_bool, (non_reactive_bool, "a"))), "a");
 
         // // Reactive value tests
         assert_eq!(cn!(#((reactive_bool(), "a")))(), "a");
