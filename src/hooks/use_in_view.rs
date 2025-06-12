@@ -29,8 +29,10 @@ where
     T::Output: AsRef<web_sys::Element> + Clone + 'static + JsCast,
 {
     let (in_view, set_in_view) = signal(false);
+
     let element_observer_wrap: Rc<RefCell<Option<IntersectionObserverWrap>>> =
         Rc::new(RefCell::new(None));
+
     let observer_clone_1 = element_observer_wrap.clone();
     let observer_clone_2 = element_observer_wrap.clone();
 
