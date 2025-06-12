@@ -19,11 +19,11 @@ pub enum ButtonIconTypes {
 // Variant for color
 #[derive(TwVariant)]
 pub enum ButtonColorVariants {
-    #[tw(default, class = "bg-grey-100 text-grey-10")]
+    #[tw(default, class = "bg-grey-100 hover:bg-grey-80 text-grey-10")]
     White,
     #[tw(class = "bg-grey-10 text-grey-100 hover:bg-neutral-800")]
     Black,
-    #[tw(class = "bg-grey-30 text-grey-100")]
+    #[tw(class = "bg-grey-30 text-grey-100 hover:bg-grey-50")]
     Grey,
 }
 
@@ -33,10 +33,10 @@ pub enum ButtonColorVariants {
 pub enum ButtonSizeVariants {
     #[tw(
         default,
-        class = "py-4 px-6 xl:px-8 [&_>_.btn-icon]:size-6 [&_>_.btn-inner]:hover:translate-x-4 [&_>_.btn-icon]:hover:translate-x-16"
+        class = "py-4 px-6 xl:px-8 [&_>_.btn-icon]:size-6 hover:[&_>_.btn-inner]:translate-x-4 hover:[&_>_.btn-icon]:translate-x-16"
     )]
     Md,
-    #[tw(class = "py-6 px-10 text-lg [&_>_.btn-icon]:size-8")]
+    #[tw(class = "py-6 px-10 text-lg 2xl:text-2xl [&_>_.btn-icon]:size-8")]
     Lg,
 }
 
