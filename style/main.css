@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "GeneralSans-Variable";
+  src: url("/assets/fonts/GeneralSans-Variable.woff2") format("woff2"),
+    url("/assets/fonts/GeneralSans-Variable.woff") format("woff"),
+    url("/assets/fonts/GeneralSans-Variable.ttf") format("truetype");
+  font-weight: 200 700;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Geist";
+  src: url("/assets/fonts/Geist-VariableFont_wght.ttf") format("woff2");
+  font-weight: 200 700;
+  font-display: swap;
+  font-style: italic;
+}
+
+body {
+  font-family: Geist, sans-serif;
+  text-align: center;
+}
+
+h1 {
+  @apply text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold;
+}
+
+h2 {
+  @apply text-2xl sm:text-3xl lg:text-5xl font-semibold;
+}
+
+@theme {
+  --color-grey-100: #ffffff;
+  --color-grey-90: #f4f4f4;
+  --color-grey-80: #e3e3e3;
+  --color-grey-70: #a3a3a3;
+  --color-grey-60: #7d7d7d;
+  --color-grey-50: #4f4f4f;
+  --color-grey-40: #353535;
+  --color-grey-30: #2a2a2a;
+  --color-grey-20: #1d1d1d;
+  --color-grey-10: #0a0a0a;
+
+  --color-primary-100: #fff8f5;
+  --color-primary-90: #ffdacc;
+  --color-primary-80: #ffb699;
+  --color-primary-70: #ff9166;
+  --color-primary-60: #ff6c33;
+  --color-primary-50: #ff4700;
+  --color-primary-40: #cc3900;
+  --color-primary-30: #992b00;
+  --color-primary-20: #661d00;
+  --color-primary-10: #1a0700;
+
+  --color-background-main: #fff8f5;
+  --color-background-dark: #030303;
+
+  --animate-fade-in: fade-in 0.3s forwards;
+  --animate-scale-in: scale-in 0.3s forwards;
+  --animate-translate-in-from-b: translate-in-from-b 0.3s forwards;
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes scale-in {
+    from {
+      opacity: 0;
+      scale: 0;
+    }
+    to {
+      opacity: 1;
+      scale: 1;
+    }
+  }
+
+  @keyframes translate-in-from-b {
+    from {
+      transform: translateY(10px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0px);
+      opacity: 1;
+    }
+  }
+}

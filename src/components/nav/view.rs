@@ -14,14 +14,14 @@ pub fn Nav() -> impl IntoView {
         ("Projects", "/projects"),
     ];
 
-    let mobile_nav_open = RwSignal::new(false);
-    let is_out_of_threshold = RwSignal::new(false);
+    let (mobile_nav_open, set_mobile_nav_open) = signal(false);
+    let (is_out_of_threshold, set_is_out_of_threshold) = signal(false);
 
     let threshold_setter = move || {
         if let Ok(scroll_y) = window().scroll_y() {
-            is_out_of_threshold.set(scroll_y > 20.0);
+            set_is_out_of_threshold(scroll_y > 20.0);
         } else {
-            is_out_of_threshold.set(false);
+            set_is_out_of_threshold(false);
         }
     };
 
@@ -71,7 +71,7 @@ pub fn Nav() -> impl IntoView {
                                 color=ButtonColorVariants::Black
                                 icon=ButtonIconTypes::RightArrow
                             >
-                            Join Us
+                            Join Us!
                             </Button>
                         </li>
                     </ul>
@@ -84,7 +84,7 @@ pub fn Nav() -> impl IntoView {
                         <RustLogo {..} class="text-black size-8" />
                     </a>
 
-                    <button on:click=move |_| mobile_nav_open.set(true)>
+                    <button on:click=move |_| set_mobile_nav_open(true)>
                         <div class="h-6 w-6 flex flex-col justify-evenly">
                         {(0..3).into_iter().map(|_| view! {<div class="w-full h-0.5 bg-black rounded-full" />}).collect_view()}
                         </div>
@@ -111,7 +111,7 @@ pub fn Nav() -> impl IntoView {
                                 <RustLogo {..} class="text-black size-8" />
                             </a>
 
-                            <button class="size-6 flex justify-center items-center rounded-full border-2 border-black overflow-hidden" on:click=move |_| mobile_nav_open.set(false)>
+                            <button class="size-6 flex justify-center items-center rounded-full border-2 border-black overflow-hidden" on:click=move |_| set_mobile_nav_open(false)>
                                 <div class="size-3 relative">
                                     <div class="w-4 top-0 h-0.5 bg-black rounded-full left-0 absolute rotate-45 -translate-y-px origin-left" />
                                     <div class="w-4 top-0 h-0.5 bg-black rounded-full right-0 absolute -rotate-45 -translate-y-px origin-right" />
