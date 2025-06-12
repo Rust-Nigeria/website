@@ -14,7 +14,7 @@ use super::jigsaw::Jigsaw;
 const REVEAL_DURATION: f64 = 1000.0;
 
 pub fn start_animation_loop(jigsaw: Jigsaw, duration: RwSignal<f64>) {
-    let render_loop: Rc<RefCell<RenderLoop>> = Rc::new(RefCell::new(RenderLoop::new(None, None)));
+    let render_loop: Rc<RefCell<RenderLoop>> = Rc::new(RefCell::new(RenderLoop::default()));
     let window = web_sys::window().unwrap();
     let time = Cell::new(Date::now());
 

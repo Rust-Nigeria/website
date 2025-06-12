@@ -13,3 +13,12 @@ impl RenderLoop {
         }
     }
 }
+
+impl Default for RenderLoop {
+    fn default() -> Self {
+        RenderLoop {
+            animation_id: None,
+            closure: None,
+        }
+    }
+}

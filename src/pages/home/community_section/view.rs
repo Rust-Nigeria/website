@@ -1,20 +1,16 @@
 use crate::{
     cn,
     components::button::view::{Button, ButtonColorVariants, ButtonSizeVariants, ButtonUsecase},
+    hooks::use_in_view::{use_in_view, ElementVisibilityData},
 };
-use leptos::prelude::*;
-
 use leptos::html::Img;
-use leptos_use::use_intersection_observer;
+use leptos::prelude::*;
 
 #[component]
 pub fn CommunitySection() -> impl IntoView {
     let image_el = NodeRef::<Img>::new();
-    let (is_image_visible, set_is_image_visible) = signal(false);
 
-    use_intersection_observer(image_el, move |entries, _| {
-        set_is_image_visible(entries[0].is_intersecting());
-    });
+    let ElementVisibilityData { in_view } = use_in_view(image_el, None);
 
     view! {
         <section class="pt-10 px-6 bg-background-dark py-10 w-full flex flex-col items-center">
@@ -35,8 +31,8 @@ pub fn CommunitySection() -> impl IntoView {
 
             <div class="w-full mt-8 max-w-[858px]">
                 <img node_ref={image_el} src="/assets/images/puzzle.png" class=cn!(#(
-                    "aspect-[857/571] w-full opacity-0 translate-y-20",
-                    (is_image_visible(), "opacity-100 translate-y-0 transition-all duration-500")
+                    "aspect-[857/571] w-full opacity-0 scale-90 translate-y-20",
+                    (in_view(), "opacity-100 delay-300 translate-y-0 scale-100 transition-all duration-500")
                 )) />
             </div>
         </section>

@@ -1,22 +1,34 @@
 #[macro_export]
 macro_rules! cn_inner {
-    (($a:expr,$($b:tt)+)) => ({
-        if $a {cn_inner!($($b)*)} else {""}
-    });
+    // A conditional group with no tail
+    (($a:expr, $($b:tt)+)) => {{
+        if $a {
+            cn_inner!($($b)*)
+        } else {
+            std::borrow::Cow::Borrowed::<str>("")
+        }
+    }};
 
-    (($a:expr,$($b:tt)+),$($tail:tt)+) => ({
-        cn_inner!(
-            if $a {cn_inner!($($b)*)} else {""},
-            $($tail)*
-        )
-    });
+    // Conditional group with tail
+    (($a:expr, $($b:tt)+), $($tail:tt)+) => {{
+        let cond: std::borrow::Cow<'static, str> = if $a {
+            cn_inner!($($b)*)
+        } else {
+            std::borrow::Cow::Borrowed("")
+        };
+        let rest: std::borrow::Cow<'static, str> = cn_inner!($($tail)*);
+        std::borrow::Cow::Owned(tailwind_fuse::tw_merge!(cond.as_ref(), rest.as_ref()))
+    }};
 
-    ($a:expr,$($tail:tt)+) => {{
-        tw_merge!($a,cn_inner!($($tail)*))
-     }};
+    // Merge string with tail
+    ($a:expr, $($tail:tt)+) => {{
+        let rest: std::borrow::Cow<'static, str> = cn_inner!($($tail)*);
+        std::borrow::Cow::Owned(tailwind_fuse::tw_merge!($a, rest.as_ref()))
+    }};
 
+    // Final string
     ($a:expr) => {{
-       $a
+        std::borrow::Cow::Borrowed::<str>($a)
     }};
 }
 
@@ -43,24 +55,20 @@ macro_rules! cn_inner {
 ///<br>
 ///
 /// It uses the [`tailwind_fuse`] crate under the hood for merging
+
 #[macro_export]
 macro_rules! cn {
-    (#($($tail:tt)+)) => ({
-        use tailwind_fuse::tw_merge;
+    (#($($tail:tt)+)) => {{
         use crate::cn_inner;
-
-        move || tw_merge!(
-            cn_inner!($($tail)*)
-        )
-    });
-    ($($tail:tt)+) => ({
-        use tailwind_fuse::tw_merge;
-        use crate::cn_inner;
-
-        tw_merge!(
-            cn_inner!($($tail)*)
-        )
-    });
+        move || {
+            let result: std::borrow::Cow<'static, str> = cn_inner!($($tail)*);
+            result.into_owned()
+        }
+    }};
+    ($($tail:tt)+) => {{
+        let result: std::borrow::Cow<'static, str> = cn_inner!($($tail)*);
+        result.into_owned()
+    }};
 }
 
 #[cfg(test)]
@@ -102,12 +110,12 @@ mod cn_tests {
 
         // TODO - Fix this type error that this test throws
 
-        // assert_eq!(
-        //     cn!(#(
-        //         (reactive_bool(), (reactive_bool(), "a"), "b")
-        //     ))(),
-        //     "a b"
-        // );
+        assert_eq!(
+            cn!(#(
+                (reactive_bool(), (reactive_bool(), "a"), "b")
+            ))(),
+            "a b"
+        );
 
         reactive_bool.set(false);
 
