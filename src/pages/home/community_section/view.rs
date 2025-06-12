@@ -40,7 +40,7 @@ pub fn CommunitySection() -> impl IntoView {
                 </p>
                 <RevealTextLine delay={400} reveal={in_view}>
                     <Button
-                        class="animate-scale-in mt-6 px-24"
+                        class="animate-scale-in mt-6 px-20 2xl:px-24"
                         use_as=ButtonUsecase::Link { href: String::from("https://rustnigeria.curated.co/") }
                         color=ButtonColorVariants::White
                         size=ButtonSizeVariants::Lg
