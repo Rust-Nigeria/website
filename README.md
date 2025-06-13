@@ -6,10 +6,6 @@ Install `cargo-leptos` by running:
 
 `cargo install cargo-leptos`
 
-On Apple Silicon, install `lld` by running:
-
-`brew install lld`
-
 ## Running your project
 
 Just run
