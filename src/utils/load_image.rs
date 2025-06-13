@@ -9,23 +9,23 @@ use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
 use web_sys::HtmlImageElement;
 
-/// A future for loading a [HtmlImageElement](https://docs.rs/web-sys/0.3.39/web_sys/struct.HtmlImageElement.html)
-/// that will resolve when the image has fully loaded.
-///
-/// Example:
-/// ```rust
-/// let image = ImageFuture::new("assets/sprite_sheet.png").await;
-/// ```
-///
-/// It more or less replicates the promise in these lines of JS
-/// ```javascript
-/// const loadImage = src => new Promise((resolve, reject) => {
-///  const img = new Image();
-///  img.onload = resolve;
-///  img.onerror = reject;
-///  img.src = src;
-/// })
-/// ```
+// A future for loading a [HtmlImageElement](https://docs.rs/web-sys/0.3.39/web_sys/struct.HtmlImageElement.html)
+// that will resolve when the image has fully loaded.
+//
+// Example:
+// ```rust
+// let image = ImageFuture::new("assets/sprite_sheet.png").await;
+// ```
+//
+// It more or less replicates the promise in these lines of JS
+// ```javascript
+// const loadImage = src => new Promise((resolve, reject) => {
+//  const img = new Image();
+//  img.onload = resolve;
+//  img.onerror = reject;
+//  img.src = src;
+// })
+// ```
 pub struct ImageFuture {
     image: Option<HtmlImageElement>,
     load_failed: Rc<RefCell<bool>>,
