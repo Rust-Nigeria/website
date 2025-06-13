@@ -60,7 +60,7 @@ pub fn MembersJigsaw() -> impl IntoView {
 
     Effect::new(move || {
         if let Some(jigsaw) = maybe_jigsaw.get() {
-            start_animation_loop(jigsaw.take(), duration);
+            start_animation_loop(jigsaw, duration);
         }
     });
 

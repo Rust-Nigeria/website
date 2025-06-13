@@ -41,7 +41,7 @@ pub fn Footer() -> impl IntoView {
                                         style=format!("animation-delay: {}s", 0.3 + (index as f64 * 0.1))
                                         class=cn!(#("opacity-0", (in_view(), "animate-translate-in-from-b")))
                                     >
-                                        <a class=cn!(#("text-xl text-grey-50 font-medium hover:underline", (text == "Join Us 🔥", "text-black"))) href=href>
+                                        <a class="text-xl text-grey-50 font-medium hover:underline last:text-black" href=href>
                                             {text}
                                         </a>
                                     </li>
