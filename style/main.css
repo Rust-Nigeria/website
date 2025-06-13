@@ -23,12 +23,20 @@ body {
   text-align: center;
 }
 
-h1 {
+.header-1 {
   @apply text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold;
 }
 
-h2 {
+.header-2 {
   @apply text-2xl sm:text-3xl lg:text-5xl font-semibold;
+}
+
+.header-6 {
+  @apply text-lg sm:text-2xl lg:text-3xl font-medium;
+}
+
+.title-1 {
+  @apply text-base sm:text-lg lg:text-xl font-medium;
 }
 
 @theme {
@@ -53,6 +61,8 @@ h2 {
   --color-primary-30: #992b00;
   --color-primary-20: #661d00;
   --color-primary-10: #1a0700;
+
+  --color-success-90: #d7f4e3;
 
   --color-background-main: #fff8f5;
   --color-background-dark: #030303;

@@ -4,7 +4,7 @@ use leptos::prelude::*;
 use crate::cn;
 use crate::hooks::use_in_view::{use_in_view, ElementVisibilityData};
 use crate::icons::{
-    github_logo::GitHubLogo, linkedin_logo::LinkedInLogo, rust_logo::RustLogo,
+    github_logo::GitHubLogo, linkedin_logo::LinkedInLogo, rust_nigeria_logo::RustNigeriaLogo,
     whatsapp_logo::WhatsAppLogo, x_logo::XLogo,
 };
 
@@ -29,7 +29,7 @@ pub fn Footer() -> impl IntoView {
                 class="w-full max-w-6xl flex flex-col md:flex-row items-center gap-10 md:gap-0 md:justify-between duration-300"
             >
                 <a href="/" class="animate-scale-in">
-                    <RustLogo {..} class="text-black size-12" />
+                    <RustNigeriaLogo {..} class="text-black size-12" />
                 </a>
 
                 <ul class="flex flex-wrap md:gap-x-6 justify-between md:justify-normal items-center w-full md:w-auto">

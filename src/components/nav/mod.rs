@@ -2,7 +2,7 @@ use leptos::{ev, prelude::*};
 
 use crate::cn;
 use crate::components::button::{Button, ButtonColorVariants, ButtonIconTypes, ButtonUsecase};
-use crate::icons::rust_logo::RustLogo;
+use crate::icons::rust_nigeria_logo::RustNigeriaLogo;
 
 #[component]
 pub fn Nav() -> impl IntoView {
@@ -44,7 +44,7 @@ pub fn Nav() -> impl IntoView {
                     ))
                 >
                     <a href="/" class="animate-scale-in">
-                        <RustLogo {..} class="text-black size-8" />
+                        <RustNigeriaLogo {..} class="text-black size-10" />
                     </a>
                     <ul class="flex gap-x-6 items-center">
                     {
@@ -79,7 +79,7 @@ pub fn Nav() -> impl IntoView {
             <div class="md:hidden w-full relative">
                 <div class="flex w-full fixed z-40 justify-between py-6 px-6 items-center bg-background-main">
                     <a href="/">
-                        <RustLogo {..} class="text-black size-8" />
+                        <RustNigeriaLogo {..} class="text-black size-8" />
                     </a>
 
                     <button on:click=move |_| set_mobile_nav_open(true)>
@@ -106,7 +106,7 @@ pub fn Nav() -> impl IntoView {
                     <div class="bg-background-main w-full pb-8 border-b-2 border-b-primary-50">
                         <div class="flex w-full justify-between py-6 px-6 items-center">
                             <a href="/">
-                                <RustLogo {..} class="text-black size-8" />
+                                <RustNigeriaLogo {..} class="text-black size-8" />
                             </a>
 
                             <button class="size-6 flex justify-center items-center rounded-full border-2 border-black overflow-hidden" on:click=move |_| set_mobile_nav_open(false)>
