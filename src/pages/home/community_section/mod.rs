@@ -1,8 +1,10 @@
+mod members_jigsaw;
+
 use crate::{
     cn,
     components::{
-        button::view::{Button, ButtonColorVariants, ButtonSizeVariants, ButtonUsecase},
-        reveal_text_line::view::RevealTextLine,
+        button::{Button, ButtonColorVariants, ButtonSizeVariants, ButtonUsecase},
+        reveal_text_line::RevealTextLine,
     },
     hooks::use_in_view::{use_in_view, ElementVisibilityData},
 };

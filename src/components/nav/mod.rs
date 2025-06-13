@@ -1,9 +1,7 @@
 use leptos::{ev, prelude::*};
 
 use crate::cn;
-use crate::components::button::view::{
-    Button, ButtonColorVariants, ButtonIconTypes, ButtonUsecase,
-};
+use crate::components::button::{Button, ButtonColorVariants, ButtonIconTypes, ButtonUsecase};
 use crate::icons::rust_logo::RustLogo;
 
 #[component]

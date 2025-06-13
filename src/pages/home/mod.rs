@@ -1,6 +1,8 @@
+mod community_section;
+
 use leptos::prelude::*;
 
-use super::community_section::view::CommunitySection;
+use self::community_section::CommunitySection;
 
 #[component]
 pub fn HomePage() -> impl IntoView {
