@@ -1,3 +1,6 @@
+mod jigsaw;
+mod shaders;
+
 use std::cell::Cell;
 use std::{cell::RefCell, rc::Rc};
 
@@ -9,7 +12,7 @@ use web_sys::js_sys::Date;
 use crate::utils::clamp::clamp;
 use crate::utils::render_loop::RenderLoop;
 
-use super::jigsaw::Jigsaw;
+use self::jigsaw::Jigsaw;
 
 const REVEAL_DURATION: f64 = 1000.0;
 
