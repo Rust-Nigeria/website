@@ -1,3 +1,5 @@
+mod member_pointers;
+
 use leptos::html::Div;
 use leptos::prelude::*;
 
@@ -8,6 +10,7 @@ use crate::components::button::{
 use crate::components::reveal_text_line::RevealTextLine;
 use crate::hooks::use_in_view::{use_in_view, ElementVisibilityData};
 use crate::icons::nigeria_flag::NigeriaFlag;
+use member_pointers::MemberPointers;
 
 #[component]
 pub fn HeroSection() -> impl IntoView {
@@ -16,8 +19,9 @@ pub fn HeroSection() -> impl IntoView {
     let ElementVisibilityData { in_view } = use_in_view(wrapper_el, None);
 
     view! {
-        <div node_ref=wrapper_el class="pt-40 px-6 pb-56 flex justify-center bg-background-main">
-            <div class="w-full max-w-7xl flex items-center flex-col">
+        <div node_ref=wrapper_el class="pt-40 px-6 pb-56 relative flex justify-center bg-background-main">
+            <MemberPointers />
+            <div class="w-full max-w-7xl relative flex items-center flex-col">
                 <div class=cn!(#(
                     "px-6 py-2 duration-300 bg-success-90 rounded-full w-fit flex items-center gap-2 title-1 scale-x-0",
                     (in_view(), "scale-x-100")
