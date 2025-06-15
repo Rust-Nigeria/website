@@ -23,6 +23,7 @@ body {
   text-align: center;
 }
 
+
 .header-1 {
   @apply text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold;
 }

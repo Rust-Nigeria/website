@@ -2,14 +2,19 @@
 
 ## Setup
 
-Install `cargo-leptos` by running:
+Install `just` by running:
 
-`cargo install cargo-leptos`
+`cargo install just`
+
+Then run
+
+`just setup`
 
 ## Running your project
 
-Just run
-`cargo leptos watch`
+Run
+
+`just dev`
 
 By default, you can access your local project at `http://localhost:3000`
 

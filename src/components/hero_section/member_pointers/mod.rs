@@ -1,4 +1,9 @@
 use leptos::prelude::*;
+use stylance::*;
+
+use crate::cn;
+
+import_style!(classes, "member_pointers.module.scss");
 
 const MEMBERS: [(&str, &str, &str); 9] = [
     ("Chinedu", "/assets/images/members/chinedu.png", "#17A300"),
@@ -15,7 +20,7 @@ const MEMBERS: [(&str, &str, &str); 9] = [
 #[component]
 pub fn MemberPointers() -> impl IntoView {
     view! {
-        <div class="h-full flex items-end top-0 w-full p-6 2xl:p-10 absolute bg-red-300 max-w-[1200px]">
+        <div class=cn!(#("h-full flex items-end top-0 w-full p-6 2xl:p-10 absolute bg-red-300 max-w-[1200px]", classes::leg))>
             <div class="h-[80%] w-full bg-green-300">
                 {
                     MEMBERS.into_iter().enumerate()
