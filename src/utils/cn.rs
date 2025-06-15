@@ -66,6 +66,7 @@ macro_rules! cn {
         }
     }};
     ($($tail:tt)+) => {{
+        use crate::cn_inner;
         let result: std::borrow::Cow<'static, str> = cn_inner!($($tail)*);
         result.into_owned()
     }};
