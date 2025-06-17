@@ -14,7 +14,7 @@ Then run
 
 Run
 
-`just dev`
+`just start`
 
 By default, you can access your local project at `http://localhost:3000`
 

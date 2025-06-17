@@ -20,13 +20,13 @@ const MEMBERS: [(&str, &str, &str); 9] = [
 #[component]
 pub fn MemberPointers() -> impl IntoView {
     view! {
-        <div class=cn!(#("h-full flex items-end top-0 w-full p-6 2xl:p-10 absolute bg-red-300 max-w-[1200px]", classes::leg))>
-            <div class="h-[80%] w-full bg-green-300">
+        <div class="h-full flex items-end top-0 w-full p-6 2xl:p-10 absolute bg-red-300 max-w-[1200px]">
+            <div class=cn!("h-[80%] w-full bg-green-300 relative", classes::members)>
                 {
                     MEMBERS.into_iter().enumerate()
                         .map(|(index, (name, image_url, theme_color))|
                             view! {
-                                <div class="flex w-fit flex-col items-center gap-y-1.5">
+                                <div class="flex absolute origin-top w-fit flex-col items-center gap-y-1.5">
                                     <div>
                                         <div class="size-12 flex overflow-hidden justify-center rounded-full border-2">
                                             <img src=image_url alt="image" class="w-full h-full object-cover" />

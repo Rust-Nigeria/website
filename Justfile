@@ -2,7 +2,7 @@ setup:
     cargo install cargo-leptos
     cargo install stylance-cli
 
-dev:
+start:
     stylance . --watch &
     cargo leptos watch
 
