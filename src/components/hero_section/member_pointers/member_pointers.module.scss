@@ -11,7 +11,10 @@
     $top-offset: $radius * math.sin($angle);
     $left-offset: $radius * math.cos($angle);
 
-    $offsets: list.append($offsets, ($left-offset + 50%, $top-offset));
+    $offsets: list.append(
+      $offsets,
+      ($left-offset + 50%, $top-offset, $angle - 90deg)
+    );
   }
 
   @return $offsets;
@@ -35,6 +38,10 @@ $final-offsets: calc-offsets(50%);
       left: nth($final-pair, 1);
       top: nth($final-pair, 2);
       opacity: 1;
+    }
+
+    & > .arrow-axis {
+      transform: rotate(nth($initial-pair, 3));
     }
   }
 }

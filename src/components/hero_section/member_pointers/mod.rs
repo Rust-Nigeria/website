@@ -29,19 +29,19 @@ pub fn MemberPointers(reveal: ReadSignal<bool>) -> impl IntoView {
                         .map(|(index, (name, image_url, theme_color))|
                             view! {
                                 <div class=cn!(#(
-                                        "flex duration-300 absolute origin-top w-fit flex-col items-center gap-y-1.5",
+                                        "flex duration-300 p-2 absolute origin-top w-fit flex-col justify-center items-center gap-y-1.5",
                                         &format!("member-pointer-{}", index + 1),
-                                        (reveal(), "reveal")
+                                        (reveal(), "reveal p-8")
                                     ))>
-                                   <div>
+                                   <div class="flex rounded-full justify-center absolute h-full aspect-square origin-center arrow-axis">
                                      <ArrowHead {..} class="size-5 arrow-head origin-center -rotate-[45deg]" />
                                    </div>
                                     <div>
-                                        <div class="size-12 flex overflow-hidden justify-center rounded-full border-2 border-white">
+                                        <div class="size-12 relative flex overflow-hidden justify-center rounded-full border-2 border-white">
                                             <img src=image_url alt="image" class="w-full h-full rounded-full border-2 object-cover" />
                                         </div>
                                     </div>
-                                    <div style=format!("background-color: {}", theme_color) class="h-8 flex text-white items-center w-fit rounded-full px-4">
+                                    <div style=format!("background-color: {}", theme_color) class="h-8 flex relative text-white items-center w-fit rounded-full px-4">
                                         {name}
                                     </div>
                                 </div>
