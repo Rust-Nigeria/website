@@ -1,3 +1,4 @@
+pub mod arrow_head;
 pub mod github_logo;
 pub mod linkedin_logo;
 pub mod nigeria_flag;

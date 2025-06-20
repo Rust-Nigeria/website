@@ -19,11 +19,11 @@ pub fn HeroSection() -> impl IntoView {
     let ElementVisibilityData { in_view } = use_in_view(wrapper_el, None);
 
     view! {
-        <div node_ref=wrapper_el class="pt-40 px-6 pb-56 relative flex justify-center bg-background-main">
-            <MemberPointers />
-            <div class="w-full max-w-7xl relative flex items-center flex-col">
+        <div node_ref=wrapper_el class="pt-40 px-6 relative flex justify-center bg-background-main">
+            <div class="w-full max-w-7xl relative pb-32 lg:pb-64 flex items-center flex-col">
+                <MemberPointers reveal=in_view />
                 <div class=cn!(#(
-                    "px-6 py-2 duration-300 bg-success-90 rounded-full w-fit flex items-center gap-2 title-1 scale-x-0",
+                    "px-6 py-2 duration-300 relative bg-success-90 rounded-full w-fit flex items-center gap-2 title-1 scale-x-0",
                     (in_view(), "scale-x-100")
                 ))>
                     <NigeriaFlag {..} class=cn!(#(
@@ -32,22 +32,21 @@ pub fn HeroSection() -> impl IntoView {
                     )) />
                     <RevealTextLine reveal=in_view delay=200>Proudly Nigerian</RevealTextLine>
                 </div>
-                <h1 class="header-1 flex flex-col items-center text-center max-w-4xl mt-4">
+                <h1 class="header-1 relative flex flex-col items-center text-center max-w-4xl mt-4">
                     <RevealTextLine reveal=in_view>Your #1 Community for</RevealTextLine>
                     <RevealTextLine reveal=in_view delay=200> Rust Enthusiasts</RevealTextLine>
                 </h1>
-                <p class="header-6 text-grey-50 text-center max-w-4xl mt-4">
-                    <RevealTextLine reveal=in_view delay=200>Welcome to the community for the best language on the planet,</RevealTextLine>
-                    <RevealTextLine reveal=in_view delay=400> insights, top quality memes and more run aplenty here</RevealTextLine>
+                <p class="header-6 relative text-grey-50 text-center max-w-lg lg:max-w-2xl mt-4">
+                    <RevealTextLine reveal=in_view delay=200>Welcome to the community for the best language on the planet</RevealTextLine>
                 </p>
                 <Button
-                    class="animate-scale-in mt-6"
+                    class="animate-scale-in mt-6 relative"
                     use_as=ButtonUsecase::Link { href: String::from("/") }
                     color=ButtonColorVariants::Black
                     icon=ButtonIconTypes::RightArrow
                     size={ButtonSizeVariants::Lg}
                 >
-                   Become One of Us
+                    Become One of Us
                 </Button>
             </div>
         </div>

@@ -1,6 +1,8 @@
 use leptos::prelude::*;
 use stylance::*;
 
+use crate::icons::arrow_head::ArrowHead;
+
 use crate::cn;
 
 import_style!(classes, "member_pointers.module.scss");
@@ -18,18 +20,25 @@ const MEMBERS: [(&str, &str, &str); 9] = [
 ];
 
 #[component]
-pub fn MemberPointers() -> impl IntoView {
+pub fn MemberPointers(reveal: ReadSignal<bool>) -> impl IntoView {
     view! {
-        <div class="h-full flex items-end top-0 w-full p-6 2xl:p-10 absolute bg-red-300 max-w-[1200px]">
-            <div class=cn!("h-[80%] w-full bg-green-300 relative", classes::members)>
+        <div class="hidden lg:flex items-end justify-center overflow-hidden absolute bottom-0 w-full p-6 2xl:p-10">
+            <div class="w-full aspect-[1.8/1] max-w-[900px] xl:max-w-[1000px] translate-y-[30%] relative">
                 {
                     MEMBERS.into_iter().enumerate()
                         .map(|(index, (name, image_url, theme_color))|
                             view! {
-                                <div class="flex absolute origin-top w-fit flex-col items-center gap-y-1.5">
+                                <div class=cn!(#(
+                                        "flex duration-300 absolute origin-top w-fit flex-col items-center gap-y-1.5",
+                                        &format!("member-pointer-{}", index + 1),
+                                        (reveal(), "reveal")
+                                    ))>
+                                   <div>
+                                     <ArrowHead {..} class="size-5 arrow-head origin-center -rotate-[45deg]" />
+                                   </div>
                                     <div>
-                                        <div class="size-12 flex overflow-hidden justify-center rounded-full border-2">
-                                            <img src=image_url alt="image" class="w-full h-full object-cover" />
+                                        <div class="size-12 flex overflow-hidden justify-center rounded-full border-2 border-white">
+                                            <img src=image_url alt="image" class="w-full h-full rounded-full border-2 object-cover" />
                                         </div>
                                     </div>
                                     <div style=format!("background-color: {}", theme_color) class="h-8 flex text-white items-center w-fit rounded-full px-4">
