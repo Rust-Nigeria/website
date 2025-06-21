@@ -19,8 +19,8 @@ pub fn HeroSection() -> impl IntoView {
     let ElementVisibilityData { in_view } = use_in_view(wrapper_el, None);
 
     view! {
-        <div node_ref=wrapper_el class="pt-40 px-6 relative flex justify-center bg-background-main">
-            <div class="w-full max-w-7xl relative pb-32 lg:pb-64 flex items-center flex-col">
+        <div node_ref=wrapper_el class="pt-28 sm:pt-40 px-6 relative flex justify-center bg-background-main">
+            <div class="w-full max-w-7xl relative pb-24 sm:pb-32 lg:pb-64 flex items-center flex-col">
                 <MemberPointers reveal=in_view />
                 <div class=cn!(#(
                     "px-6 py-2 duration-300 relative bg-success-90 rounded-full w-fit flex items-center gap-2 title-1 scale-x-0",
