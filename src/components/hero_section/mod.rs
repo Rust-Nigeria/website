@@ -33,11 +33,11 @@ pub fn HeroSection() -> impl IntoView {
                     <RevealTextLine reveal=in_view delay=200>Proudly Nigerian</RevealTextLine>
                 </div>
                 <h1 class="header-1 relative flex flex-col items-center text-center max-w-4xl mt-4">
-                    <RevealTextLine reveal=in_view>Your #1 Community for</RevealTextLine>
+                    <RevealTextLine reveal=in_view>Lorem Ipsum Dolor</RevealTextLine>
                     <RevealTextLine reveal=in_view delay=200> Rust Enthusiasts</RevealTextLine>
                 </h1>
-                <p class="header-6 relative text-grey-50 text-center max-w-lg lg:max-w-2xl mt-4">
-                    <RevealTextLine reveal=in_view delay=200>Welcome to the community for the best language on the planet</RevealTextLine>
+                <p class="header-6 relative text-grey-50 text-center max-w-lg lg:max-w-xl mt-4">
+                    <RevealTextLine reveal=in_view delay=200>Welcome to the community of lorem ipsum with lorem and ipsum</RevealTextLine>
                 </p>
                 <Button
                     class="animate-scale-in mt-6 relative"
