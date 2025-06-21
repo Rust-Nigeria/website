@@ -29,7 +29,7 @@ pub fn Footer() -> impl IntoView {
                 class="w-full max-w-6xl flex flex-col md:flex-row items-center gap-10 md:gap-0 md:justify-between duration-300"
             >
                 <a href="/" class="animate-scale-in">
-                    <RustNigeriaLogo {..} class="text-black size-12" />
+                    <RustNigeriaLogo usecase_id="footer" {..} class="text-black size-12" />
                 </a>
 
                 <ul class="flex flex-wrap md:gap-x-6 justify-between md:justify-normal items-center w-full md:w-auto">

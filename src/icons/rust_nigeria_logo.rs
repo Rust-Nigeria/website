@@ -1,13 +1,14 @@
 use leptos::prelude::*;
 
 #[component]
-pub fn RustNigeriaLogo() -> impl IntoView {
+pub fn RustNigeriaLogo(usecase_id: &'static str) -> impl IntoView {
+    let mask_id = format!("mask0_45_47_{}", usecase_id);
     view! {
        <svg viewBox="0 0 520 538" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <mask id="mask0_45_47" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="34" y="25">
+            <mask id=mask_id.clone() style="mask-type:alpha" maskUnits="userSpaceOnUse" x="34" y="25">
             <ellipse cx="260" cy="268.258" rx="225.333" ry="242.667" fill="#C4C4C4"/>
             </mask>
-            <g mask="url(#mask0_45_47)">
+            <g mask=format!("url(#{})", mask_id)>
             <rect x="34.6666" y="25.5916" width="450.667" height="484.644" fill="white"/>
             <rect x="34.6666" y="25.5916" width="150.222" height="485.333" fill="#08660C"/>
             <rect x="335.114" y="25.5916" width="150.222" height="485.333" fill="#08660C"/>
