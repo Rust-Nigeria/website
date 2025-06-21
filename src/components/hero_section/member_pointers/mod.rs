@@ -37,7 +37,7 @@ pub fn MemberPointers(reveal: ReadSignal<bool>) -> impl IntoView {
                                      <ArrowHead {..} class="size-5 arrow-head origin-center -rotate-[45deg]" />
                                    </div>
                                     <div>
-                                        <div class="size-12 relative flex overflow-hidden justify-center rounded-full border-2 border-white">
+                                        <div class=cn!("size-12 relative flex overflow-hidden justify-center rounded-full border-2 border-white", classes::memberAvatarWrapper)>
                                             <img src=image_url alt="image" class="w-full h-full rounded-full border-2 object-cover" />
                                         </div>
                                     </div>
