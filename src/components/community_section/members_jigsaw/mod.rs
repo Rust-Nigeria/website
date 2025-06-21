@@ -12,7 +12,7 @@ use web_sys::js_sys::Date;
 use crate::utils::clamp::clamp;
 use crate::utils::render_loop::RenderLoop;
 
-use self::jigsaw::Jigsaw;
+use jigsaw::Jigsaw;
 
 const REVEAL_DURATION: f64 = 1000.0;
 

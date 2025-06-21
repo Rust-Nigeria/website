@@ -2,18 +2,19 @@
 
 ## Setup
 
-Install `cargo-leptos` by running:
+Install `just` by running:
 
-`cargo install cargo-leptos`
+`cargo install just`
 
-On Apple Silicon, install `lld` by running:
+Then run
 
-`brew install lld`
+`just setup`
 
 ## Running your project
 
-Just run
-`cargo leptos watch`
+Run
+
+`just start`
 
 By default, you can access your local project at `http://localhost:3000`
 

@@ -19,3 +19,4 @@ target
 # Compled to SCSS file
 **/output.scss
 fly.toml
+**/stylance.scss

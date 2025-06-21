@@ -15,5 +15,4 @@ playwright/.cache/
 # Sass cache dir
 .sass-cache/
 
-# Compled to SCSS file
-output.scss
+style/compiled.scss

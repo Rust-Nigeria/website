@@ -1,0 +1,51 @@
+@use "sass:math";
+@use "sass:list";
+
+@function calc-offsets($radius) {
+  $members-count: 9;
+  $split-angle: 180 / ($members-count - 1);
+  $offsets: ();
+
+  @for $i from 0 through $members-count {
+    $angle: $i * $split-angle * 1deg;
+    $top-offset: $radius * math.sin($angle);
+    $left-offset: $radius * math.cos($angle);
+
+    $offsets: list.append(
+      $offsets,
+      ($left-offset + 50%, $top-offset, $angle - 90deg)
+    );
+  }
+
+  @return $offsets;
+}
+
+$initial-offsets: calc-offsets(55%);
+$final-offsets: calc-offsets(50%);
+
+@for $i from 1 through length($initial-offsets) {
+  $initial-pair: nth($initial-offsets, $i);
+  $final-pair: nth($final-offsets, $i);
+
+  .member-pointer-#{$i} {
+    transform: translateX(-50%);
+    left: nth($initial-pair, 1);
+    top: nth($initial-pair, 2);
+    opacity: 0;
+    transition-delay: #{(length($initial-offsets) - $i) * 0.07}s;
+
+    &.reveal {
+      left: nth($final-pair, 1);
+      top: nth($final-pair, 2);
+      opacity: 1;
+    }
+
+    & > .arrow-axis {
+      transform: rotate(nth($initial-pair, 3));
+    }
+  }
+}
+
+.memberAvatarWrapper {
+  box-shadow: 1px 1px 0px 0px #00000066;
+}

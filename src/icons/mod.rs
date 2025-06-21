@@ -1,6 +1,9 @@
-pub mod right_arrow;
-pub mod rust_logo;
+pub mod arrow_head;
 pub mod github_logo;
 pub mod linkedin_logo;
+pub mod nigeria_flag;
+pub mod right_arrow;
+pub mod rust_logo;
+pub mod rust_nigeria_logo;
 pub mod whatsapp_logo;
 pub mod x_logo;

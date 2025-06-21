@@ -1,0 +1,61 @@
+// @use "sass:math";
+// @use "sass:list";
+
+// @function calc-offsets($radius) {
+//   $members-count: 9;
+//   $split-angle: 180 / ($members-count - 1);
+
+//   $offsets: ();
+
+//   @for $i from 0 through $members-count {
+//     $angle: $i * $split-angle * 1deg;
+//     $top-offset: $radius * math.sin($angle);
+//     $left-offset: $radius * math.cos($angle);
+
+//     $offsets: list.append($offsets, ($left-offset + 50%, $top-offset));
+//   }
+
+//   @return $offsets;
+// }
+
+// $initial-offsets: calc-offsets(48%);
+// $final-offsets: calc-offsets(58%);
+
+// @for $i from 1 through length($initial-offsets) {
+//   $initial-pair: nth($initial-offsets, $i);
+//   $final-pair: nth($final-offsets, $i);
+
+//   .member-pointer-#{$i} {
+//     transform: translateX(-50%);
+//     top: nth($initial-pair, 1);
+//     left: nth($initial-pair, 2) + 50%;
+//     opacity: 0;
+
+//     &.reveal {
+//       top: nth($final-pair, 1);
+//       left: nth($final-pair, 2) + 50%;
+//       opacity: 1;
+//     }
+//   }
+// }
+
+@use "sass:math";
+
+.members {
+  position: relative;
+
+  $members-count: 9;
+  $split-angle: 180 / ($members-count - 1);
+  $radius: 50%;
+
+  @for $i from 0 through $members-count {
+    $angle: $i * $split-angle * 1deg;
+    $top-offset: $radius * math.sin($angle);
+    $left-offset: $radius * math.cos($angle);
+    & > :nth-child(#{$i + 1}) {
+      top: $top-offset;
+      left: $left-offset + 50%;
+      transform: translateX(-50%);
+    }
+  }
+}

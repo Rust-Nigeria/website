@@ -36,7 +36,9 @@ pub enum ButtonSizeVariants {
         class = "py-4 px-6 xl:px-8 [&_>_.btn-icon]:size-6 hover:[&_>_.btn-inner]:translate-x-4 hover:[&_>_.btn-icon]:translate-x-16"
     )]
     Md,
-    #[tw(class = "py-6 px-10 text-lg 2xl:text-2xl [&_>_.btn-icon]:size-8")]
+    #[tw(
+        class = "py-6 px-10 text-lg 2xl:text-2xl [&_>_.btn-icon]:size-8 hover:[&_>_.btn-inner]:translate-x-4 hover:[&_>_.btn-icon]:translate-x-20"
+    )]
     Lg,
 }
 

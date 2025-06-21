@@ -18,6 +18,6 @@ pub fn NotFound() -> impl IntoView {
     }
 
     view! {
-        <h1>"Not Found"</h1>
+        <h1 class="h1">"Not Found"</h1>
     }
 }
