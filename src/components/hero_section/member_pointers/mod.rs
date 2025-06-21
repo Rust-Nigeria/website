@@ -9,14 +9,14 @@ import_style!(classes, "member_pointers.module.scss");
 
 const MEMBERS: [(&str, &str, &str); 9] = [
     ("Chinedu", "/assets/images/members/chinedu.png", "#17A300"),
-    ("Chinedu", "/assets/images/members/chinedu.png", "#A24CE6"),
-    ("Chinedu", "/assets/images/members/chinedu.png", "#FF7233"),
-    ("Chinedu", "/assets/images/members/chinedu.png", "#699688"),
-    ("Chinedu", "/assets/images/members/chinedu.png", "#333"),
-    ("Chinedu", "/assets/images/members/chinedu.png", "#FF6701"),
-    ("Chinedu", "/assets/images/members/chinedu.png", "#FF394E"),
-    ("Chinedu", "/assets/images/members/chinedu.png", "#009480"),
-    ("Chinedu", "/assets/images/members/chinedu.png", "#27A1FF"),
+    ("Akin", "/assets/images/members/akin.png", "#A24CE6"),
+    ("Bee", "/assets/images/members/bolu.png", "#FF7233"),
+    ("Bekka", "/assets/images/members/bekka.png", "#699688"),
+    ("Batman", "/assets/images/members/batman.png", "#333"),
+    ("42", "/assets/images/members/abstract.png", "#FF6701"),
+    ("Ghost", "/assets/images/members/ghost.png", "#FF394E"),
+    ("0xmanuel", "/assets/images/members/reaper.png", "#009480"),
+    ("Liquid", "/assets/images/members/tribesman.png", "#27A1FF"),
 ];
 
 #[component]
