@@ -44,7 +44,7 @@ pub fn Nav() -> impl IntoView {
                     ))
                 >
                     <a href="/" class="animate-scale-in">
-                        <RustNigeriaLogo usecase_id="nav-1" {..} class="text-black size-10" id="" />
+                        <RustNigeriaLogo usecase_id="nav-1" {..} class="text-black size-10" />
                     </a>
                     <ul class="flex gap-x-6 items-center">
                     {
@@ -96,14 +96,12 @@ pub fn Nav() -> impl IntoView {
                    </div>
                 </div>
 
-                <div class=cn!(#(
-                    "h-[100svh] w-screen z-30 fixed left-0 top-0 bg-transparent duration-500 pointer-events-none", (mobile_nav_open(), "bg-grey-10/20")
-                )) />
-
-                <div class=cn!(#(
-                    "-translate-y-full w-screen h-[100svh] z-40 fixed left-0 top-0 duration-500", (mobile_nav_open(), "translate-y-0")
-                ))>
-                    <div class="bg-background-main w-full pb-8 border-b-2 border-b-primary-50">
+                <div on:click=move |_| set_mobile_nav_open(false)
+                    class=cn!(#(
+                        "h-[100svh] w-screen z-30 fixed left-0 top-0 bg-transparent duration-500", (mobile_nav_open(), "bg-grey-10/20")
+                    ))
+                />
+                    <div class=cn!(#("bg-background-main z-40 -translate-y-full w-full pb-8 border-b-2 border-b-primary-50 fixed left-0 top-0 duration-500", (mobile_nav_open(), "translate-y-0")))>
                         <div class="flex w-full justify-between py-6 px-6 items-center">
                             <a href="/">
                                 <RustNigeriaLogo usecase_id="nav-3" {..} class="text-black size-8" />
@@ -144,7 +142,7 @@ pub fn Nav() -> impl IntoView {
                             }
                         </ul>
                     </div>
-                </div>
+
             </div>
         </nav>
     }
