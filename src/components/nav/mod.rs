@@ -98,7 +98,8 @@ pub fn Nav() -> impl IntoView {
 
                 <div on:click=move |_| set_mobile_nav_open(false)
                     class=cn!(#(
-                        "h-[100svh] w-screen z-30 fixed left-0 top-0 bg-transparent duration-500", (mobile_nav_open(), "bg-grey-10/20")
+                        "h-[100svh] w-screen z-30 fixed left-0 top-0 bg-transparent duration-500 pointer-events-none",
+                        (mobile_nav_open(), "bg-grey-10/40 pointer-events-auto")
                     ))
                 />
                     <div class=cn!(#("bg-background-main z-40 -translate-y-full w-full pb-8 border-b-2 border-b-primary-50 fixed left-0 top-0 duration-500", (mobile_nav_open(), "translate-y-0")))>
