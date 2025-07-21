@@ -1,5 +1,6 @@
 pub mod button;
 pub mod community_section;
+pub mod events_section;
 pub mod footer;
 pub mod hero_section;
 pub mod nav;

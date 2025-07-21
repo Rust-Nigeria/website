@@ -23,7 +23,6 @@ body {
   text-align: center;
 }
 
-
 .header-1 {
   @apply text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold;
 }
@@ -33,11 +32,15 @@ body {
 }
 
 .header-6 {
-  @apply text-lg sm:text-2xl lg:text-3xl font-medium;
+  @apply text-lg sm:text-2xl lg:text-[30px] font-medium;
 }
 
 .title-1 {
   @apply text-base sm:text-lg lg:text-xl font-medium;
+}
+
+.body-2 {
+  @apply text-base font-medium;
 }
 
 @theme {
@@ -101,5 +104,15 @@ body {
       transform: translateY(0px);
       opacity: 1;
     }
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }
