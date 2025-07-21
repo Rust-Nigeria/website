@@ -2,6 +2,10 @@
 
 ## Setup
 
+Install `cargo-leptos` by running:
+
+`cargo install cargo-leptos --version 0.2.37 --locked`
+
 Install `just` by running:
 
 `cargo install just`

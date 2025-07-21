@@ -29,16 +29,14 @@ pub enum ButtonColorVariants {
 
 // Variant for size
 #[derive(TwVariant)]
-#[tw(class = "rounded-full group [&_>_.btn-inner]:duration-300 [&_>_.btn-icon]:duration-300")]
+#[tw(class = "rounded-full [&_>_.btn-inner]:duration-300 [&_>_.btn-icon]:duration-300")]
 pub enum ButtonSizeVariants {
     #[tw(
         default,
-        class = "py-4 px-6 xl:px-8 [&_>_.btn-icon]:size-6 hover:[&_>_.btn-inner]:translate-x-4 hover:[&_>_.btn-icon]:translate-x-16"
+        class = "group/size-md py-4 px-6 xl:px-8 [&_>_.btn-icon]:size-6"
     )]
     Md,
-    #[tw(
-        class = "py-6 px-10 text-lg 2xl:text-2xl [&_>_.btn-icon]:size-8 hover:[&_>_.btn-inner]:translate-x-4 hover:[&_>_.btn-icon]:translate-x-20"
-    )]
+    #[tw(class = "group/size-lg py-6 px-10 text-lg 2xl:text-2xl [&_>_.btn-icon]:size-8")]
     Lg,
 }
 
@@ -63,16 +61,24 @@ pub fn Button(
     let icon_el = match icon {
         None => None,
         Some(icon_type) => match icon_type {
-            ButtonIconTypes::RightArrow => Some(view! { <RightArrow {..} class="btn-icon" /> }),
+            ButtonIconTypes::RightArrow => Some(
+                view! { <RightArrow {..} class="btn-icon group-hover/size-md:translate-x-16 group-hover/size-lg:translate-x-20" /> },
+            ),
         },
+    };
+
+    let additional_class = if icon_el.is_some() {
+        "group/with-icon"
+    } else {
+        ""
     };
 
     match use_as {
         ButtonUsecase::Button { on_click } => Either::Left(view! {
-          <button class=class on:click=on_click><span class="btn-inner">{children()}</span>{icon_el}</button>
+          <button class=tw_merge!(additional_class, class) on:click=on_click><span class="btn-inner group-hover/with-icon:translate-x-4">{children()}</span>{icon_el}</button>
         }),
         ButtonUsecase::Link { href } => Either::Right(view! {
-          <a class=class href=href><span class="btn-inner">{children()}</span>{icon_el}</a>
+          <a class=tw_merge!(additional_class, class) href=href><span class="btn-inner group-hover/with-icon:translate-x-4">{children()}</span>{icon_el}</a>
         }),
     }
 }
