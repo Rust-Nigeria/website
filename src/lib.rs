@@ -1,5 +1,6 @@
 pub mod app;
 pub mod components;
+pub mod constants;
 pub mod hooks;
 pub mod icons;
 pub mod pages;

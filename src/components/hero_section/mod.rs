@@ -8,6 +8,7 @@ use crate::components::button::{
     Button, ButtonColorVariants, ButtonIconTypes, ButtonSizeVariants, ButtonUsecase,
 };
 use crate::components::reveal_text_line::RevealTextLine;
+use crate::constants::urls;
 use crate::hooks::use_in_view::{use_in_view, ElementVisibilityData};
 use crate::icons::nigeria_flag::NigeriaFlag;
 use member_pointers::MemberPointers;
@@ -41,7 +42,7 @@ pub fn HeroSection() -> impl IntoView {
                 </p>
                 <Button
                     class="animate-scale-in mt-6 relative"
-                    use_as=ButtonUsecase::Link { href: String::from("/") }
+                    use_as=ButtonUsecase::Link { href: String::from(urls::JOIN_US) }
                     color=ButtonColorVariants::Black
                     icon=ButtonIconTypes::RightArrow
                     size={ButtonSizeVariants::Lg}

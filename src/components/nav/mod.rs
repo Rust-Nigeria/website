@@ -2,14 +2,15 @@ use leptos::{ev, prelude::*};
 
 use crate::cn;
 use crate::components::button::{Button, ButtonColorVariants, ButtonIconTypes, ButtonUsecase};
+use crate::constants::urls;
 use crate::icons::rust_nigeria_logo::RustNigeriaLogo;
 
 #[component]
 pub fn Nav() -> impl IntoView {
     let LINKS = [
-        ("Blogs", "/blogs"),
-        ("Showcase", "/showcase"),
-        ("Projects", "/projects"),
+        ("Blogs", urls::RUST_NIGERIA_BLOGS),
+        ("Newsletter", urls::RUST_NIGERIA_NEWSLETTER),
+        ("Projects", urls::RUST_NIGERIA_GITHUB),
     ];
 
     let (mobile_nav_open, set_mobile_nav_open) = signal(false);
@@ -65,7 +66,7 @@ pub fn Nav() -> impl IntoView {
                         <li>
                             <Button
                                 class="animate-scale-in"
-                                use_as=ButtonUsecase::Link { href: String::from("youtube.com") }
+                                use_as=ButtonUsecase::Link { href: String::from(urls::JOIN_US) }
                                 color=ButtonColorVariants::Black
                                 icon=ButtonIconTypes::RightArrow
                             >
