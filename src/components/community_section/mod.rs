@@ -1,5 +1,6 @@
 mod members_jigsaw;
 
+use crate::constants::urls;
 use crate::{
     cn,
     components::{
@@ -49,7 +50,7 @@ pub fn CommunitySection() -> impl IntoView {
                 <RevealTextLine delay={400} reveal={section_in_view}>
                     <Button
                         class="animate-scale-in mt-6 px-20 2xl:px-24"
-                        use_as=ButtonUsecase::Link { href: String::from("https://rustnigeria.curated.co/") }
+                        use_as=ButtonUsecase::Link { href: String::from(urls::JOIN_US) }
                         color=ButtonColorVariants::White
                         size=ButtonSizeVariants::Lg
                     >
