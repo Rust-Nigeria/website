@@ -1,0 +1,80 @@
+.rocketWrapper {
+  perspective: 5000px;
+}
+
+.rocket {
+  $rocket-width: 180;
+  $rocket-height: 316;
+
+  $aspect-ratio: ($rocket-width, $rocket-height);
+
+  width: $rocket-width * 1px;
+  height: $rocket-height * 1px;
+  background-color: pink;
+  perspective: 1000px;
+  display: flex;
+  justify-content: center;
+
+  & .rocketBody {
+    $rocket-body-height: 0.75 * $rocket-height;
+    $rocket-inner-body-width: 0.64 * $rocket-width;
+    $rocket-depth: $rocket-inner-body-width;
+    $rocket-top-height: 0.3 * $rocket-body-height;
+
+    background-color: chocolate;
+
+    transform-style: preserve-3d;
+    width: $rocket-inner-body-width * 1px;
+    height: $rocket-body-height * 1px;
+    position: relative;
+    transform: rotateY(-50deg);
+    transform-origin: top center;
+
+    & > * {
+      transform-style: preserve-3d;
+    }
+
+    & .rocketTop {
+      height: $rocket-top-height * 1px;
+      position: relative;
+      $border-rhickness: $rocket-top-height * 1px;
+
+      & > * {
+        position: absolute;
+      }
+
+      .left,
+      .right {
+        top: 0;
+        width: 0;
+        height: 0;
+
+        border-left: $border-rhickness solid transparent;
+        border-right: $border-rhickness solid transparent;
+      }
+
+      .front {
+        background-color: purple;
+        transform: translateZ(0);
+      }
+
+      .back {
+        background-color: teal;
+      }
+
+      .right {
+        transform-origin: right;
+        transform: rotateY(-90deg) translateZ(0);
+        right: 0;
+        border-bottom: $border-rhickness solid white;
+      }
+
+      .left {
+        transform-origin: left;
+        transform: rotateY(90deg) translateZ(0);
+        left: 0;
+        border-bottom: $border-rhickness solid red;
+      }
+    }
+  }
+}

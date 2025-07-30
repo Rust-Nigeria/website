@@ -5,3 +5,4 @@ pub mod footer;
 pub mod hero_section;
 pub mod nav;
 pub mod reveal_text_line;
+pub mod rust_features;

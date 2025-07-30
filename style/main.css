@@ -32,7 +32,7 @@ body {
 }
 
 .header-6 {
-  @apply text-lg sm:text-2xl lg:text-[30px] font-medium;
+  @apply text-lg sm:text-2xl lg:text-[28px] font-medium;
 }
 
 .title-1 {
