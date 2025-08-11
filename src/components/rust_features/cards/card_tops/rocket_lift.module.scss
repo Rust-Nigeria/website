@@ -27,7 +27,7 @@
     width: $rocket-inner-body-width * 1px;
     height: $rocket-body-height * 1px;
     position: relative;
-    transform: rotateY(-50deg);
+    transform: rotateY(160deg);
     transform-origin: top center;
     display: flex;
     flex-direction: column;
@@ -124,6 +124,38 @@
             border-right: (($dimension - $line-thickness) / 2) * 1px solid
               transparent;
             border-bottom: ($dimension - $line-thickness) solid #303030;
+          }
+
+          .strip {
+            $stripHeight: 0.2 * $dimension;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: $stripHeight * 1px;
+            width: 100%;
+            bottom: 0;
+
+            .innerLayer1 {
+              position: absolute;
+              height: 100%;
+              width: 100%;
+              border-left: ($stripHeight / 2) * 1px solid transparent;
+              border-right: ($stripHeight / 2) * 1px solid transparent;
+              border-bottom: $stripHeight solid white;
+            }
+
+            .innerLayer2 {
+              position: absolute;
+              height: 100%;
+              width: calc(100% - ($line-thickness * 1px));
+              bottom: $line-thickness / 2 * 1px;
+              border-left: (($stripHeight - $line-thickness)/ 2) * 1px solid
+                transparent;
+              border-right: (($stripHeight - $line-thickness) / 2) * 1px solid
+                transparent;
+              border-bottom: ($stripHeight - $line-thickness) solid black;
+            }
           }
         }
       }
