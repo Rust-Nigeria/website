@@ -5,6 +5,7 @@
 .rocket {
   $rocket-width: 180;
   $rocket-height: 316;
+  $line-thickness: 2;
 
   $aspect-ratio: ($rocket-width, $rocket-height);
 
@@ -18,8 +19,7 @@
   & .rocketBody {
     $rocket-body-height: 0.75 * $rocket-height;
     $rocket-inner-body-width: 0.64 * $rocket-width;
-    $rocket-depth: $rocket-inner-body-width;
-    $rocket-top-height: 0.3 * $rocket-body-height;
+    $rocket-top-dimension: 0.3 * $rocket-body-height;
 
     background-color: chocolate;
 
@@ -29,51 +29,123 @@
     position: relative;
     transform: rotateY(-50deg);
     transform-origin: top center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-    & > * {
+    & * {
       transform-style: preserve-3d;
     }
 
     & .rocketTop {
-      height: $rocket-top-height * 1px;
+      $dimension: $rocket-top-dimension;
+      $casted-dimension: $dimension * 1px;
+
+      $rocket-top-depth: $dimension;
+      $rocket-top-height: $dimension;
+      $rocket-top-width: $dimension;
+
+      $half-depth: math.div($dimension, 2) * 1px;
+
+      height: $casted-dimension;
+      width: $casted-dimension;
       position: relative;
-      $border-rhickness: $rocket-top-height * 1px;
 
       & > * {
         position: absolute;
+        width: $casted-dimension;
+        height: $casted-dimension;
       }
 
       .left,
       .right {
-        top: 0;
-        width: 0;
-        height: 0;
+        .triangleFace {
+          $rotation-x: math.asin(
+            math.div($rocket-top-depth, (2 * $rocket-top-height))
+          );
 
-        border-left: $border-rhickness solid transparent;
-        border-right: $border-rhickness solid transparent;
+          transform: rotateX(-$rotation-x);
+        }
       }
 
       .front {
-        background-color: purple;
+        .triangleFace {
+          $rotation-x: math.asin(
+            math.div($rocket-top-depth, (2 * $rocket-top-height))
+          );
+
+          transform: rotateX($rotation-x);
+        }
+      }
+
+      .back {
+        .triangleFace {
+          $rotation-x: math.asin(
+            math.div($rocket-top-depth, (2 * $rocket-top-height))
+          );
+
+          transform: rotateX(-$rotation-x);
+        }
+      }
+
+      .left,
+      .right,
+      .front,
+      .back {
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+
+        .triangleFace {
+          position: absolute;
+          transform-origin: bottom;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          bottom: 0;
+          top: 0;
+          left: 0;
+          right: 0;
+
+          & > * {
+            position: absolute;
+          }
+
+          .innerLayer1 {
+            border-left: ($dimension / 2) * 1px solid transparent;
+            border-right: ($dimension / 2) * 1px solid transparent;
+            border-bottom: $dimension solid white;
+          }
+
+          .innerLayer2 {
+            border-left: (($dimension - $line-thickness) / 2) * 1px solid
+              transparent;
+            border-right: (($dimension - $line-thickness) / 2) * 1px solid
+              transparent;
+            border-bottom: ($dimension - $line-thickness) solid #303030;
+          }
+        }
+      }
+
+      .front {
         transform: translateZ(0);
       }
 
       .back {
-        background-color: teal;
+        transform: translateZ(-$dimension);
       }
 
       .right {
         transform-origin: right;
         transform: rotateY(-90deg) translateZ(0);
         right: 0;
-        border-bottom: $border-rhickness solid white;
       }
 
       .left {
         transform-origin: left;
         transform: rotateY(90deg) translateZ(0);
         left: 0;
-        border-bottom: $border-rhickness solid red;
       }
     }
   }
