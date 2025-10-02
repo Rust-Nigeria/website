@@ -19,7 +19,9 @@
   & .rocketBody {
     $rocket-body-height: 0.75 * $rocket-height;
     $rocket-inner-body-width: 0.64 * $rocket-width;
-    $rocket-top-dimension: 0.3 * $rocket-body-height;
+    $rocket-top-dimension: 0.35 * $rocket-body-height;
+    $rocket-main-body-height: $rocket-body-height - $rocket-top-dimension;
+    $rocket-base-width: $rocket-top-dimension * 0.55;
 
     background-color: chocolate;
 
@@ -154,7 +156,7 @@
                 transparent;
               border-right: (($stripHeight - $line-thickness) / 2) * 1px solid
                 transparent;
-              border-bottom: ($stripHeight - $line-thickness) solid black;
+              border-bottom: ($stripHeight - $line-thickness) solid #191919;
             }
           }
         }
@@ -178,6 +180,107 @@
         transform-origin: left;
         transform: rotateY(90deg) translateZ(0);
         left: 0;
+      }
+    }
+
+    & .mainBody {
+      height: $rocket-main-body-height * 1px;
+      width: $rocket-top-dimension * 1px;
+      $inverted-triangle-angle: math.atan(
+        (2 * $rocket-main-body-height) /
+          ($rocket-top-dimension - $rocket-base-width)
+      );
+      $inverted-triangle-height: ($rocket-base-width / 2) *
+        math.tan($inverted-triangle-angle);
+
+      $body-face-tilt: 90 - $inverted-triangle-angle;
+
+      & > * {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+      }
+
+      .left,
+      .right,
+      .front,
+      .back {
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+
+        .triangleFace {
+          position: absolute;
+          transform-origin: top;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          bottom: 0;
+          top: 0;
+          left: 0;
+          right: 0;
+          overflow: hidden;
+
+          & > * {
+            position: absolute;
+            top: 0;
+          }
+
+          .innerLayer1 {
+            border-left: ($rocket-top-dimension / 2) * 1px solid transparent;
+            border-right: ($rocket-top-dimension / 2) * 1px solid transparent;
+            border-top: ($rocket-main-body-height + $inverted-triangle-height) *
+              1px solid white;
+          }
+
+          .innerLayer2 {
+            border-left: (($rocket-top-dimension - ($line-thickness * 0.7)) / 2) *
+              1px solid transparent;
+            border-right: (
+                ($rocket-top-dimension - ($line-thickness * 0.7)) / 2
+              ) * 1px solid transparent;
+            border-top: ($rocket-main-body-height + $inverted-triangle-height)
+              solid #1a1818;
+          }
+        }
+      }
+
+      .back {
+        transform-origin: top;
+        transform: translateZ(-$rocket-top-dimension);
+        .triangleFace {
+          transform-origin: top;
+          transform: rotateX($body-face-tilt);
+        }
+      }
+
+      .front {
+        transform: translateZ(0);
+        .triangleFace {
+          transform-origin: top;
+          transform: rotateX(-$body-face-tilt);
+        }
+      }
+
+      .left {
+        transform-origin: left;
+        transform: translateZ(0) rotateY(90deg);
+
+        .triangleFace {
+          transform-origin: top;
+          transform: rotateX($body-face-tilt);
+        }
+      }
+
+      .right {
+        transform-origin: right;
+        transform: translateZ(0) rotateY(-90deg);
+
+        .triangleFace {
+          transform-origin: top;
+          transform: rotateX($body-face-tilt);
+        }
       }
     }
   }
