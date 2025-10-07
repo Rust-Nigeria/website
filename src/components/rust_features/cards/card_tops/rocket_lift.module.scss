@@ -23,13 +23,11 @@
     $rocket-main-body-height: $rocket-body-height - $rocket-top-dimension;
     $rocket-base-width: $rocket-top-dimension * 0.55;
 
-    background-color: chocolate;
-
     transform-style: preserve-3d;
     width: $rocket-inner-body-width * 1px;
     height: $rocket-body-height * 1px;
     position: relative;
-    transform: rotateY(160deg);
+    transform: rotateY(35deg);
     transform-origin: top center;
     display: flex;
     flex-direction: column;
@@ -184,6 +182,7 @@
     }
 
     & .mainBody {
+      position: relative;
       height: $rocket-main-body-height * 1px;
       width: $rocket-top-dimension * 1px;
       $inverted-triangle-angle: math.atan(
@@ -194,23 +193,26 @@
         math.tan($inverted-triangle-angle);
 
       $body-face-tilt: 90 - $inverted-triangle-angle;
+      $wing-height: $rocket-main-body-height * 0.5;
+      $wing-top-offset: 0.6 * $rocket-main-body-height;
+      $wing-width: $rocket-top-dimension * 0.7;
 
       & > * {
         position: absolute;
-        width: 100%;
-        height: 100%;
       }
 
-      .left,
-      .right,
-      .front,
-      .back {
+      & > .left,
+      & > .right,
+      & > .front,
+      & > .back {
         top: 0;
         left: 0;
         bottom: 0;
         right: 0;
+        width: 100%;
+        height: 100%;
 
-        .triangleFace {
+        .face {
           position: absolute;
           transform-origin: top;
           display: flex;
@@ -246,40 +248,115 @@
         }
       }
 
-      .back {
+      & > .back {
         transform-origin: top;
         transform: translateZ(-$rocket-top-dimension);
-        .triangleFace {
+        .face {
           transform-origin: top;
           transform: rotateX($body-face-tilt);
         }
       }
 
-      .front {
+      & > .front {
         transform: translateZ(0);
-        .triangleFace {
+        .face {
           transform-origin: top;
           transform: rotateX(-$body-face-tilt);
         }
       }
 
-      .left {
+      & > .left {
         transform-origin: left;
         transform: translateZ(0) rotateY(90deg);
-
-        .triangleFace {
+        .face {
           transform-origin: top;
           transform: rotateX($body-face-tilt);
         }
       }
 
-      .right {
+      & > .right {
         transform-origin: right;
         transform: translateZ(0) rotateY(-90deg);
-
-        .triangleFace {
+        .face {
           transform-origin: top;
           transform: rotateX($body-face-tilt);
+        }
+      }
+
+      .leftWing {
+        $wing-upper-height: 0.6 * $wing-height;
+        $wing-upper-shorter-vertical-side: 0.7 * $wing-upper-height;
+        $wing-inverted-triangle-angle: math.atan(
+          $wing-width /
+            (($wing-upper-height - $wing-upper-shorter-vertical-side) * 0.5)
+        );
+        $wing-inverted-triangle-height: (
+            ($wing-upper-shorter-vertical-side / 2) *
+              math.tan($wing-inverted-triangle-angle)
+          ) * 0.5;
+        $wing-body-offset: $wing-top-offset *
+          math.tan(90 - $inverted-triangle-angle);
+        $rotation: -1 * (90 - $inverted-triangle-angle);
+        $additional-roation: $rotation * 2.5;
+
+        transform: translateX(-$wing-width + $wing-body-offset)
+          rotate($rotation + $additional-roation) translateZ(-$wing-body-offset)
+          rotateX($rotation);
+        transform-origin: top right;
+        width: $wing-width * 1px;
+        height: $wing-height * 1px;
+        top: $wing-top-offset * 1px;
+        background-color: rgba(111, 255, 0, 0.274);
+
+        & > * {
+          position: absolute;
+        }
+
+        & > .upper {
+          width: 100%;
+          height: 60%;
+
+          & > .left,
+          & > .right,
+          & > .front,
+          & > .back {
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+
+            .face {
+              position: absolute;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              bottom: 0;
+              top: 0;
+              left: 0;
+              right: 0;
+              overflow: hidden;
+
+              .innerLayer1 {
+                position: absolute;
+                right: 0;
+                border-bottom: ($wing-upper-height / 2) * 1px solid transparent;
+                border-top: ($wing-upper-height / 2) * 1px solid transparent;
+                border-right: ($wing-width + $wing-inverted-triangle-height) *
+                  1px solid white;
+              }
+            }
+          }
+
+          .front {
+            transform: translateZ(0);
+            .face {
+              background-color: purple;
+              transform-origin: right;
+            }
+          }
         }
       }
     }

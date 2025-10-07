@@ -57,34 +57,55 @@ pub fn RocketLift() -> impl IntoView {
                </div>
               </div>
             </div>
+
             <div class=classes::mainBody>
+             <div class=classes::leftWing>
+                <div class=classes::upper>
+                  <div class=classes::right>
+                    <div class=classes::face>
+                      <div class=classes::innerLayer1 />
+                      <div class=classes::innerLayer2 />
+                    </div>
+                  </div>
+
+                 <div class=classes::front>
+                    <div class=classes::face>
+                      <div class=classes::innerLayer1 />
+                      <div class=classes::innerLayer2 />
+                    </div>
+                </div>
+                </div>
+              </div>
+
               <div class=classes::front>
-                <div class=classes::triangleFace>
+                <div class=classes::face>
                  <div class=classes::innerLayer1 />
                  <div class=classes::innerLayer2 />
                 </div>
               </div>
 
               <div class=classes::back>
-                <div class=classes::triangleFace>
+                <div class=classes::face>
                  <div class=classes::innerLayer1 />
                  <div class=classes::innerLayer2 />
                 </div>
               </div>
 
               <div class=classes::left>
-                <div class=classes::triangleFace>
+                <div class=classes::face>
                  <div class=classes::innerLayer1 />
                  <div class=classes::innerLayer2 />
                 </div>
               </div>
 
               <div class=classes::right>
-                <div class=classes::triangleFace>
+                <div class=classes::face>
                  <div class=classes::innerLayer1 />
                  <div class=classes::innerLayer2 />
                 </div>
               </div>
+
+
             </div>
           </div>
 

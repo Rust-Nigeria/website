@@ -10,7 +10,7 @@ use cards::Cards;
 pub fn RustFeatures() -> impl IntoView {
     view! {
         <div class="bg-background-dark text-grey-100 px-6 py-10 flex flex-col w-full items-center">
-           <div class="w-full max-w-6xl flex flex-col items-start">
+           <div class="w-full max-w-7xl flex flex-col items-start">
                 <h2 class="header-2 text-left max-w-4xl">
                     We have fallen in love with Rust for many reasons
                 </h2>
