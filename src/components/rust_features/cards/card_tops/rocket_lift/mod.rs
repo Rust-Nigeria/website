@@ -17,7 +17,7 @@ pub fn RocketLift() -> impl IntoView {
           <div class=classes::rocketBody>
             <div class=classes::rocketTop>
               <div class=classes::front>
-                <div class=classes::triangleFace>
+                <div class=classes::face>
                  <div class=classes::innerLayer1 />
                  <div class=classes::innerLayer2 />
                   <div class=classes::strip>
@@ -27,7 +27,7 @@ pub fn RocketLift() -> impl IntoView {
                </div>
               </div>
               <div class=classes::right>
-               <div class=classes::triangleFace>
+               <div class=classes::face>
                  <div class=classes::innerLayer1 />
                  <div class=classes::innerLayer2 />
                   <div class=classes::strip>
@@ -37,7 +37,7 @@ pub fn RocketLift() -> impl IntoView {
                </div>
               </div>
               <div class=classes::left>
-                 <div class=classes::triangleFace>
+                 <div class=classes::face>
                  <div class=classes::innerLayer1 />
                  <div class=classes::innerLayer2 />
                   <div class=classes::strip>
@@ -47,7 +47,7 @@ pub fn RocketLift() -> impl IntoView {
                </div>
               </div>
               <div class=classes::back>
-                <div class=classes::triangleFace>
+                <div class=classes::face>
                   <div class=classes::innerLayer1 />
                   <div class=classes::innerLayer2 />
                   <div class=classes::strip>
@@ -59,53 +59,85 @@ pub fn RocketLift() -> impl IntoView {
             </div>
 
             <div class=classes::mainBody>
-             <div class=classes::leftWing>
-                <div class=classes::upper>
-                  <div class=classes::right>
-                    <div class=classes::face>
-                      <div class=classes::innerLayer1 />
-                      <div class=classes::innerLayer2 />
+                <div class=cn!(classes::leftWing, classes::wing)>
+                    <div class=classes::upper>
+                        <div class=classes::front>
+                            <div class=classes::face>
+                                <div class=classes::innerLayer1 />
+                                <div class=classes::innerLayer2 />
+                            </div>
+                        </div>
+                        <div class=classes::back>
+                            <div class=classes::face>
+                                <div class=classes::innerLayer1 />
+                                <div class=classes::innerLayer2 />
+                            </div>
+                        </div>
+                        <div class=classes::left>
+                            <div class=classes::face>
+                                <div class=classes::innerLayer1 />
+                                <div class=classes::innerLayer2 />
+                            </div>
+                        </div>
+                         <div class=classes::top>
+                            <div class=classes::face>
+                                <div class=classes::innerLayer1 />
+                                <div class=classes::innerLayer2 />
+                            </div>
+                        </div>
                     </div>
-                  </div>
+                </div>
 
-                 <div class=classes::front>
-                    <div class=classes::face>
-                      <div class=classes::innerLayer1 />
-                      <div class=classes::innerLayer2 />
+                <div class=cn!(classes::rightWing, classes::wing)>
+                    <div class=classes::upper>
+                        <div class=classes::front>
+                            <div class=classes::face>
+                                <div class=classes::innerLayer1 />
+                                <div class=classes::innerLayer2 />
+                            </div>
+                        </div>
+                        <div class=classes::back>
+                            <div class=classes::face>
+                                <div class=classes::innerLayer1 />
+                                <div class=classes::innerLayer2 />
+                            </div>
+                        </div>
+                        <div class=classes::right>
+                            <div class=classes::face>
+                                <div class=classes::innerLayer1 />
+                                <div class=classes::innerLayer2 />
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+                <div class=classes::front>
+                    <div class=classes::face>
+                        <div class=classes::innerLayer1 />
+                        <div class=classes::innerLayer2 />
+                    </div>
                 </div>
-              </div>
 
-              <div class=classes::front>
-                <div class=classes::face>
-                 <div class=classes::innerLayer1 />
-                 <div class=classes::innerLayer2 />
+                <div class=classes::back>
+                    <div class=classes::face>
+                    <div class=classes::innerLayer1 />
+                    <div class=classes::innerLayer2 />
+                    </div>
                 </div>
-              </div>
 
-              <div class=classes::back>
-                <div class=classes::face>
-                 <div class=classes::innerLayer1 />
-                 <div class=classes::innerLayer2 />
+                <div class=classes::left>
+                    <div class=classes::face>
+                        <div class=classes::innerLayer1 />
+                        <div class=classes::innerLayer2 />
+                    </div>
                 </div>
-              </div>
 
-              <div class=classes::left>
-                <div class=classes::face>
-                 <div class=classes::innerLayer1 />
-                 <div class=classes::innerLayer2 />
+                <div class=classes::right>
+                    <div class=classes::face>
+                        <div class=classes::innerLayer1 />
+                        <div class=classes::innerLayer2 />
+                    </div>
                 </div>
-              </div>
-
-              <div class=classes::right>
-                <div class=classes::face>
-                 <div class=classes::innerLayer1 />
-                 <div class=classes::innerLayer2 />
-                </div>
-              </div>
-
-
             </div>
           </div>
 
