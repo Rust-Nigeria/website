@@ -287,15 +287,15 @@
         $wing-height: $rocket-main-body-height * 0.5;
         $wing-top-offset: 0.6 * $rocket-main-body-height;
         $wing-width: $rocket-top-dimension * 0.8;
-        $wing-root-width: $rocket-base-width;
-        $wing-upper-height: 0.6 * $wing-height;
+        $wing-root-dimension: $rocket-base-width;
         $wing-projection-width: $wing-width * 1.5;
         $wing-projected-width: $wing-width + $wing-projection-width;
         $wing-body-offset: $wing-top-offset *
           math.tan(90 - $inverted-triangle-angle);
-        $squared-wing-z-delta: ($rocket-top-dimension - $wing-upper-height) / 2;
+        $squared-wing-z-delta: ($rocket-top-dimension - $wing-root-dimension) /
+          2;
         $wing-upper-face-angle: math.atan(
-          ($wing-root-width * 0.5) / $wing-projected-width
+          ($wing-root-dimension * 0.5) / $wing-projected-width
         );
 
         width: $wing-width * 1px;
@@ -305,7 +305,7 @@
 
         .upper {
           width: 100%;
-          height: $wing-upper-height * 1px;
+          height: $wing-root-dimension * 1px;
           position: relative;
           > * {
             position: absolute;
@@ -345,17 +345,19 @@
               .face {
                 .innerLayer1 {
                   right: 0;
-                  border-bottom: ($wing-root-width / 2) * 1px solid transparent;
-                  border-top: ($wing-root-width / 2) * 1px solid transparent;
+                  border-bottom: ($wing-root-dimension / 2) * 1px solid
+                    transparent;
+                  border-top: ($wing-root-dimension / 2) * 1px solid transparent;
                   border-right: $wing-projected-width * 1px solid $color-2;
                 }
                 .innerLayer2 {
                   right: 0;
                   border-bottom: (
-                      ($wing-root-width - ($line-thickness * 0.7)) / 2
+                      ($wing-root-dimension - ($line-thickness * 0.7)) / 2
                     ) * 1px solid transparent;
-                  border-top: (($wing-root-width - ($line-thickness * 0.7)) / 2) *
-                    1px solid transparent;
+                  border-top: (
+                      ($wing-root-dimension - ($line-thickness * 0.7)) / 2
+                    ) * 1px solid transparent;
                   border-right: $wing-projected-width * 1px solid $color-3;
                 }
               }
@@ -363,13 +365,13 @@
 
             .front {
               transform: translateZ(
-                  (-$rocket-top-dimension / 2) + ($wing-upper-height / 2)
+                  (-$rocket-top-dimension / 2) + ($wing-root-dimension / 2)
                 )
                 rotateY(-$wing-upper-face-angle);
             }
             .back {
               transform: translateZ(
-                  (-$rocket-top-dimension / 2) - ($wing-upper-height / 2)
+                  (-$rocket-top-dimension / 2) - ($wing-root-dimension / 2)
                 )
                 rotateY($wing-upper-face-angle);
             }
@@ -377,7 +379,7 @@
               transform-origin: top right;
               right: 0;
               transform: translateZ(
-                  (-$rocket-top-dimension / 2) - ($wing-upper-height / 2)
+                  (-$rocket-top-dimension / 2) - ($wing-root-dimension / 2)
                 )
                 rotateX(90deg) rotateY(-$wing-upper-face-angle);
             }
@@ -385,7 +387,7 @@
               transform-origin: bottom right;
               right: 0;
               transform: translateZ(
-                  (-$rocket-top-dimension / 2) - ($wing-upper-height / 2)
+                  (-$rocket-top-dimension / 2) - ($wing-root-dimension / 2)
                 )
                 rotateX(-90deg) rotateY(-$wing-upper-face-angle);
             }
@@ -404,9 +406,9 @@
               .face {
                 .innerLayer1 {
                   left: 0;
-                  border-bottom: ($wing-upper-height / 2) * 1px solid
+                  border-bottom: ($wing-root-dimension / 2) * 1px solid
                     transparent;
-                  border-top: ($wing-upper-height / 2) * 1px solid transparent;
+                  border-top: ($wing-root-dimension / 2) * 1px solid transparent;
                   border-left: ($wing-width + $wing-projection-width) * 1px
                     solid $color-2;
                 }
@@ -414,10 +416,10 @@
                 .innerLayer2 {
                   left: 0;
                   border-bottom: (
-                      ($wing-upper-height - ($line-thickness * 0.7)) / 2
+                      ($wing-root-dimension - ($line-thickness * 0.7)) / 2
                     ) * 1px solid transparent;
                   border-top: (
-                      ($wing-upper-height - ($line-thickness * 0.7)) / 2
+                      ($wing-root-dimension - ($line-thickness * 0.7)) / 2
                     ) * 1px solid transparent;
                   border-left: ($wing-width + $wing-projection-width) * 1px
                     solid $color-3;
@@ -429,14 +431,14 @@
           .front {
             transform-origin: left;
             transform: translateZ(
-                (-$rocket-top-dimension / 2) + ($wing-upper-height / 2)
+                (-$rocket-top-dimension / 2) + ($wing-root-dimension / 2)
               )
               rotateY($wing-upper-face-angle);
           }
           .back {
             transform-origin: left;
             transform: translateZ(
-                (-$rocket-top-dimension / 2) - ($wing-upper-height / 2)
+                (-$rocket-top-dimension / 2) - ($wing-root-dimension / 2)
               )
               rotateY(-$wing-upper-face-angle);
           }
@@ -444,7 +446,7 @@
             transform-origin: top left;
             left: 0;
             transform: translateZ(
-                (-$rocket-top-dimension / 2) - ($wing-upper-height / 2)
+                (-$rocket-top-dimension / 2) - ($wing-root-dimension / 2)
               )
               rotateX(90deg) rotateY($wing-upper-face-angle);
           }
@@ -452,7 +454,7 @@
             transform-origin: bottom left;
             left: 0;
             transform: translateZ(
-                (-$rocket-top-dimension / 2) - ($wing-upper-height / 2)
+                (-$rocket-top-dimension / 2) - ($wing-root-dimension / 2)
               )
               rotateX(-90deg) rotateY($wing-upper-face-angle);
           }
@@ -460,11 +462,11 @@
       }
 
       // .leftWing {
-      //   $wing-upper-height: 0.6 * $wing-height;
-      //   $wing-upper-shorter-vertical-side: 0.7 * $wing-upper-height;
+      //   $wing-root-dimension: 0.6 * $wing-height;
+      //   $wing-upper-shorter-vertical-side: 0.7 * $wing-root-dimension;
       //   $wing-projection-angle: math.atan(
       //     $wing-width /
-      //       (($wing-upper-height - $wing-upper-shorter-vertical-side) * 0.5)
+      //       (($wing-root-dimension - $wing-upper-shorter-vertical-side) * 0.5)
       //   );
       //   $wing-projection-width: (
       //       ($wing-upper-shorter-vertical-side / 2) *
@@ -518,8 +520,8 @@
       //         .innerLayer1 {
       //           position: absolute;
       //           right: 0;
-      //           border-bottom: ($wing-upper-height / 2) * 1px solid transparent;
-      //           border-top: ($wing-upper-height / 2) * 1px solid transparent;
+      //           border-bottom: ($wing-root-dimension / 2) * 1px solid transparent;
+      //           border-top: ($wing-root-dimension / 2) * 1px solid transparent;
       //           border-right: ($wing-width + $wing-projection-width) *
       //             1px solid white;
       //         }
