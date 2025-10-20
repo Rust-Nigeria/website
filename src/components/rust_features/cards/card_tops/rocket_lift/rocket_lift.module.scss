@@ -12,6 +12,9 @@
   $color-1: #191919;
   $color-2: white;
   $color-3: #1a1818;
+  $color-4: #303030;
+  $color-5: #292828;
+  $color-6: #212020;
 
   width: $rocket-width * 1px;
   height: $rocket-height * 1px;
@@ -127,7 +130,7 @@
               transparent;
             border-right: (($dimension - $line-thickness) / 2) * 1px solid
               transparent;
-            border-bottom: ($dimension - $line-thickness) solid #303030;
+            border-bottom: ($dimension - $line-thickness) solid $color-4;
           }
 
           .strip {
@@ -284,24 +287,38 @@
         }
       }
       .wing {
-        $wing-height: $rocket-main-body-height * 0.5;
+        $wing-height: $rocket-main-body-height * 0.65;
         $wing-top-offset: 0.6 * $rocket-main-body-height;
         $wing-width: $rocket-top-dimension * 0.8;
         $wing-root-dimension: $rocket-base-width;
         $wing-projection-width: $wing-width * 1.5;
+        $wing-projection-height: $wing-height * 0.1;
         $wing-projected-width: $wing-width + $wing-projection-width;
+        $wing-projected-height: $wing-height + $wing-projection-height;
         $wing-body-offset: $wing-top-offset *
           math.tan(90 - $inverted-triangle-angle);
         $squared-wing-z-delta: ($rocket-top-dimension - $wing-root-dimension) /
           2;
+
         $wing-upper-face-angle: math.atan(
           ($wing-root-dimension * 0.5) / $wing-projected-width
         );
+
+        $wing-upper-shorter-side: $wing-root-dimension - 2 *
+          ($wing-width / math.tan(90 - $wing-upper-face-angle));
+
+        $wing-lower-face-angle: math.atan(
+          ($wing-upper-shorter-side * 0.5) / $wing-projected-height
+        );
+        $wing-lower-additional-tilt: 15deg;
 
         width: $wing-width * 1px;
         height: $wing-height * 1px;
         position: absolute;
         top: $wing-top-offset * 1px;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
 
         .upper {
           width: 100%;
@@ -329,10 +346,86 @@
           }
         }
 
+        .lower {
+          position: relative;
+          width: $wing-upper-shorter-side * 1px;
+          height: ($wing-height - $wing-root-dimension) * 1px;
+          transform-origin: top right;
+          transform: translateY(
+              -(($wing-width * math.tan($wing-upper-face-angle)) +
+                    (
+                      $wing-upper-shorter-side *
+                        math.tan($wing-lower-additional-tilt)
+                    ))
+            )
+            rotate(-$wing-lower-additional-tilt);
+
+          & > * {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+
+            .face {
+              position: absolute;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              bottom: 0;
+              top: 0;
+              left: 0;
+              right: 0;
+              overflow: hidden;
+
+              & > * {
+                position: absolute;
+                top: 0;
+              }
+
+              & > .innerLayer1 {
+                top: 0;
+
+                border-top: $wing-projected-height * 1px solid $color-2;
+                border-left: ($wing-upper-shorter-side / 2) * 1px solid
+                  transparent;
+                border-right: ($wing-upper-shorter-side / 2) * 1px solid
+                  transparent;
+              }
+
+              & > .innerLayer2 {
+                top: 0;
+
+                border-top: $wing-projected-height * 1px solid $color-3;
+                border-left: (
+                    ($wing-upper-shorter-side - ($line-thickness * 0.3)) / 2
+                  ) * 1px solid transparent;
+                border-right: (
+                    ($wing-upper-shorter-side - ($line-thickness * 0.3)) / 2
+                  ) * 1px solid transparent;
+              }
+            }
+          }
+
+          .front {
+            transform: translateZ(
+                (-$rocket-top-dimension / 2) + ($wing-upper-shorter-side / 2)
+              )
+              rotateX(-$wing-lower-face-angle) rotateY(-$wing-lower-face-angle);
+          }
+
+          .back {
+            transform: translateZ(
+                (-$rocket-top-dimension / 2) - ($wing-upper-shorter-side / 2)
+              )
+              rotateX($wing-lower-face-angle) rotateY($wing-lower-face-angle);
+          }
+        }
+
         &.leftWing {
-          background-color: rgba(0, 128, 0, 0.2);
+          transform-origin: top right;
+          // background-color: rgba(0, 128, 0, 0.2);
           left: 0;
-          transform: translateX(-$wing-width);
+          transform: translateX(-$wing-width + $wing-body-offset)
+            rotate(-$body-face-tilt);
           .upper {
             & > * {
               transform-origin: right;
@@ -390,6 +483,24 @@
                   (-$rocket-top-dimension / 2) - ($wing-root-dimension / 2)
                 )
                 rotateX(-90deg) rotateY(-$wing-upper-face-angle);
+            }
+          }
+
+          .lower {
+            .left {
+              transform-origin: top right;
+              transform: translateZ(
+                  (-$rocket-top-dimension / 2) - ($wing-upper-shorter-side / 2)
+                )
+                translateX(-$wing-upper-shorter-side) rotateY(90deg)
+                rotateX($wing-lower-face-angle);
+            }
+            .right {
+              transform-origin: top right;
+              transform: translateZ(
+                  (-$rocket-top-dimension / 2) - ($wing-upper-shorter-side / 2)
+                )
+                rotateY(90deg) rotateX(-$wing-lower-face-angle);
             }
           }
         }
