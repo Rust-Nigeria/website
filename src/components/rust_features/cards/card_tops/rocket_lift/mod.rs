@@ -184,6 +184,9 @@ pub fn RocketLift() -> impl IntoView {
                 </div>
 
                 <div class=classes::front>
+                    <div class=classes::window>
+                        <div></div>
+                    </div>
                     <div class=classes::face>
                         <div class=classes::innerLayer1 />
                         <div class=classes::innerLayer2 />
@@ -191,6 +194,9 @@ pub fn RocketLift() -> impl IntoView {
                 </div>
 
                 <div class=classes::back>
+                    <div class=classes::window>
+                        <div></div>
+                    </div>
                     <div class=classes::face>
                         <div class=classes::innerLayer1 />
                         <div class=classes::innerLayer2 />

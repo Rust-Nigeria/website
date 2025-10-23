@@ -78,7 +78,7 @@
       transform: translateZ(
           -$rocket-main-body-height * math.tan($body-face-tilt)
         )
-        translateY(calc(100% - 2px));
+        translateY(calc(100% - 2px)) scale(0.85);
       position: absolute;
       bottom: 0;
       height: $rocket-emitter-height;
@@ -334,6 +334,30 @@
 
       & > * {
         position: absolute;
+        display: flex;
+        justify-content: center;
+
+        & > .window {
+          $dimension: $rocket-top-dimension * 0.5;
+
+          width: $dimension;
+          height: $dimension;
+          border-radius: 100%;
+          border: 1px solid rgba(255, 255, 255, 0.7);
+          background-color: rgba(48, 48, 48, 0.5);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: absolute;
+          top: 0.1 * $rocket-main-body-height;
+
+          & > div {
+            width: $dimension * 0.9;
+            height: $dimension * 0.9;
+            border-radius: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.7);
+          }
+        }
       }
 
       & > .left,
