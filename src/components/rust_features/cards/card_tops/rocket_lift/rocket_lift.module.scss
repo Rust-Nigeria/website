@@ -30,6 +30,19 @@
     $rocket-main-body-height: $rocket-body-height - $rocket-top-dimension;
     $rocket-base-width: $rocket-top-dimension * 0.55;
 
+    ///////
+
+    $inverted-triangle-angle: math.atan(
+      (2 * $rocket-main-body-height) /
+        ($rocket-top-dimension - $rocket-base-width)
+    );
+    $projection-height: ($rocket-base-width / 2) *
+      math.tan($inverted-triangle-angle);
+    $projected-height: $projection-height + $rocket-main-body-height;
+    $body-face-tilt: math.atan(
+      ($rocket-top-dimension * 0.5) / $projected-height
+    );
+
     transform-style: preserve-3d;
     width: $rocket-inner-body-width * 1px;
     height: $rocket-body-height * 1px;
@@ -42,6 +55,116 @@
 
     & * {
       transform-style: preserve-3d;
+    }
+
+    & .emitter {
+      $rocket-emitter-height: $rocket-height - $rocket-body-height;
+      $emiter-base-width: $rocket-base-width;
+      $emitter-face-angle: math.atan(
+        ($emiter-base-width * 0.5) / $rocket-emitter-height
+      );
+
+      transform: translateZ(
+          -$rocket-main-body-height * math.tan($body-face-tilt)
+        )
+        translateY(calc(100% - 2px));
+      position: absolute;
+      bottom: 0;
+      height: $rocket-emitter-height;
+      width: $emiter-base-width;
+      display: flex;
+      justify-content: center;
+
+      & > * {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+
+        .face {
+          position: absolute;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          bottom: 0;
+          top: 0;
+          left: 0;
+          right: 0;
+
+          & > * {
+            position: absolute;
+            top: 0;
+          }
+        }
+      }
+
+      .left {
+        transform-origin: top right;
+        transform: translateZ(-$emiter-base-width)
+          translateX(-$emiter-base-width) rotateY(90deg)
+          rotateX($emitter-face-angle);
+      }
+      .right {
+        transform-origin: top right;
+        transform: translateZ(-$emiter-base-width) rotateY(90deg)
+          rotateX(-$emitter-face-angle);
+      }
+      .front {
+        transform-origin: top center;
+        transform: translateZ(0) rotateX(-$emitter-face-angle);
+      }
+
+      .back {
+        transform-origin: top center;
+        transform: translateZ(-$emiter-base-width) rotateX($emitter-face-angle);
+      }
+
+      & > * {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        & > * {
+          position: absolute;
+          top: 0;
+          width: 100%;
+          height: 100%;
+        }
+        & > .face {
+          filter: blur(8px);
+          & > :nth-child(1) {
+            $width: $rocket-base-width;
+            $height: $rocket-emitter-height;
+
+            width: $width;
+            height: $height;
+            border-top: $height * 1px solid #f69537;
+            border-left: ($width / 2) * 1px solid transparent;
+            border-right: ($width/ 2) * 1px solid transparent;
+          }
+          & > :nth-child(2) {
+            $width: $rocket-base-width * 0.7;
+            $height: $rocket-emitter-height * 0.6;
+
+            width: $width;
+            height: $height;
+            border-top: $height * 1px solid #f6c100;
+            border-left: ($width / 2) * 1px solid transparent;
+            border-right: ($width/ 2) * 1px solid transparent;
+          }
+          & > :nth-child(3) {
+            $width: $rocket-base-width * 0.4;
+            $height: $rocket-emitter-height * 0.4;
+
+            width: $width;
+            height: $height;
+            border-top: $height * 1px solid #fff366;
+            border-left: ($width / 2) * 1px solid transparent;
+            border-right: ($width/ 2) * 1px solid transparent;
+          }
+        }
+      }
     }
 
     & .rocketTop {
@@ -192,16 +315,6 @@
       position: relative;
       height: $rocket-main-body-height * 1px;
       width: $rocket-top-dimension * 1px;
-      $inverted-triangle-angle: math.atan(
-        (2 * $rocket-main-body-height) /
-          ($rocket-top-dimension - $rocket-base-width)
-      );
-      $projection-height: ($rocket-base-width / 2) *
-        math.tan($inverted-triangle-angle);
-      $projected-height: $projection-height + $rocket-main-body-height;
-      $body-face-tilt: math.atan(
-        ($rocket-top-dimension * 0.5) / $projected-height
-      );
 
       & > * {
         position: absolute;
