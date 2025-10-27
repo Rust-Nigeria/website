@@ -4,7 +4,7 @@
 
 @keyframes flame-flicker {
   50% {
-    transform: scaleY(1.15);
+    transform: scaleY(1.3);
     opacity: 0.6;
   }
   100% {
@@ -144,6 +144,9 @@
         }
         & > .face {
           filter: blur(8px);
+          & > * {
+            transform-origin: top;
+          }
           & > :nth-child(1) {
             $width: $rocket-base-width;
             $height: $rocket-emitter-height;
