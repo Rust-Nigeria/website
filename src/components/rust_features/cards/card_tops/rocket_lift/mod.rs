@@ -13,8 +13,7 @@ pub fn RocketLift() -> impl IntoView {
 
          <div class=classes::rocketWrapper>
           <div class=cn!("w-[120px] h-fit", classes::rocket)>
-
-          <div class=classes::rocketBody>
+          <div class=classes::rocketParts>
             <div class=classes::rocketTop>
               <div class=classes::front>
                 <div class=classes::face>

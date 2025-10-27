@@ -34,7 +34,7 @@
   display: flex;
   justify-content: center;
 
-  & .rocketBody {
+  & .rocketParts {
     $rocket-body-height: 0.75 * $rocket-height;
     $rocket-inner-body-width: 0.64 * $rocket-width;
     $rocket-top-dimension: 0.35 * $rocket-body-height;
