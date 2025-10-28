@@ -1,0 +1,835 @@
+@keyframes flame-flicker {
+  50% {
+    transform: scaleY(1.3);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+@mixin rocket-styles($rocket-width, $rocket-height) {
+  &.rocketWrapper {
+    width: $rocket-width * 1px;
+    height: $rocket-height * 1px;
+    perspective: 5000px;
+    & > .rocketInner {
+      $line-thickness: 2;
+
+      $aspect-ratio: ($rocket-width, $rocket-height);
+
+      $color-1: #191919;
+      $color-2: white;
+      $color-3: #1a1818;
+      $color-4: #303030;
+      $color-5: #292828;
+      $color-6: #212020;
+
+      width: $rocket-width * 1px;
+      height: $rocket-height * 1px;
+      background-color: pink;
+      perspective: 1000px;
+      display: flex;
+      justify-content: center;
+
+      & .rocketParts {
+        $rocket-body-height: 0.75 * $rocket-height;
+        $rocket-inner-body-width: 0.64 * $rocket-width;
+        $rocket-top-dimension: 0.35 * $rocket-body-height;
+        $rocket-main-body-height: $rocket-body-height - $rocket-top-dimension;
+        $rocket-base-width: $rocket-top-dimension * 0.55;
+
+        ///////
+
+        $inverted-triangle-angle: math.atan(
+          (2 * $rocket-main-body-height) /
+            ($rocket-top-dimension - $rocket-base-width)
+        );
+        $projection-height: ($rocket-base-width / 2) *
+          math.tan($inverted-triangle-angle);
+        $projected-height: $projection-height + $rocket-main-body-height;
+        $body-face-tilt: math.atan(
+          ($rocket-top-dimension * 0.5) / $projected-height
+        );
+
+        transform-style: preserve-3d;
+        width: $rocket-inner-body-width * 1px;
+        height: $rocket-body-height * 1px;
+        position: relative;
+        transform: rotateY(-35deg);
+        transform-origin: top center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        & * {
+          transform-style: preserve-3d;
+        }
+
+        & .emitter {
+          $rocket-emitter-height: $rocket-height - $rocket-body-height;
+          $emiter-base-width: $rocket-base-width;
+          $emitter-face-angle: math.atan(
+            ($emiter-base-width * 0.5) / $rocket-emitter-height
+          );
+
+          transform: translateZ(
+              -$rocket-main-body-height * math.tan($body-face-tilt)
+            )
+            translateY(calc(100% - 2px)) scale(0.85);
+          position: absolute;
+          bottom: 0;
+          height: $rocket-emitter-height;
+          width: $emiter-base-width;
+          display: flex;
+          justify-content: center;
+
+          & > * {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+
+            .face {
+              position: absolute;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              bottom: 0;
+              top: 0;
+              left: 0;
+              right: 0;
+
+              & > * {
+                position: absolute;
+                top: 0;
+              }
+            }
+          }
+
+          .left {
+            transform-origin: top right;
+            transform: translateZ(-$emiter-base-width)
+              translateX(-$emiter-base-width) rotateY(90deg)
+              rotateX($emitter-face-angle);
+          }
+          .right {
+            transform-origin: top right;
+            transform: translateZ(-$emiter-base-width) rotateY(90deg)
+              rotateX(-$emitter-face-angle);
+          }
+          .front {
+            transform-origin: top center;
+            transform: translateZ(0) rotateX(-$emitter-face-angle);
+          }
+
+          .back {
+            transform-origin: top center;
+            transform: translateZ(-$emiter-base-width)
+              rotateX($emitter-face-angle);
+          }
+
+          & > * {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            & > * {
+              position: absolute;
+              top: 0;
+              width: 100%;
+              height: 100%;
+            }
+            & > .face {
+              filter: blur(8px);
+              & > * {
+                transform-origin: top;
+              }
+              & > :nth-child(1) {
+                $width: $rocket-base-width;
+                $height: $rocket-emitter-height;
+
+                width: $width;
+                height: $height;
+                border-top: $height * 1px solid #f69537;
+                border-left: ($width / 2) * 1px solid transparent;
+                border-right: ($width/ 2) * 1px solid transparent;
+                animation: flame-flicker 1s infinite;
+              }
+              & > :nth-child(2) {
+                $width: $rocket-base-width * 0.7;
+                $height: $rocket-emitter-height * 0.6;
+
+                width: $width;
+                height: $height;
+                border-top: $height * 1px solid #f6c100;
+                border-left: ($width / 2) * 1px solid transparent;
+                border-right: ($width/ 2) * 1px solid transparent;
+                animation: flame-flicker 0.7s infinite;
+                animation-delay: 0.1s;
+              }
+              & > :nth-child(3) {
+                $width: $rocket-base-width * 0.4;
+                $height: $rocket-emitter-height * 0.4;
+
+                width: $width;
+                height: $height;
+                border-top: $height * 1px solid #fff366;
+                border-left: ($width / 2) * 1px solid transparent;
+                border-right: ($width/ 2) * 1px solid transparent;
+                animation: flame-flicker 0.6s infinite;
+                animation-delay: 0.02s;
+              }
+            }
+          }
+        }
+
+        & .rocketTop {
+          $dimension: $rocket-top-dimension;
+          $casted-dimension: $dimension * 1px;
+
+          $rocket-top-depth: $dimension;
+          $rocket-top-height: $dimension;
+          $rocket-top-width: $dimension;
+
+          $half-depth: math.div($dimension, 2) * 1px;
+
+          height: $casted-dimension;
+          width: $casted-dimension;
+          position: relative;
+
+          & > * {
+            position: absolute;
+            width: $casted-dimension;
+            height: $casted-dimension;
+          }
+
+          .left,
+          .right {
+            .face {
+              $rotation-x: math.asin(
+                math.div($rocket-top-depth, (2 * $rocket-top-height))
+              );
+
+              transform: rotateX(-$rotation-x);
+            }
+          }
+
+          .front {
+            .face {
+              $rotation-x: math.asin(
+                math.div($rocket-top-depth, (2 * $rocket-top-height))
+              );
+
+              transform: rotateX($rotation-x);
+            }
+          }
+
+          .back {
+            .face {
+              $rotation-x: math.asin(
+                math.div($rocket-top-depth, (2 * $rocket-top-height))
+              );
+
+              transform: rotateX(-$rotation-x);
+            }
+          }
+
+          .left,
+          .right,
+          .front,
+          .back {
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+
+            .face {
+              position: absolute;
+              transform-origin: bottom;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              bottom: 0;
+              top: 0;
+              left: 0;
+              right: 0;
+
+              & > * {
+                position: absolute;
+              }
+
+              .innerLayer1 {
+                border-left: ($dimension / 2) * 1px solid transparent;
+                border-right: ($dimension / 2) * 1px solid transparent;
+                border-bottom: $dimension solid $color-2;
+              }
+
+              .innerLayer2 {
+                border-left: (($dimension - $line-thickness) / 2) * 1px solid
+                  transparent;
+                border-right: (($dimension - $line-thickness) / 2) * 1px solid
+                  transparent;
+                border-bottom: ($dimension - $line-thickness) solid $color-4;
+              }
+
+              .strip {
+                $stripHeight: 0.2 * $dimension;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: $stripHeight * 1px;
+                width: 100%;
+                bottom: 0;
+
+                .innerLayer1 {
+                  position: absolute;
+                  height: 100%;
+                  width: 100%;
+                  border-left: ($stripHeight / 2) * 1px solid transparent;
+                  border-right: ($stripHeight / 2) * 1px solid transparent;
+                  border-bottom: $stripHeight solid $color-2;
+                }
+
+                .innerLayer2 {
+                  position: absolute;
+                  height: 100%;
+                  width: calc(100% - ($line-thickness * 1px));
+                  bottom: $line-thickness / 2 * 1px;
+                  border-left: (($stripHeight - $line-thickness)/ 2) * 1px solid
+                    transparent;
+                  border-right: (($stripHeight - $line-thickness) / 2) * 1px
+                    solid transparent;
+                  border-bottom: ($stripHeight - $line-thickness) solid $color-1;
+                }
+              }
+            }
+          }
+
+          .front {
+            transform: translateZ(0);
+          }
+
+          .back {
+            transform: translateZ(-$dimension);
+          }
+
+          .right {
+            transform-origin: right;
+            transform: rotateY(-90deg) translateZ(0);
+            right: 0;
+          }
+
+          .left {
+            transform-origin: left;
+            transform: rotateY(90deg) translateZ(0);
+            left: 0;
+          }
+        }
+
+        & .mainBody {
+          position: relative;
+          height: $rocket-main-body-height * 1px;
+          width: $rocket-top-dimension * 1px;
+
+          & > * {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+
+            & > .window {
+              $dimension: $rocket-top-dimension * 0.5;
+
+              width: $dimension;
+              height: $dimension;
+              border-radius: 100%;
+              border: 1px solid rgba(255, 255, 255, 0.7);
+              background-color: rgba(48, 48, 48, 0.5);
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              position: absolute;
+              top: 0.1 * $rocket-main-body-height;
+
+              & > div {
+                width: $dimension * 0.9;
+                height: $dimension * 0.9;
+                border-radius: 100%;
+                border: 1px solid rgba(255, 255, 255, 0.7);
+              }
+            }
+          }
+
+          & > .left,
+          & > .right,
+          & > .front,
+          & > .back {
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+
+            .face {
+              position: absolute;
+              transform-origin: top;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              bottom: 0;
+              top: 0;
+              left: 0;
+              right: 0;
+              overflow: hidden;
+
+              & > * {
+                position: absolute;
+                top: 0;
+              }
+
+              .innerLayer1 {
+                border-left: ($rocket-top-dimension / 2) * 1px solid transparent;
+                border-right: ($rocket-top-dimension / 2) * 1px solid
+                  transparent;
+                border-top: $projected-height * 1px solid $color-2;
+              }
+
+              .innerLayer2 {
+                border-left: (
+                    ($rocket-top-dimension - ($line-thickness * 0.7)) / 2
+                  ) * 1px solid transparent;
+                border-right: (
+                    ($rocket-top-dimension - ($line-thickness * 0.7)) / 2
+                  ) * 1px solid transparent;
+                border-top: $projected-height solid $color-3;
+              }
+            }
+          }
+
+          & > .back {
+            transform-origin: top;
+            transform: translateZ(-$rocket-top-dimension);
+            .face {
+              transform-origin: top;
+              transform: rotateX($body-face-tilt);
+            }
+          }
+
+          & > .front {
+            transform: translateZ(0);
+            .face {
+              transform-origin: top;
+              transform: rotateX(-$body-face-tilt);
+            }
+          }
+
+          & > .left {
+            transform-origin: left;
+            transform: translateZ(0) rotateY(90deg);
+            .face {
+              transform-origin: top;
+              transform: rotateX($body-face-tilt);
+            }
+          }
+
+          & > .right {
+            transform-origin: right;
+            transform: translateZ(0) rotateY(-90deg);
+            .face {
+              transform-origin: top;
+              transform: rotateX($body-face-tilt);
+            }
+          }
+          .wing {
+            $wing-height: $rocket-main-body-height * 0.65;
+            $wing-top-offset: 0.5 * $rocket-main-body-height;
+            $wing-width: $rocket-top-dimension * 0.6;
+            $wing-root-dimension: $rocket-base-width;
+            $wing-projection-width: $wing-width * 1.5;
+            $wing-projection-height: ($wing-height - $wing-root-dimension) * 0.7;
+            $wing-projected-width: $wing-width + $wing-projection-width;
+            $wing-projected-height: ($wing-height - $wing-root-dimension) +
+              $wing-projection-height;
+            $wing-body-offset: $wing-top-offset *
+              math.tan(90 - $inverted-triangle-angle);
+            $squared-wing-z-delta: (
+                $rocket-top-dimension - $wing-root-dimension
+              ) / 2;
+
+            $wing-upper-face-angle: math.atan(
+              ($wing-root-dimension * 0.5) / $wing-projected-width
+            );
+
+            $wing-upper-shorter-side: $wing-root-dimension - 2 *
+              ($wing-width / math.tan(90 - $wing-upper-face-angle));
+
+            $wing-lower-face-angle: math.atan(
+              ($wing-upper-shorter-side * 0.5) / $wing-projected-height
+            );
+            $wing-lower-additional-tilt: 15deg;
+
+            width: $wing-width * 1px;
+            height: $wing-height * 1px;
+            position: absolute;
+            top: $wing-top-offset * 1px;
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+
+            .upper {
+              width: 100%;
+              height: $wing-root-dimension * 1px;
+              position: relative;
+              > * {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+
+                .face {
+                  position: absolute;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  bottom: 0;
+                  top: 0;
+                  left: 0;
+                  right: 0;
+                  overflow: hidden;
+                  & > * {
+                    position: absolute;
+                  }
+                }
+              }
+              .left,
+              .right {
+                width: $wing-upper-shorter-side;
+                height: $wing-upper-shorter-side;
+
+                .innerLayer1 {
+                  width: 100%;
+                  height: 100%;
+                  background-color: $color-2;
+                }
+                .innerLayer2 {
+                  width: calc(100% - #{($line-thickness / 2) * 1px});
+                  height: calc(100% - #{($line-thickness / 2) * 1px});
+                  background-color: $color-1;
+                }
+              }
+            }
+
+            .lower {
+              position: relative;
+              width: $wing-upper-shorter-side * 1px;
+              height: ($wing-height - $wing-root-dimension) * 1px;
+
+              & > * {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+
+                .face {
+                  position: absolute;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  bottom: 0;
+                  top: 0;
+                  left: 0;
+                  right: 0;
+                  // overflow: hidden;
+
+                  & > * {
+                    position: absolute;
+                    top: 0;
+                  }
+
+                  & > .innerLayer1 {
+                    top: 0;
+
+                    border-top: $wing-projected-height * 1px solid $color-2;
+                    border-left: ($wing-upper-shorter-side / 2) * 1px solid
+                      transparent;
+                    border-right: ($wing-upper-shorter-side / 2) * 1px solid
+                      transparent;
+                  }
+
+                  & > .innerLayer2 {
+                    top: 0;
+
+                    border-top: $wing-projected-height * 1px solid $color-3;
+                    border-left: (
+                        ($wing-upper-shorter-side - ($line-thickness * 0.3)) / 2
+                      ) * 1px solid transparent;
+                    border-right: (
+                        ($wing-upper-shorter-side - ($line-thickness * 0.3)) / 2
+                      ) * 1px solid transparent;
+                  }
+                }
+              }
+            }
+
+            &.leftWing {
+              transform-origin: top right;
+              left: 0;
+              transform: translateX(-$wing-width + $wing-body-offset)
+                rotate(-$body-face-tilt);
+              .upper {
+                & > * {
+                  transform-origin: right;
+                }
+
+                .front,
+                .back,
+                .top,
+                .bottom {
+                  .face {
+                    .innerLayer1 {
+                      right: 0;
+                      border-bottom: ($wing-root-dimension / 2) * 1px solid
+                        transparent;
+                      border-top: ($wing-root-dimension / 2) * 1px solid
+                        transparent;
+                      border-right: $wing-projected-width * 1px solid $color-2;
+                    }
+                    .innerLayer2 {
+                      right: 0;
+                      border-bottom: (
+                          ($wing-root-dimension - ($line-thickness * 0.7)) / 2
+                        ) * 1px solid transparent;
+                      border-top: (
+                          ($wing-root-dimension - ($line-thickness * 0.7)) / 2
+                        ) * 1px solid transparent;
+                      border-right: $wing-projected-width * 1px solid $color-3;
+                    }
+                  }
+                }
+
+                .front {
+                  transform: translateZ(
+                      (-$rocket-top-dimension / 2) + ($wing-root-dimension / 2)
+                    )
+                    rotateY(-$wing-upper-face-angle);
+                }
+                .back {
+                  transform: translateZ(
+                      (-$rocket-top-dimension / 2) - ($wing-root-dimension / 2)
+                    )
+                    rotateY($wing-upper-face-angle);
+                }
+                .top {
+                  transform-origin: top right;
+                  right: 0;
+                  transform: translateZ(
+                      (-$rocket-top-dimension / 2) - ($wing-root-dimension / 2)
+                    )
+                    rotateX(90deg) rotateY(-$wing-upper-face-angle);
+                }
+                .bottom {
+                  transform-origin: bottom right;
+                  right: 0;
+                  transform: translateZ(
+                      (-$rocket-top-dimension / 2) - ($wing-root-dimension / 2)
+                    )
+                    rotateX(-90deg) rotateY(-$wing-upper-face-angle);
+                }
+                .left {
+                  transform-origin: top left;
+                  transform: translateZ(
+                      (-$rocket-top-dimension / 2) -
+                        ($wing-upper-shorter-side / 2)
+                    )
+                    rotateY(-90deg)
+                    translateY(math.tan($wing-upper-face-angle) * $wing-width);
+                }
+              }
+
+              .lower {
+                transform-origin: top right;
+                transform: translateY(
+                    -(($wing-width * math.tan($wing-upper-face-angle)) +
+                          (
+                            $wing-upper-shorter-side *
+                              math.tan($wing-lower-additional-tilt)
+                          ))
+                  )
+                  rotate(-$wing-lower-additional-tilt);
+
+                .left {
+                  transform-origin: top right;
+                  transform: translateZ(
+                      (-$rocket-top-dimension / 2) -
+                        ($wing-upper-shorter-side / 2)
+                    )
+                    translateX(-$wing-upper-shorter-side) rotateY(90deg)
+                    rotateX($wing-lower-face-angle);
+                }
+                .right {
+                  transform-origin: top right;
+                  transform: translateZ(
+                      (-$rocket-top-dimension / 2) -
+                        ($wing-upper-shorter-side / 2)
+                    )
+                    rotateY(90deg) rotateX(-$wing-lower-face-angle);
+                }
+                .front {
+                  transform-origin: top center;
+                  transform: translateZ(
+                      (-$rocket-top-dimension / 2) +
+                        ($wing-upper-shorter-side / 2)
+                    )
+                    rotateX(-$wing-lower-face-angle);
+                }
+
+                .back {
+                  transform-origin: top center;
+                  transform: translateZ(
+                      (-$rocket-top-dimension / 2) -
+                        ($wing-upper-shorter-side / 2)
+                    )
+                    rotateX($wing-lower-face-angle);
+                }
+              }
+            }
+
+            &.rightWing {
+              transform-origin: top left;
+              right: 0;
+              transform: translateX($wing-width - $wing-body-offset)
+                rotate($body-face-tilt);
+              .upper {
+                .front,
+                .back,
+                .top,
+                .bottom {
+                  .face {
+                    .innerLayer1 {
+                      left: 0;
+                      border-bottom: ($wing-root-dimension / 2) * 1px solid
+                        transparent;
+                      border-top: ($wing-root-dimension / 2) * 1px solid
+                        transparent;
+                      border-left: ($wing-width + $wing-projection-width) * 1px
+                        solid $color-2;
+                    }
+
+                    .innerLayer2 {
+                      left: 0;
+                      border-bottom: (
+                          ($wing-root-dimension - ($line-thickness * 0.7)) / 2
+                        ) * 1px solid transparent;
+                      border-top: (
+                          ($wing-root-dimension - ($line-thickness * 0.7)) / 2
+                        ) * 1px solid transparent;
+                      border-left: ($wing-width + $wing-projection-width) * 1px
+                        solid $color-3;
+                    }
+                  }
+                }
+              }
+
+              .front {
+                transform-origin: left;
+                transform: translateZ(
+                    (-$rocket-top-dimension / 2) + ($wing-root-dimension / 2)
+                  )
+                  rotateY($wing-upper-face-angle);
+              }
+              .back {
+                transform-origin: left;
+                transform: translateZ(
+                    (-$rocket-top-dimension / 2) - ($wing-root-dimension / 2)
+                  )
+                  rotateY(-$wing-upper-face-angle);
+              }
+              .top {
+                transform-origin: top left;
+                left: 0;
+                transform: translateZ(
+                    (-$rocket-top-dimension / 2) - ($wing-root-dimension / 2)
+                  )
+                  rotateX(90deg) rotateY($wing-upper-face-angle);
+              }
+              .bottom {
+                transform-origin: bottom left;
+                left: 0;
+                transform: translateZ(
+                    (-$rocket-top-dimension / 2) - ($wing-root-dimension / 2)
+                  )
+                  rotateX(-90deg) rotateY($wing-upper-face-angle);
+              }
+              .right {
+                right: 0;
+                transform-origin: top right;
+                transform: translateZ(
+                    (-$rocket-top-dimension / 2) -
+                      ($wing-upper-shorter-side / 2)
+                  )
+                  rotateY(90deg)
+                  translateY(math.tan($wing-upper-face-angle) * $wing-width);
+              }
+
+              .lower {
+                align-self: flex-end;
+                transform-origin: top left;
+
+                transform: translateY(
+                    -(($wing-width * math.tan($wing-upper-face-angle)) +
+                          (
+                            $wing-upper-shorter-side *
+                              math.tan($wing-lower-additional-tilt)
+                          ))
+                  )
+                  rotate($wing-lower-additional-tilt);
+
+                .left {
+                  transform-origin: top right;
+                  transform: translateZ(
+                      (-$rocket-top-dimension / 2) -
+                        ($wing-upper-shorter-side / 2)
+                    )
+                    translateX(-$wing-upper-shorter-side) rotateY(90deg)
+                    rotateX($wing-lower-face-angle);
+                }
+                .right {
+                  transform-origin: top right;
+                  transform: translateZ(
+                      (-$rocket-top-dimension / 2) -
+                        ($wing-upper-shorter-side / 2)
+                    )
+                    rotateY(90deg) rotateX(-$wing-lower-face-angle);
+                }
+
+                .front {
+                  transform-origin: top center;
+                  transform: translateZ(
+                      (-$rocket-top-dimension / 2) +
+                        ($wing-upper-shorter-side / 2)
+                    )
+                    rotateX(-$wing-lower-face-angle);
+                }
+
+                .back {
+                  transform-origin: top center;
+                  transform: translateZ(
+                      (-$rocket-top-dimension / 2) -
+                        ($wing-upper-shorter-side / 2)
+                    )
+                    rotateX($wing-lower-face-angle);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// .rocket {
+//   @include rocket-styles(180, 316);
+// }

@@ -1,6 +1,3 @@
-@use "sass:math";
-@use "sass:list";
-
 @function calc-offsets($radius) {
   $members-count: 9;
   $split-angle: 180 / ($members-count - 1);
