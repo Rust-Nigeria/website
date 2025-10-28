@@ -5,11 +5,14 @@ use tailwind_fuse::tw_join;
 import_style!(classes, "rocket.module.scss");
 
 #[component]
-pub fn Rocket(class: &'static str) -> impl IntoView {
+pub fn Rocket(
+    class: &'static str,
+    #[prop(default = "")] inner_class: &'static str,
+) -> impl IntoView {
     view! {
          <div class=tw_join!("rocketWrapper", class)>
           <div class="rocketInner">
-          <div class="rocketParts">
+          <div class=tw_join!("rocketParts", inner_class)>
             <div class="rocketTop">
               <div class="front">
                 <div class="face">

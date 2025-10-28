@@ -1,15 +1,16 @@
-mod cards;
+mod stats;
 
 use leptos::prelude::*;
 
 use crate::components::button::{Button, ButtonColorVariants, ButtonSizeVariants, ButtonUsecase};
 use crate::constants::urls;
-use cards::Cards;
+
+use stats::Stats;
 
 #[component]
-pub fn RustFeatures() -> impl IntoView {
+pub fn CommunityStats() -> impl IntoView {
     view! {
-        <div class="bg-background-dark text-grey-100 px-6 py-10 flex flex-col w-full items-center">
+        <div class="bg-background-dark text-grey-100 px-6 py-10 gap-y-8 flex flex-col w-full items-center">
            <div class="w-full max-w-7xl flex flex-col items-start">
                 <h2 class="header-2 text-left max-w-4xl">
                     We have fallen in love with Rust for many reasons
@@ -26,7 +27,7 @@ pub fn RustFeatures() -> impl IntoView {
                     Join the Community
                 </Button>
            </div>
-           <Cards />
+           <Stats />
         </div>
     }
 }
