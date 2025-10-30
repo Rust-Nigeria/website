@@ -1,4 +1,9 @@
 $spin-iterations: 5;
+$spin-and-fly-duration_s: 6;
+$container-init-transform: -7%;
+$smoke-horizontal-scale-percentage: 10;
+
+$smoke-scale-x: 1 + $smoke-horizontal-scale-percentage / 100;
 
 @mixin rocket-init-styles {
   transform: translateY(100%);
@@ -24,15 +29,81 @@ $spin-iterations: 5;
   }
 }
 
+@keyframes soft-bounce {
+  0% {
+    transform: translateY($container-init-transform);
+  }
+
+  50% {
+    transform: translateY(10%);
+  }
+
+  100% {
+    transform: translateY($container-init-transform);
+  }
+}
+
+@keyframes smoke-translate-x {
+  to {
+    left: $smoke-horizontal-scale-percentage * -1%;
+  }
+}
+
+@keyframes smoke-translate-x-rev {
+  to {
+    right: $smoke-horizontal-scale-percentage * -1%;
+  }
+}
+
 .rocket {
   @include rocket-styles(180, 316);
+  @media (max-width: 640px) {
+    @include rocket-styles(100, 250);
+  }
   @include rocket-init-styles;
 }
 
 .rocketReveal {
-  animation: rocket-rise 5s forwards;
+  animation: rocket-rise #{$spin-and-fly-duration_s}s forwards;
 }
 
 .rocketInnerReveal {
-  animation: spin-rocket 5s forwards;
+  animation: spin-rocket #{$spin-and-fly-duration_s}s forwards;
+}
+
+.rocketContainer {
+  transform: translateY($container-init-transform);
+  animation: soft-bounce 3s infinite cubic-bezier(0.45, 0.05, 0.55, 0.95)
+    forwards;
+  animation-delay: #{$spin-and-fly-duration_s}s;
+}
+
+.smoke {
+  & > * {
+    transform: scaleX($smoke-scale-x);
+  }
+  & :nth-child(1) {
+    transform-origin: left;
+    left: 0;
+  }
+  & :nth-child(2) {
+    transform-origin: right;
+    right: 0;
+  }
+  & :nth-child(3) {
+    transform-origin: left;
+    left: 0;
+  }
+}
+
+.animateSmoke {
+  & :nth-child(1) {
+    animation: smoke-translate-x 8s forwards;
+  }
+  & :nth-child(2) {
+    animation: smoke-translate-x-rev 5s forwards;
+  }
+  & :nth-child(3) {
+    animation: smoke-translate-x 3s forwards;
+  }
 }
