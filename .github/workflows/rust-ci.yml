@@ -13,15 +13,18 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Set up Nightly Rust
+      - name: Set up Rust (nightly)
         uses: actions-rs/toolchain@v1
         with:
           toolchain: nightly
           override: true
-          components: clippy, rustfmt
+
+      - name: Install Rust Components
+        run: |
+          rustup component add clippy rustfmt
 
       - name: Compile Script
-        run: rustc +nightly cargo_tool.rs -o FBUILD
+        run: rustc cargo_tool.rs -o FBUILD
 
       - name: Run Script
         run: ./FBUILD
