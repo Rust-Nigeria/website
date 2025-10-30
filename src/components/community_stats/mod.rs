@@ -22,7 +22,7 @@ pub fn CommunityStats() -> impl IntoView {
         in_view: section_in_view,
     } = use_in_view(section_ref, None);
     view! {
-        <div class="bg-background-dark text-grey-100 px-6 py-10 gap-y-8 flex flex-col w-full items-center">
+        <div class="bg-background-dark text-grey-100 px-6 py-12 gap-y-8 flex flex-col w-full items-center">
            <div node_ref=section_ref class="w-full max-w-7xl flex flex-col items-center">
                 <h2 class=cn!(#(
                     "header-2 text-center max-w-4xl opacity-0 translate-y-8 duration-500",
