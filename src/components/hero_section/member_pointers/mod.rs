@@ -22,7 +22,7 @@ const MEMBERS: [(&str, &str, &str); 9] = [
 #[component]
 pub fn MemberPointers(reveal: ReadSignal<bool>) -> impl IntoView {
     view! {
-        <div class="hidden lg:flex items-end justify-center overflow-hidden absolute bottom-0 w-full p-6 2xl:p-10">
+        <div class="hidden lg:flex items-end justify-center overflow-hidden absolute bottom-0 w-full p-6 2xl:p-10 lg:pb-20">
             <div class="w-full aspect-[1.8/1] max-w-[900px] xl:max-w-[1000px] translate-y-[30%] relative">
                 {
                     MEMBERS.into_iter().enumerate()
