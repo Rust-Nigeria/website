@@ -23,6 +23,10 @@ body {
   text-align: center;
 }
 
+.huge-label {
+  @apply text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold;
+}
+
 .header-1 {
   @apply text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold;
 }
@@ -32,7 +36,7 @@ body {
 }
 
 .header-6 {
-  @apply text-lg sm:text-2xl lg:text-[30px] font-medium;
+  @apply text-lg sm:text-2xl lg:text-[28px] font-medium;
 }
 
 .title-1 {

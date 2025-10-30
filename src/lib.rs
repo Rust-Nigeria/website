@@ -3,6 +3,7 @@ pub mod components;
 pub mod constants;
 pub mod hooks;
 pub mod icons;
+pub mod illustrations;
 pub mod pages;
 pub mod utils;
 

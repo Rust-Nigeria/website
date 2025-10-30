@@ -30,6 +30,8 @@ pub fn Nav() -> impl IntoView {
     on_cleanup(move || scroll_handle.remove());
     on_cleanup(move || load_handle.remove());
 
+    Effect::new(threshold_setter);
+
     view! {
         <nav class="w-full">
             <div

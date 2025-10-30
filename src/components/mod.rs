@@ -1,7 +1,9 @@
 pub mod button;
 pub mod community_section;
+pub mod community_stats;
 pub mod events_section;
 pub mod footer;
 pub mod hero_section;
 pub mod nav;
 pub mod reveal_text_line;
+pub mod rocket;

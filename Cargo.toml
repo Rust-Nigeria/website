@@ -125,3 +125,11 @@ folders = ["./src/"]
 # bundle
 # defaults to [".module.scss", ".module.css"]
 extensions = [".module.scss", ".module.css"]
+
+scss_prelude = '''
+@use "sass:math";
+@use "sass:list";
+'''
+
+
+
