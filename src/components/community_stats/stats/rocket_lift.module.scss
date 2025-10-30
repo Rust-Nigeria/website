@@ -1,3 +1,38 @@
+$spin-iterations: 5;
+
+@mixin rocket-init-styles {
+  transform: translateY(100%);
+}
+
+@keyframes spin-rocket {
+  from {
+    transform: rotateY(0deg);
+  }
+
+  to {
+    transform: rotateY(1800deg);
+  }
+}
+
+@keyframes rocket-rise {
+  from {
+    @include rocket-init-styles;
+  }
+
+  to {
+    transform: translateY(0%);
+  }
+}
+
 .rocket {
   @include rocket-styles(180, 316);
+  @include rocket-init-styles;
+}
+
+.rocketReveal {
+  animation: rocket-rise 5s forwards;
+}
+
+.rocketInnerReveal {
+  animation: spin-rocket 5s forwards;
 }

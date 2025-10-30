@@ -20,25 +20,25 @@
 $initial-offsets: calc-offsets(55%);
 $final-offsets: calc-offsets(50%);
 
-@for $i from 1 through length($initial-offsets) {
-  $initial-pair: nth($initial-offsets, $i);
-  $final-pair: nth($final-offsets, $i);
+@for $i from 1 through list.length($initial-offsets) {
+  $initial-pair: list.nth($initial-offsets, $i);
+  $final-pair: list.nth($final-offsets, $i);
 
   .member-pointer-#{$i} {
     transform: translateX(-50%);
-    left: nth($initial-pair, 1);
-    top: nth($initial-pair, 2);
+    left: list.nth($initial-pair, 1);
+    top: list.nth($initial-pair, 2);
     opacity: 0;
     transition-delay: #{(length($initial-offsets) - $i) * 0.07}s;
 
     &.reveal {
-      left: nth($final-pair, 1);
-      top: nth($final-pair, 2);
+      left: list.nth($final-pair, 1);
+      top: list.nth($final-pair, 2);
       opacity: 1;
     }
 
     & > .arrow-axis {
-      transform: rotate(nth($initial-pair, 3));
+      transform: rotate(list.nth($initial-pair, 3));
     }
   }
 }

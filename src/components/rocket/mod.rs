@@ -6,13 +6,14 @@ import_style!(classes, "rocket.module.scss");
 
 #[component]
 pub fn Rocket(
-    class: &'static str,
-    #[prop(default = "")] inner_class: &'static str,
+    class: Signal<String>,
+    #[prop(optional)] inner_class: Option<Signal<String>>,
 ) -> impl IntoView {
+    let inner_class = inner_class.unwrap_or_else(|| "".into());
     view! {
-         <div class=tw_join!("rocketWrapper", class)>
+         <div class=move || tw_join!("rocketWrapper", class.get())>
           <div class="rocketInner">
-          <div class=tw_join!("rocketParts", inner_class)>
+          <div class=move || tw_join!("rocketParts", inner_class.get())>
             <div class="rocketTop">
               <div class="front">
                 <div class="face">
