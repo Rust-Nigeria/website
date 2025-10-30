@@ -52,7 +52,7 @@ pub fn Stats() -> impl IntoView {
              </div>
 
              <div class=cn!(#(
-                "absolute h-full w-full bottom-0 overflow-hidden", classes::smoke,
+                "absolute h-full w-full pointer-events-none bottom-0 overflow-hidden", classes::smoke,
                 (section_in_view(), classes::animateSmoke)
              ))>
                 <SmokeLayer1 {..} class="absolute w-full bottom-0" />
