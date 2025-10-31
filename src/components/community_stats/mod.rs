@@ -8,10 +8,7 @@ use stats::Stats;
 use crate::constants::urls;
 use crate::{
     cn,
-    components::{
-        button::{Button, ButtonColorVariants, ButtonSizeVariants, ButtonUsecase},
-        reveal_text_line::RevealTextLine,
-    },
+    components::button::{Button, ButtonColorVariants, ButtonSizeVariants, ButtonUsecase},
     hooks::use_in_view::{use_in_view, ElementVisibilityData},
 };
 
@@ -28,9 +25,7 @@ pub fn CommunityStats() -> impl IntoView {
                     "header-2 text-center max-w-4xl opacity-0 translate-y-8 duration-500",
                      (section_in_view(), "opacity-100 translate-y-0")
                 ))>
-                    <RevealTextLine reveal={section_in_view}>
-                         We have fallen in love with Rust for many reasons
-                    </RevealTextLine>
+                    We have fallen in love with Rust for many reasons
                 </h2>
                 <p class=cn!(#(
                     "mt-3 text-center header-6 text-grey-70 max-w-3xl opacity-0 translate-y-8 duration-500",
