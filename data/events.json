@@ -1,0 +1,20 @@
+[
+  {
+    "banner": "/assets/images/event-banners/rockstar.jpg",
+    "name": "Rust in Game Development",
+    "description": "Join us as we unravel and delve into the use of Rust in the creation of our most popular franchises",
+    "event_link": "/",
+    "date": "2025-07-10T17:23:07.675Z",
+    "speakers": [
+      { "name": "Akin Aguda", "image": "/assets/images/speakers/akin.png" },
+      {
+        "name": "Bekka",
+        "image": "/assets/images/speakers/bekka.png"
+      },
+      {
+        "name": "Chinedu",
+        "image": "/assets/images/speakers/chinedu.png"
+      }
+    ]
+  }
+]

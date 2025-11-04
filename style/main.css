@@ -78,6 +78,7 @@ body {
   --animate-fade-in: fade-in 0.3s forwards;
   --animate-scale-in: scale-in 0.3s forwards;
   --animate-translate-in-from-b: translate-in-from-b 0.3s forwards;
+  --animate-fade-in-40-from-r: fade-in-40-from-r 0.5s forwards;
 
   @keyframes fade-in {
     from {
@@ -106,6 +107,17 @@ body {
     }
     to {
       transform: translateY(0px);
+      opacity: 1;
+    }
+  }
+
+  @keyframes fade-in-40-from-r {
+    from {
+      transform: translateX(40px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0px);
       opacity: 1;
     }
   }
