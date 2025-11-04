@@ -24,7 +24,7 @@ pub fn EventCard(
     let date = RwSignal::new(None);
 
     Effect::new(move || {
-        date.set(Some(parse_iso_js(&event.date)));
+        date.set(Some(parse_iso_js(&event.date.to_rfc3339())));
     });
 
     let (bg, text) = get_color_pair(index);

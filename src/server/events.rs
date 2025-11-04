@@ -1,5 +1,5 @@
 use crate::types::events::CommunityEvent;
-use chrono::NaiveDate;
+use chrono::DateTime;
 use leptos::prelude::*;
 use reqwest;
 use serde::{Deserialize, Serialize};
@@ -62,29 +62,22 @@ pub async fn get_events(today_str: String) -> Result<CategorisedEvents, EventsEr
         )));
     })?;
 
-    let today = NaiveDate::parse_from_str(&today_str, "%Y-%m-%d")
-        .ok()
-        .unwrap();
+    let today = DateTime::parse_from_rfc3339(&today_str).ok().unwrap();
     let mut upcoming = Vec::new();
     let mut past = Vec::new();
 
     for ev in events {
-        if let Ok(event_date) = NaiveDate::parse_from_str(&ev.date[..10].to_string(), "%Y-%m-%d") {
-            if event_date >= today {
-                upcoming.push(ev);
-            } else {
-                past.push(ev);
-            }
+        let event_date = ev.date;
+        if event_date >= today {
+            upcoming.push(ev);
         } else {
-            println!("Failed Parsing: {}", &ev.date);
-            // fallback if date parsing fails — consider it past
             past.push(ev);
         }
     }
 
     // sort upcoming soonest-first, past most-recent-first
-    upcoming.sort_by_key(|e| NaiveDate::parse_from_str(&e.date, "%Y-%m-%d").ok());
-    past.sort_by_key(|e| NaiveDate::parse_from_str(&e.date, "%Y-%m-%d").ok());
+    upcoming.sort_by_key(|e| e.date);
+    past.sort_by_key(|e| e.date);
     past.reverse();
 
     Ok(CategorisedEvents { upcoming, past })

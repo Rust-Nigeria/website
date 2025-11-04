@@ -13,9 +13,9 @@ pub fn Events() -> impl IntoView {
     let events = LocalResource::new(move || {
         let today_str = if cfg!(target_arch = "wasm32") {
             let date: String = Date::new_0().to_iso_string().into();
-            date[..10].to_string()
+            date
         } else {
-            Utc::now().format("%Y-%m-%d").to_string()
+            Utc::now().to_rfc3339()
         };
 
         get_events(today_str)
@@ -34,7 +34,7 @@ pub fn Events() -> impl IntoView {
             <div class="max-w-7xl w-full relative">
                 <Transition
                     fallback=move || view! {
-                        <div class="h-[600px] w-full flex flex-col items-center justify-center">
+                        <div class="h-[650px] w-full flex flex-col items-center justify-center">
                             <div class="size-20 sm:size-40 p-px flex items-center justify-center rounded-full relative overflow-hidden shadow-2xl">
                                 <div
                                     style="animation-duration: 4s"

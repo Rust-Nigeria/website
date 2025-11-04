@@ -1,3 +1,4 @@
+use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq)]
@@ -17,5 +18,5 @@ pub struct CommunityEvent {
     pub description: String,
     pub speakers: Vec<Speaker>,
     pub event_link: String,
-    pub date: String,
+    pub date: DateTime<Utc>,
 }
