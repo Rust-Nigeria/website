@@ -1,6 +1,6 @@
 use std::fmt::Debug;
 
-use leptos::prelude::{signal, Get, Memo, ReadSignal, Signal, WriteSignal};
+use leptos::prelude::{signal, Get, Memo, ReadSignal, WriteSignal};
 
 pub struct PaginationData<T: Send + Sync + PartialEq + Clone + Debug + 'static> {
     pub current_page: ReadSignal<usize>,

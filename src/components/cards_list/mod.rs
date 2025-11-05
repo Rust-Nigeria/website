@@ -1,5 +1,3 @@
-use super::event_card::EventCard;
-use crate::types::events::CommunityEvent;
 use crate::{cn, components::reveal_text_line::RevealTextLine};
 use crate::{
     hooks::{
@@ -12,11 +10,23 @@ use leptos::either::Either;
 use leptos::html::Div;
 use leptos::prelude::*;
 use leptos_use::use_media_query;
+use std::fmt::Debug;
+
+pub trait CardsListItem {
+    fn get_key(&self) -> String;
+}
 
 #[component]
-pub fn EventsList<T>(events: T, title: &'static str) -> impl IntoView
+pub fn CardList<T, N, F, IV>(
+    cards_data: T,
+    render_card: F,
+    #[prop(optional)] title: Option<&'static str>,
+) -> impl IntoView
 where
-    T: Fn() -> Vec<CommunityEvent> + Send + Sync + 'static,
+    N: CardsListItem + Send + Sync + PartialEq + Clone + Debug + 'static,
+    T: Fn() -> Vec<N> + Send + Sync + 'static,
+    F: Fn(N, usize) -> IV + Clone + Send + 'static,
+    IV: IntoView + 'static,
 {
     let section_ref = NodeRef::<Div>::new();
     let ElementVisibilityData {
@@ -52,7 +62,7 @@ where
         data: paginated_events,
         set_current_page,
         total_pages,
-    } = use_pagination(events, col_count);
+    } = use_pagination(cards_data, col_count);
 
     let page_items = move || {
         let pagination = PaginationUiData::new(total_pages.get(), current_page.get() as usize);
@@ -61,25 +71,27 @@ where
 
     view! {
      <div node_ref=section_ref>
-        <div class="flex items-center w-full gap-x-4 mb-4">
-            <h3 class="header-6">
-                <RevealTextLine reveal=section_in_view>
-                    {title}
-                </RevealTextLine>
-            </h3>
-            <div class=cn!(#(
-                "grow h-px bg-linear-to-r from-grey-50 to-transparent scale-x-0 duration-700 origin-left",
-                (section_in_view(), "scale-x-100")
-            )) />
-        </div>
+        <Show when=move || title.is_some()>
+            <div class="flex items-center w-full gap-x-4 mb-4">
+                <h3 class="header-6">
+                    <RevealTextLine reveal=section_in_view>
+                        {title}
+                    </RevealTextLine>
+                </h3>
+                <div class=cn!(#(
+                    "grow h-px bg-linear-to-r from-grey-50 to-transparent scale-x-0 duration-700 origin-left",
+                    (section_in_view(), "scale-x-100")
+                )) />
+            </div>
+        </Show>
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 h-full gap-x-4 overflow-x-hidden">
             <ForEnumerate
                 each=move || paginated_events()
-                key=move |ev| format!("{}-{}-{}", ev.name.clone(), current_page.get(), &title)
+                key=move |ev| format!("{}-{}", ev.get_key().clone(), current_page.get())
                 let(idx, ev)
             >
                 <div style=format!("animation-delay: {}s", (idx.get() as f32) * 0.1) class=cn!(#("opacity-0 pt-6", (section_in_view(), "animate-fade-in-40-from-r")))>
-                    <EventCard event=ev index=idx.get() />
+                    {render_card(ev, idx.get())}
                 </div>
             </ForEnumerate>
         </div>

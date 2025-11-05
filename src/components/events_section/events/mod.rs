@@ -1,12 +1,12 @@
 use leptos::prelude::*;
 use web_sys::js_sys::Date;
 mod event_card;
-mod events_list;
+use crate::components::cards_list::CardList;
 use crate::server::events::get_events;
 
 use crate::icons::rust_nigeria_logo::RustNigeriaLogo;
 use chrono::Utc;
-use events_list::EventsList;
+use event_card::EventCard;
 
 #[component]
 pub fn Events() -> impl IntoView {
@@ -53,9 +53,9 @@ pub fn Events() -> impl IntoView {
                         <Show
                             when=move || !upcoming_events().is_empty()
                         >
-                            <EventsList title="Upcoming Events" events=upcoming_events />
+                            <CardList cards_data=upcoming_events render_card=|evt, idx| view! { <EventCard event=evt index=idx /> }  title="Upcoming Events" />
                         </Show>
-                        <EventsList title="Past Events" events=past_events />
+                        <CardList cards_data=past_events render_card=|evt, idx| view! { <EventCard event=evt index=idx /> }  title="Past Events" />
                     </div>
                 </Transition>
             </div>

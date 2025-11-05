@@ -1,5 +1,6 @@
 pub mod articles_section;
 pub mod button;
+pub mod cards_list;
 pub mod community_section;
 pub mod community_stats;
 pub mod events_section;
