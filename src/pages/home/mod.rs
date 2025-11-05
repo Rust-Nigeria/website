@@ -1,7 +1,7 @@
 use leptos::prelude::*;
 
 use crate::components::{
-    community_section::CommunitySection, community_stats::CommunityStats,
+    articles_section::ArticlesSection, community_stats::CommunityStats,
     events_section::EventsSection, hero_section::HeroSection,
 };
 
@@ -12,7 +12,7 @@ pub fn HomePage() -> impl IntoView {
             <HeroSection />
             <EventsSection />
             <CommunityStats />
-            <CommunitySection />
+            <ArticlesSection />
         </div>
     }
 }

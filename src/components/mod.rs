@@ -1,3 +1,4 @@
+pub mod articles_section;
 pub mod button;
 pub mod community_section;
 pub mod community_stats;
