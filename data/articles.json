@@ -1,6 +1,6 @@
 [
   {
-    "banner": "/assets/images/event-banners/rockstar.jpg",
+    "banner": "/assets/images/article-banners/default.png",
     "name": "Rust: Rewriting Experiences",
     "description": "Before I begin, let me get one thing out of the way. Rust isn't a programming language, it is an experience... based on Eze's journey with Rust.",
     "article_link": "https://dev.to/rustnigeria/rust-rewriting-experiences-2e74",
@@ -8,7 +8,7 @@
     "authors": [{ "name": "Bolu", "image": "/assets/images/members/bolu.png" }]
   },
   {
-    "banner": "/assets/images/event-banners/rockstar.jpg",
+    "banner": "/assets/images/article-banners/beloved-crab.webp",
     "name": "The Beloved Crab",
     "description": "A short piece about finding and joining the Rust community, the 'crab' culture, and the early learning journey based on Ademola Tomiwa's experience.",
     "article_link": "https://dev.to/rustnigeria/the-beloved-crab-46fp",
@@ -16,7 +16,7 @@
     "authors": [{ "name": "Bolu", "image": "/assets/images/members/bolu.png" }]
   },
   {
-    "banner": "/assets/images/event-banners/rockstar.jpg",
+    "banner": "/assets/images/article-banners/my-rust-book.webp",
     "name": "My Rust Book: Language for the next 40 years",
     "description": "A chapter-like reflection Miraculous Owonubi's experience, arguing that Rust has profoundly changed his programming approach and will be important far into the future.",
     "article_link": "https://dev.to/rustnigeria/my-rust-book-language-for-the-next-40-years-5ba7",
@@ -24,7 +24,7 @@
     "authors": [{ "name": "Bolu", "image": "/assets/images/members/bolu.png" }]
   },
   {
-    "banner": "/assets/images/event-banners/rockstar.jpg",
+    "banner": "/assets/images/article-banners/default.png",
     "name": "Rust-y Memory. How Safe?",
     "description": "Austin Aigbe explains Rust’s memory-safety model and how Rust achieves memory safety at compile time without a GC.",
     "article_link": "https://dev.to/rustnigeria/rust-y-memory-how-safe-p6g",
@@ -34,7 +34,7 @@
     ]
   },
   {
-    "banner": "/assets/images/event-banners/rockstar.jpg",
+    "banner": "/assets/images/article-banners/wrote-my-way-up.webp",
     "name": "I wrote my way up",
     "description": "A personal journey: how writing Rust articles and working on features helped Ugochi Ukpai grow into a protocol engineer role.",
     "article_link": "https://dev.to/rustnigeria/i-wrote-my-way-up-5ga0",
@@ -42,7 +42,7 @@
     "authors": [{ "name": "Bolu", "image": "/assets/images/members/bolu.png" }]
   },
   {
-    "banner": "/assets/images/event-banners/rockstar.jpg",
+    "banner": "/assets/images/article-banners/web3-philosopher.webp",
     "name": "The Chronicles of a Web3 philosopher.",
     "description": "An account of exploring blockchain with Rust and Seun Lalenge's experiences building projects and contributing to Rust open source.",
     "article_link": "https://dev.to/rustnigeria/the-chronicles-of-a-web3-philosopher-3a43",
@@ -50,7 +50,7 @@
     "authors": [{ "name": "Bolu", "image": "/assets/images/members/bolu.png" }]
   },
   {
-    "banner": "/assets/images/event-banners/rockstar.jpg",
+    "banner": "/assets/images/article-banners/rust-time-communication.webp",
     "name": "Rust-Time Communication.",
     "description": "This tells the story of Micheal Uti's. A devleloper who unknowingly fell in love with rust while working on real-time with video and audio. Changing his life forever.",
     "article_link": "https://dev.to/rustnigeria/rust-time-communication-2hfe",
@@ -58,7 +58,7 @@
     "authors": [{ "name": "Bolu", "image": "/assets/images/members/bolu.png" }]
   },
   {
-    "banner": "/assets/images/event-banners/rockstar.jpg",
+    "banner": "/assets/images/article-banners/default.png",
     "name": "Building Nocode with Rustlang.",
     "description": "Appcypher's backstory of wanting to gather WebAssembly developers and his experiences building community and projects around wasm.",
     "article_link": "https://dev.to/rustnigeria/fun-with-rust-1aab",
@@ -66,7 +66,7 @@
     "authors": [{ "name": "Bolu", "image": "/assets/images/members/bolu.png" }]
   },
   {
-    "banner": "/assets/images/event-banners/rockstar.jpg",
+    "banner": "/assets/images/article-banners/rust-defender.webp",
     "name": "Rust's Defender",
     "description": "Ayodeji Adeoti’s story about how Rust and projects like 'Thanos' influenced him and helped in learning Rust.",
     "article_link": "https://dev.to/rustnigeria/rusts-defender-4o5h",
@@ -74,7 +74,7 @@
     "authors": [{ "name": "Bolu", "image": "/assets/images/members/bolu.png" }]
   },
   {
-    "banner": "/assets/images/event-banners/rockstar.jpg",
+    "banner": "/assets/images/article-banners/odyssey.webp",
     "name": "Rust: An odyssey of passion",
     "description": "This is a Rust story about Akin Aguda, the organizer of the Rust Nigeria community, and how his passion led to the creation of the community.",
     "article_link": "https://dev.to/rustnigeria/rust-an-odyssey-of-passion",
@@ -82,7 +82,7 @@
     "authors": [{ "name": "Bolu", "image": "/assets/images/members/bolu.png" }]
   },
   {
-    "banner": "/assets/images/event-banners/rockstar.jpg",
+    "banner": "/assets/images/article-banners/default.png",
     "name": "Deploying Your Rust Apps in the Cloud",
     "description": "A step-by-step guide to deploying Rust applications to the cloud (example: AWS EC2) and tips for production deployment.",
     "article_link": "https://dev.to/rustnigeria/deploying-your-rust-apps-in-the-cloud-7cg",
