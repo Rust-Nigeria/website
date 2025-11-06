@@ -20,7 +20,6 @@ tailwind_fuse = { version = "0.3.1", features = ["variant"] }
 futures = "0.3.31"
 stylance = { version = "0.6.0", features = ["nightly"] }
 serde = "1.0.228"
-reqwest = "0.12.24"
 serde_json = "1.0"
 chrono = {version = "0.4.42", features = ["serde"]}
 leptos-use = "0.16.3"
