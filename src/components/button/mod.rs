@@ -25,12 +25,16 @@ pub enum ButtonColorVariants {
     Black,
     #[tw(class = "bg-grey-30 text-grey-100 hover:bg-grey-50")]
     Grey,
+    #[tw(class = "bg-transparent text-grey-10 hover:opacity-60")]
+    Transparent,
 }
 
 // Variant for size
 #[derive(TwVariant)]
 #[tw(class = "rounded-full [&_>_.btn-inner]:duration-300 [&_>_.btn-icon]:duration-300")]
 pub enum ButtonSizeVariants {
+    #[tw(class = "group/size-sm text-base [&_>_.btn-icon]:size-5")]
+    Thin,
     #[tw(
         default,
         class = "group/size-md py-4 px-6 xl:px-8 [&_>_.btn-icon]:size-6"
@@ -62,7 +66,7 @@ pub fn Button(
         None => None,
         Some(icon_type) => match icon_type {
             ButtonIconTypes::RightArrow => Some(
-                view! { <RightArrow {..} class="btn-icon group-hover/size-md:translate-x-16 group-hover/size-lg:translate-x-20" /> },
+                view! { <RightArrow {..} class="btn-icon group-hover/size-sm:translate-x-12 group-hover/size-md:translate-x-16 group-hover/size-lg:translate-x-20" /> },
             ),
         },
     };

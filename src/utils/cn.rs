@@ -94,6 +94,7 @@ mod cn_tests {
         );
         assert_eq!(cn!("a", (non_reactive_bool, "b"), "c"), "a b c");
         assert_eq!(cn!((non_reactive_bool, (non_reactive_bool, "a"))), "a");
+        assert_eq!(cn!("a", (true, "b"), (true, "c")), "a b c");
 
         // // Reactive value tests
         assert_eq!(cn!(#((reactive_bool(), "a")))(), "a");

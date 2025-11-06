@@ -7,7 +7,7 @@ use leptos::prelude::*;
 use stylance::*;
 
 use crate::{
-    components::{reveal_text_line::RevealTextLine, rocket::Rocket},
+    components::rocket::Rocket,
     hooks::use_in_view::{use_in_view, ElementVisibilityData},
 };
 
@@ -26,15 +26,17 @@ pub fn Stats() -> impl IntoView {
            <div node_ref=section_ref class="w-full h-full relative flex items-center justify-center">
             <div class="absolute text-white left-0 top-0 w-full h-full pl-6 pt-10 sm:pl-20 sm:pt-20">
                 <div class="text-left w-fit">
-                    <p class="huge-label">
-                        <RevealTextLine rotate={true} reveal={section_in_view}>
-                            Over 700
-                        </RevealTextLine>
+                    <p class=cn!(#(
+                        "huge-label opacity-0 translate-y-8 duration-500",
+                         (section_in_view(), "opacity-100 translate-y-0")
+                    ))>
+                        Over 700
                     </p>
-                    <p class="header-2 mt-3">
-                        <RevealTextLine reveal={section_in_view} delay={100}>
-                            Community Members and growing!
-                        </RevealTextLine>
+                    <p class=cn!(#(
+                        "header-2 mt-3 opacity-0 translate-y-8 duration-500 delay-100",
+                         (section_in_view(), "opacity-100 translate-y-0")
+                    ))>
+                        Community Members and growing!
                     </p>
                 </div>
              </div>

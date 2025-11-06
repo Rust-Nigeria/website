@@ -1,4 +1,4 @@
-$spin-iterations: 5;
+$spin-iterations: 3;
 $spin-and-fly-duration_s: 6;
 $container-init-transform: -7%;
 $smoke-horizontal-scale-percentage: 10;
@@ -15,7 +15,7 @@ $smoke-scale-x: 1 + $smoke-horizontal-scale-percentage / 100;
   }
 
   to {
-    transform: rotateY(1800deg);
+    transform: rotateY($spin-iterations * 360deg);
   }
 }
 

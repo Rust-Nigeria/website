@@ -1,9 +1,12 @@
+pub mod articles_section;
 pub mod button;
+pub mod cards_list;
 pub mod community_section;
 pub mod community_stats;
 pub mod events_section;
 pub mod footer;
 pub mod hero_section;
 pub mod nav;
+pub mod projects_section;
 pub mod reveal_text_line;
 pub mod rocket;

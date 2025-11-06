@@ -5,6 +5,8 @@ pub mod hooks;
 pub mod icons;
 pub mod illustrations;
 pub mod pages;
+pub mod server;
+pub mod types;
 pub mod utils;
 
 #[cfg(feature = "hydrate")]
