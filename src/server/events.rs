@@ -1,11 +1,7 @@
 use crate::types::events::CommunityEvent;
-use chrono::DateTime;
 use leptos::prelude::*;
-use reqwest;
 use serde::{Deserialize, Serialize};
 use server_fn::codec::JsonEncoding;
-
-const DATA_URL: &str = "https://raw.githubusercontent.com/AkinAguda/test-data/main/events.json";
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum EventsErrors {
@@ -35,25 +31,11 @@ pub struct CategorisedEvents {
 
 #[server]
 pub async fn get_events(today_str: String) -> Result<CategorisedEvents, EventsErrors> {
-    let response = reqwest::get(DATA_URL).await.map_err(|e| {
-        return EventsErrors::ServerFnError(ServerFnErrorErr::Response(format!(
-            "Failed to fetch data: {}",
-            e
-        )));
-    })?;
+    use chrono::DateTime;
+    use std::fs;
 
-    if !response.status().is_success() {
-        return Err(EventsErrors::ServerFnError(ServerFnErrorErr::Response(
-            format!("Failed to fetch data: HTTP {}", response.status()),
-        )));
-    }
-
-    let body = response.text().await.map_err(|e| {
-        return EventsErrors::ServerFnError(ServerFnErrorErr::Response(format!(
-            "Failed to read response body: {}",
-            e
-        )));
-    })?;
+    let body = fs::read_to_string("data/events.json")
+        .map_err(|e| EventsErrors::Other(format!("Failed to read file: {}", e)))?;
 
     let events: Vec<CommunityEvent> = serde_json::from_str(&body).map_err(|e| {
         return EventsErrors::ServerFnError(ServerFnErrorErr::Response(format!(

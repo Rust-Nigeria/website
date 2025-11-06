@@ -1,10 +1,7 @@
 use crate::types::articles::CommunityArticle;
 use leptos::prelude::*;
-use reqwest;
 use serde::{Deserialize, Serialize};
 use server_fn::codec::JsonEncoding;
-
-const DATA_URL: &str = "https://raw.githubusercontent.com/AkinAguda/test-data/main/articles.json";
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum ArticlesErrors {
@@ -28,27 +25,14 @@ impl From<String> for ArticlesErrors {
 
 #[server]
 pub async fn get_articles() -> Result<Vec<CommunityArticle>, ArticlesErrors> {
-    let response = reqwest::get(DATA_URL).await.map_err(|e| {
-        return ArticlesErrors::ServerFnError(ServerFnErrorErr::Response(format!(
-            "Failed to fetch data: {}",
-            e
-        )));
-    })?;
+    use chrono::DateTime;
+    use std::fs;
 
-    if !response.status().is_success() {
-        return Err(ArticlesErrors::ServerFnError(ServerFnErrorErr::Response(
-            format!("Failed to fetch data: HTTP {}", response.status()),
-        )));
-    }
-
-    let body = response.text().await.map_err(|e| {
-        return ArticlesErrors::ServerFnError(ServerFnErrorErr::Response(format!(
-            "Failed to read response body: {}",
-            e
-        )));
-    })?;
+    let body = fs::read_to_string("data/articles.json")
+        .map_err(|e| ArticlesErrors::Other(format!("Failed to read articles: {}", e)))?;
 
     let mut articles: Vec<CommunityArticle> = serde_json::from_str(&body).map_err(|e| {
+        println!("ERROR: {}", e);
         return ArticlesErrors::ServerFnError(ServerFnErrorErr::Response(format!(
             "Invalid JSON format: {}",
             e
