@@ -1,33 +1,15 @@
+use leptos::either::Either;
 use leptos::prelude::*;
-use web_sys::js_sys::Date;
-mod event_card;
+mod article_card;
 use crate::components::cards_list::CardsList;
-use crate::server::events::get_events;
+use crate::server::articles::get_articles;
 
 use crate::icons::rust_nigeria_logo::RustNigeriaLogo;
-use chrono::Utc;
-use event_card::EventCard;
+use article_card::ArticleCard;
 
 #[component]
-pub fn Events() -> impl IntoView {
-    let events = LocalResource::new(move || {
-        let today_str = if cfg!(target_arch = "wasm32") {
-            let date: String = Date::new_0().to_iso_string().into();
-            date
-        } else {
-            Utc::now().to_rfc3339()
-        };
-
-        get_events(today_str)
-    });
-
-    let past_events = move || events.get().and_then(Result::ok).map_or(vec![], |v| v.past);
-    let upcoming_events = move || {
-        events
-            .get()
-            .and_then(Result::ok)
-            .map_or(vec![], |v| v.upcoming)
-    };
+pub fn Articles() -> impl IntoView {
+    let articles = OnceResource::new(get_articles());
 
     view! {
         <div class="w-full flex justify-center">
@@ -49,14 +31,22 @@ pub fn Events() -> impl IntoView {
                      }
                 >
 
-                    <div class="flex flex-col gap-y-8">
-                        <Show
-                            when=move || !upcoming_events().is_empty()
-                        >
-                            <CardsList cards_data=upcoming_events render_card=|evt, idx| view! { <EventCard event=evt index=idx /> }  title="Upcoming Events" />
-                        </Show>
-                        <CardsList cards_data=past_events render_card=|evt, idx| view! { <EventCard event=evt index=idx /> }  title="Past Events" />
-                    </div>
+
+                    {
+                        move || {
+                            match articles.get() {
+                                Some(Ok(data)) =>  Either::Left(
+                                    view! {
+                                        <CardsList cards_data=move || data.clone() render_card=|article, idx| view! { <ArticleCard article=article index=idx /> } theme=crate::components::cards_list::CardsListTheme::Light />
+                                    }
+                                ),
+                                _ => Either::Right(
+                                    view! { <p>Failed to load</p> }
+                                )
+                            }.into_view()
+                        }
+                    }
+
                 </Transition>
             </div>
         </div>

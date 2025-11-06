@@ -16,11 +16,17 @@ pub trait CardsListItem {
     fn get_key(&self) -> String;
 }
 
+pub enum CardsListTheme {
+    Dark,
+    Light,
+}
+
 #[component]
-pub fn CardList<T, N, F, IV>(
+pub fn CardsList<T, N, F, IV>(
     cards_data: T,
     render_card: F,
     #[prop(optional)] title: Option<&'static str>,
+    #[prop(default = CardsListTheme::Dark)] theme: CardsListTheme,
 ) -> impl IntoView
 where
     N: CardsListItem + Send + Sync + PartialEq + Clone + Debug + 'static,
@@ -68,7 +74,7 @@ where
         let pagination = PaginationUiData::new(total_pages.get(), current_page.get() as usize);
         pagination.items()
     };
-
+    let is_light_theme = matches!(theme, CardsListTheme::Light);
     view! {
      <div node_ref=section_ref>
         <Show when=move || title.is_some()>
@@ -106,8 +112,10 @@ where
                                 match value {
                                     PageItem::Ellipsis => Either::Left(view! { <div class="text-grey-70">...</div> }),
                                     PageItem::Page(num) => Either::Right(view! { <button class=cn!(#(
-                                        "size-10 text-lg rounded-full bg-white text-grey-20 cursor-pointer duration-300",
-                                        (num != current_page.get(), "bg-transparent text-white hover:opacity-50")
+                                        "size-10 sm:text-lg rounded-full bg-white text-grey-20 cursor-pointer duration-300",
+                                        (is_light_theme, "bg-grey-20 text-white"),
+                                        (num != current_page.get(), "bg-transparent hover:opacity-50", (!is_light_theme, "text-white"), (is_light_theme, "text-grey-20"))
+
                                     )) on:click=move |_| set_current_page(num)>{num}</button> })
                                 }
                             }}

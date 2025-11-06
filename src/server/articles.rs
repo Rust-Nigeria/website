@@ -4,7 +4,7 @@ use reqwest;
 use serde::{Deserialize, Serialize};
 use server_fn::codec::JsonEncoding;
 
-const DATA_URL: &str = "https://raw.githubusercontent.com/AkinAguda/test-data/main/events.json";
+const DATA_URL: &str = "https://raw.githubusercontent.com/AkinAguda/test-data/main/articles.json";
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum ArticlesErrors {

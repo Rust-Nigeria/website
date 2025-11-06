@@ -1,8 +1,11 @@
+mod articles;
+
 use crate::{
     components::reveal_text_line::RevealTextLine,
     hooks::use_in_view::{use_in_view, ElementVisibilityData},
 };
 
+use articles::Articles;
 use leptos::html::Div;
 use leptos::prelude::*;
 
@@ -15,7 +18,7 @@ pub fn ArticlesSection() -> impl IntoView {
     } = use_in_view(section_ref, None);
 
     view! {
-        <div node_ref=section_ref class="text-grey-10 flex flex-col items-center bg-grey-100 py-12 px-5 gap-y-10">
+        <div node_ref=section_ref class="text-grey-10 flex flex-col items-center bg-grey-100 py-12 px-5 gap-y-2">
             <div class="w-full flex justify-center">
                 <div class="flex flex-col w-full max-w-7xl items-start">
                     <h2 class="header-2">
@@ -30,7 +33,7 @@ pub fn ArticlesSection() -> impl IntoView {
                     </p>
                 </div>
             </div>
-
+            <Articles />
         </div>
     }
 }
