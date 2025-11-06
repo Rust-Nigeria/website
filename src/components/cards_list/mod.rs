@@ -21,12 +21,19 @@ pub enum CardsListTheme {
     Light,
 }
 
+#[derive(Clone, Copy)]
+pub enum CardsListMaxColCount {
+    Four,
+    Three,
+}
+
 #[component]
 pub fn CardsList<T, N, F, IV>(
     cards_data: T,
     render_card: F,
     #[prop(optional)] title: Option<&'static str>,
     #[prop(default = CardsListTheme::Dark)] theme: CardsListTheme,
+    #[prop(default = CardsListMaxColCount::Four)] max_col_count: CardsListMaxColCount,
 ) -> impl IntoView
 where
     N: CardsListItem + Send + Sync + PartialEq + Clone + Debug + 'static,
@@ -56,8 +63,10 @@ where
             count = 3;
         }
 
-        if is_larger_than_xl.get() {
-            count = 4;
+        if matches!(max_col_count, CardsListMaxColCount::Four) {
+            if is_larger_than_xl.get() {
+                count = 4;
+            }
         }
 
         count
@@ -90,7 +99,10 @@ where
                 )) />
             </div>
         </Show>
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 h-full gap-x-4 overflow-x-hidden">
+        <div class=cn!(#(
+            "grid sm:grid-cols-2 lg:grid-cols-3 h-full gap-x-4 overflow-x-hidden",
+            (matches!(max_col_count, CardsListMaxColCount::Four), "xl:grid-cols-4")
+        ))>
             <ForEnumerate
                 each=move || paginated_events()
                 key=move |ev| format!("{}-{}", ev.get_key().clone(), current_page.get())
