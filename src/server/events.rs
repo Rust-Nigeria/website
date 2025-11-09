@@ -1,27 +1,6 @@
-use crate::types::events::CommunityEvent;
+use crate::types::{actions::ActionErrors, events::CommunityEvent};
 use leptos::prelude::*;
 use serde::{Deserialize, Serialize};
-use server_fn::codec::JsonEncoding;
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum EventsErrors {
-    ServerFnError(ServerFnErrorErr),
-    Other(String),
-}
-
-impl FromServerFnError for EventsErrors {
-    type Encoder = JsonEncoding;
-
-    fn from_server_fn_error(value: ServerFnErrorErr) -> Self {
-        EventsErrors::ServerFnError(value)
-    }
-}
-
-impl From<String> for EventsErrors {
-    fn from(value: String) -> Self {
-        EventsErrors::Other(value)
-    }
-}
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct CategorisedEvents {
@@ -30,18 +9,19 @@ pub struct CategorisedEvents {
 }
 
 #[server]
-pub async fn get_events(today_str: String) -> Result<CategorisedEvents, EventsErrors> {
+pub async fn get_events(today_str: String) -> Result<CategorisedEvents, ActionErrors> {
+    use crate::types::actions::ActionServerErr;
     use chrono::DateTime;
     use std::fs;
 
-    let body = fs::read_to_string("data/events.json")
-        .map_err(|e| EventsErrors::Other(format!("Failed to read file: {}", e)))?;
+    let body = fs::read_to_string("data/events.json").map_err(|e| ActionErrors {
+        client_err: "An Error Occured when getting events".to_string(),
+        server_err: ActionServerErr::Other(format!("Failed to read events: {}", e)),
+    })?;
 
-    let events: Vec<CommunityEvent> = serde_json::from_str(&body).map_err(|e| {
-        return EventsErrors::ServerFnError(ServerFnErrorErr::Response(format!(
-            "Invalid JSON format: {}",
-            e
-        )));
+    let events: Vec<CommunityEvent> = serde_json::from_str(&body).map_err(|e| ActionErrors {
+        client_err: "An Error Occured when parsing events".to_string(),
+        server_err: ActionServerErr::Other(format!("Invalid JSON format: {}", e)),
     })?;
 
     let today = DateTime::parse_from_rfc3339(&today_str).ok().unwrap();
