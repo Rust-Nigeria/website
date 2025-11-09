@@ -32,6 +32,7 @@ FROM rustlang/rust:nightly-alpine AS runner
 
 WORKDIR /app
 
+COPY --from=builder /work/data /app/data
 COPY --from=builder /work/target/release/rust-nigeria-website /app/
 COPY --from=builder /work/target/site /app/site
 COPY --from=builder /work/Cargo.toml /app/
