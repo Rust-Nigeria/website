@@ -5,5 +5,10 @@
   },
   "editor.quickSuggestions": {
     "strings": true
-  }
+  },
+  
+  "rust-analyzer.cargo.features": ["ssr"],
+  "rust-analyzer.cargo.allFeatures": false,
+  "rust-analyzer.procMacro.enable": true
+
 }
