@@ -5,8 +5,12 @@ FROM rustlang/rust:nightly-alpine AS builder
 RUN apk update && \
     apk add --no-cache bash curl npm libc-dev binaryen git openssl-dev perl make musl-dev
 
+# RUN curl -L https://github.com/tailwindlabs/tailwindcss/releases/download/v4.1.10/tailwindcss-linux-x64-musl -o /usr/local/bin/tailwindcss && \
+#     chmod +x /usr/local/bin/tailwindcss && \
+#     tailwindcss --version
 # Install SASS (used by stylance output) and Stylance
-RUN npm install -g sass tailwindcss
+# RUN npm install -g sass
+RUN npm install -g sass @tailwindcss/cli
 # RUN npm install -g sass
 
 
