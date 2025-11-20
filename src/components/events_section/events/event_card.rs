@@ -49,7 +49,7 @@ pub fn EventCard(
 
             <Button
                 class="mt-6 w-fit"
-                use_as=ButtonUsecase::Link { href: String::from(event.event_link) }
+                use_as=ButtonUsecase::Link { href: event.event_link }
                 color=ButtonColorVariants::Grey
                 size=ButtonSizeVariants::Md
                 icon={ButtonIconTypes::RightArrow}

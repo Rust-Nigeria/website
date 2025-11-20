@@ -57,18 +57,18 @@ pub fn set_quad(context: &GL, width: f32, height: f32) {
 
 #[rustfmt::skip]
 pub fn get_canvas_to_clipspace_projection_matrix(width: f32, height: f32) -> [f32; 9] {
-    return [
+    [
         2.0 / width,  0.0,            0.0,
         0.0,         (-2.0 / height), 0.0,
        -1.0,          1.0,            1.0
-    ];
+    ]
 }
 
 #[rustfmt::skip]
 pub fn get_texture_to_clipspace_projection_matrix(width: f32, height: f32) -> [f32; 9] {
-    return [
+    [
         1.0 / width,  0.0,            0.0,
         0.0,         (-1.0 / height), 0.0,
         0.0,          1.0,            1.0
-    ];
+    ]
 }

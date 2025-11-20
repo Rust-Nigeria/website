@@ -60,7 +60,7 @@ macro_rules! cn_inner {
 #[macro_export]
 macro_rules! cn {
     (#($($tail:tt)+)) => {{
-        use crate::cn_inner;
+        use $crate::cn_inner;
         leptos::prelude::Signal::derive(
             move || {
                 let result: std::borrow::Cow<'static, str> = cn_inner!($($tail)*);

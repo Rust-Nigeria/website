@@ -176,26 +176,26 @@ impl Jigsaw {
             duration_uniform_loc,
         } = self;
 
-        gl.use_program(Some(&program));
+        gl.use_program(Some(program));
 
-        resize_canvas_to_display_size(&canvas);
+        resize_canvas_to_display_size(canvas);
 
         let canvas_width = canvas.width() as f32;
         let canvas_height = canvas.height() as f32;
 
         gl.uniform_matrix3fv_with_f32_array(
-            Some(&canvas_projection_matrix_uniform_loc),
+            Some(canvas_projection_matrix_uniform_loc),
             false,
             &get_canvas_to_clipspace_projection_matrix(canvas_width, canvas_height),
         );
 
-        gl.uniform1f(Some(&duration_uniform_loc), duration as f32);
+        gl.uniform1f(Some(duration_uniform_loc), duration as f32);
 
-        gl.bind_buffer(GL::ARRAY_BUFFER, Some(&vertex_position_buffer));
-        set_quad(&gl, canvas_width, canvas_height);
-        gl.enable_vertex_attrib_array(vertex_position_attribute_loc.clone() as u32);
+        gl.bind_buffer(GL::ARRAY_BUFFER, Some(vertex_position_buffer));
+        set_quad(gl, canvas_width, canvas_height);
+        gl.enable_vertex_attrib_array(*vertex_position_attribute_loc as u32);
         gl.vertex_attrib_pointer_with_i32(
-            vertex_position_attribute_loc.clone() as u32,
+            *vertex_position_attribute_loc as u32,
             2,
             GL::FLOAT,
             false,
@@ -203,11 +203,11 @@ impl Jigsaw {
             0,
         );
 
-        gl.bind_buffer(GL::ARRAY_BUFFER, Some(&texture_position_buffer));
-        set_quad(&gl, main_image.width() as f32, main_image.height() as f32);
-        gl.enable_vertex_attrib_array(texture_position_attribute_loc.clone() as u32);
+        gl.bind_buffer(GL::ARRAY_BUFFER, Some(texture_position_buffer));
+        set_quad(gl, main_image.width() as f32, main_image.height() as f32);
+        gl.enable_vertex_attrib_array(*texture_position_attribute_loc as u32);
         gl.vertex_attrib_pointer_with_i32(
-            texture_position_attribute_loc.clone() as u32,
+            *texture_position_attribute_loc as u32,
             2,
             GL::FLOAT,
             false,

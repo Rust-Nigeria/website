@@ -42,7 +42,7 @@ where
 
     Effect::new(move || {
         if observer_clone_1.borrow().is_none() {
-            let set_visible = set_in_view.clone();
+            let set_visible = set_in_view;
             let observer = IntersectionObserverWrap::new(
                 Box::new(move |entries, _| {
                     set_visible(entries[0].is_intersecting());
@@ -54,7 +54,7 @@ where
 
         if let Some(el) = element.get() {
             if let Some(observer) = &*observer_clone_1.borrow() {
-                observer.get().observe(&el.as_ref());
+                observer.get().observe(el.as_ref());
             }
         }
     });
@@ -63,7 +63,7 @@ where
         if in_view() && trigger_once {
             if let Some(el) = element.get() {
                 if let Some(observer) = &*observer_clone_2.borrow() {
-                    observer.get().unobserve(&el.as_ref());
+                    observer.get().unobserve(el.as_ref());
                 }
             }
         }

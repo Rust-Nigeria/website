@@ -43,7 +43,7 @@ pub fn ArticleCard(
 
                 <Button
                     class="mt-4 w-fit"
-                    use_as=ButtonUsecase::Link { href: String::from(article.article_link) }
+                    use_as=ButtonUsecase::Link { href: article.article_link }
                     color=ButtonColorVariants::Transparent
                     size=ButtonSizeVariants::Thin
                     icon={ButtonIconTypes::RightArrow}

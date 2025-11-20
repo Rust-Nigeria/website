@@ -1,5 +1,6 @@
 use wasm_bindgen::prelude::Closure;
 
+#[derive(Default)]
 pub struct RenderLoop {
     pub animation_id: Option<i32>,
     pub closure: Option<Closure<dyn Fn(f64)>>,
@@ -14,11 +15,3 @@ impl RenderLoop {
     }
 }
 
-impl Default for RenderLoop {
-    fn default() -> Self {
-        RenderLoop {
-            animation_id: None,
-            closure: None,
-        }
-    }
-}

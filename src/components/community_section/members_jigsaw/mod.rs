@@ -31,15 +31,9 @@ pub fn start_animation_loop(jigsaw: Jigsaw, duration: RwSignal<f64>) {
             duration.set(clamp(0.0, REVEAL_DURATION, duration.get_untracked() + dt));
             jigsaw.render(duration.get_untracked());
             let mut render_loop = render_loop.borrow_mut();
-            render_loop.animation_id = if let Some(ref closure) = render_loop.closure {
-                Some(
-                    window
+            render_loop.animation_id = render_loop.closure.as_ref().map(|closure| window
                         .request_animation_frame(closure.as_ref().unchecked_ref())
-                        .expect("cannot set animation frame"),
-                )
-            } else {
-                None
-            }
+                        .expect("cannot set animation frame"))
         }))
     };
 
@@ -57,7 +51,7 @@ pub fn start_animation_loop(jigsaw: Jigsaw, duration: RwSignal<f64>) {
 pub fn MembersJigsaw() -> impl IntoView {
     let canvas_ref: NodeRef<html::Canvas> = NodeRef::new();
 
-    let duration = RwSignal::new(0.0 as f64);
+    let duration = RwSignal::new(0.0_f64);
 
     let maybe_jigsaw = LocalResource::new(move || Jigsaw::new(canvas_ref, REVEAL_DURATION));
 
