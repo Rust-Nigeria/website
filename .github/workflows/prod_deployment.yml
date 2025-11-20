@@ -1,8 +1,8 @@
-name: Deploy Leptos Docker App to Render
+name: Deploy Render
 
 on:
   push:
-    branches: ["render_deployment"]
+    branches: ["main"]
 
 jobs:
   deploy:
