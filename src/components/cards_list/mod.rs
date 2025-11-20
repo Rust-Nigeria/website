@@ -63,10 +63,8 @@ where
             count = 3;
         }
 
-        if matches!(max_col_count, CardsListMaxColCount::Four) {
-            if is_larger_than_xl.get() {
-                count = 4;
-            }
+        if matches!(max_col_count, CardsListMaxColCount::Four) && is_larger_than_xl.get() {
+            count = 4;
         }
 
         count
@@ -80,7 +78,7 @@ where
     } = use_pagination(cards_data, col_count);
 
     let page_items = move || {
-        let pagination = PaginationUiData::new(total_pages.get(), current_page.get() as usize);
+        let pagination = PaginationUiData::new(total_pages.get(), current_page.get());
         pagination.items()
     };
     let is_light_theme = matches!(theme, CardsListTheme::Light);
