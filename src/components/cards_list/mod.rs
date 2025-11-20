@@ -63,10 +63,9 @@ where
             count = 3;
         }
 
-        if matches!(max_col_count, CardsListMaxColCount::Four)
-            && is_larger_than_xl.get() {
-                count = 4;
-            }
+        if matches!(max_col_count, CardsListMaxColCount::Four) && is_larger_than_xl.get() {
+            count = 4;
+        }
 
         count
     });

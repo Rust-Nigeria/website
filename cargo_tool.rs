@@ -17,7 +17,7 @@ fn main() {
     // Sequentially run cargo commands
     run_command("cargo", &["build"]);
     run_command("cargo", &["test"]);
-    run_command("cargo", &["clippy"]);
+    run_command("cargo", &["clippy","--","-D","warnings"]);
     run_command("cargo", &["fmt"]);
 
     println!("All commands executed successfully!");

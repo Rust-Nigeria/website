@@ -2,6 +2,7 @@ use crate::{cn, types::projects::CommunityProject};
 use leptos::prelude::*;
 
 #[component]
+#[allow(unused_variables)]
 pub fn ProjectCard(
     project: CommunityProject,
     #[prop(default = "")] class: &'static str,

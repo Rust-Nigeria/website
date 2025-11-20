@@ -7,6 +7,7 @@ use crate::icons::rust_nigeria_logo::RustNigeriaLogo;
 
 #[component]
 pub fn Nav() -> impl IntoView {
+    #[allow(non_snake_case)]
     let LINKS = [
         ("Blogs", urls::RUST_NIGERIA_BLOGS),
         ("Newsletter", urls::RUST_NIGERIA_NEWSLETTER),

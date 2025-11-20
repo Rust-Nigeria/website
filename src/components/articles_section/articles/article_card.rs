@@ -9,6 +9,7 @@ use crate::{
 use leptos::prelude::*;
 
 #[component]
+#[allow(unused_variables)]
 pub fn ArticleCard(
     article: CommunityArticle,
     #[prop(default = "")] class: &'static str,

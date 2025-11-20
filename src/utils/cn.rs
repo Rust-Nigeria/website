@@ -32,7 +32,6 @@ macro_rules! cn_inner {
     }};
 }
 
-
 // This macro handles conditional merging of tailwind classes based on reactive values.
 //<br>
 //
@@ -69,7 +68,7 @@ macro_rules! cn {
         )
     }};
     ($($tail:tt)+) => {{
-        use crate::cn_inner;
+        use $crate::cn_inner;
         let result: std::borrow::Cow<'static, str> = cn_inner!($($tail)*);
         result.into_owned()
     }};
