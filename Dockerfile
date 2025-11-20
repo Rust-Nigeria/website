@@ -1,4 +1,4 @@
-# ---- Chef stage for preparing recipe ----
+# Chef stage for preparing recipe ----
 FROM rustlang/rust:nightly-alpine AS chef
 
 RUN apk update && \
@@ -9,7 +9,7 @@ RUN cargo install cargo-chef
 WORKDIR /work
 
 
-# ---- Planner stage ----
+###### Planner stage ####
 FROM chef AS planner
 
 # Only copy files needed for cargo-chef to analyze dependencies
@@ -18,7 +18,7 @@ COPY src ./src
 RUN cargo chef prepare --recipe-path recipe.json
 
 
-# ---- Builder stage ----
+###### Builder stage ######
 FROM chef AS builder
 
 # Install system dependencies
@@ -51,7 +51,7 @@ RUN stylance .
 RUN cargo leptos build --release -vv
 
 
-# ---- Production runner ----
+##### Production runner #####
 FROM rustlang/rust:nightly-alpine AS runner
 
 WORKDIR /app
