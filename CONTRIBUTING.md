@@ -96,7 +96,7 @@ and
 1. Fork the repository and create a feature branch:
 
    ```bash
-   git checkout -b my-feature-branch
+   git checkout -b <my-feature-branch>
    ```
 2. Make your changes locally and test them.
 3. Commit your changes:
