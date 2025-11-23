@@ -45,7 +45,9 @@ pub enum ButtonSizeVariants {
 }
 
 #[derive(TwClass)]
-#[tw(class = "inline-flex gap-x-1 items-center font-medium overflow-hidden duration-300")]
+#[tw(
+    class = "inline-flex gap-x-1 cursor-pointer items-center font-medium overflow-hidden duration-300"
+)]
 struct ButtonVariants {
     size: ButtonSizeVariants,
     color: ButtonColorVariants,

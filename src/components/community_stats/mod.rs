@@ -5,7 +5,7 @@ use leptos::prelude::*;
 use leptos::html::Div;
 use stats::Stats;
 
-use crate::constants::urls;
+use crate::hooks::use_join_community_dialog::use_join_community_dialog;
 use crate::{
     cn,
     components::button::{Button, ButtonColorVariants, ButtonSizeVariants, ButtonUsecase},
@@ -15,6 +15,7 @@ use crate::{
 #[component]
 pub fn CommunityStats() -> impl IntoView {
     let section_ref = NodeRef::<Div>::new();
+    let (open_join_dialog, _, _) = use_join_community_dialog();
     let ElementVisibilityData {
         in_view: section_in_view,
     } = use_in_view(section_ref, None);
@@ -38,7 +39,13 @@ pub fn CommunityStats() -> impl IntoView {
                      (section_in_view(), "opacity-100 translate-y-0 delay-300")
                 ))>
                     <Button
-                        use_as=ButtonUsecase::Link { href: String::from(urls::JOIN_US) }
+                        use_as=ButtonUsecase::Button {
+                        on_click: Box::new(
+                            move |_| {
+                                open_join_dialog()
+                            }
+                        )
+                    }
                         color=ButtonColorVariants::White
                         size=ButtonSizeVariants::Lg
                     >
