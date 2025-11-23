@@ -95,7 +95,7 @@ pub fn Nav() -> impl IntoView {
 
                     <button on:click=move |_| set_mobile_nav_open(true)>
                         <div class="h-6 w-6 flex flex-col justify-evenly">
-                        {(0..3).into_iter().map(|_| view! {<div class="w-full h-0.5 bg-black rounded-full" />}).collect_view()}
+                        {(0..3).map(|_| view! {<div class="w-full h-0.5 bg-black rounded-full" />}).collect_view()}
                         </div>
                     </button>
 

@@ -26,13 +26,13 @@ where
         let start = (current_page.get() - 1) * limit();
         let end = (current_page.get() * limit()).min(data.len());
 
-        let val: Vec<T> = data[(start as usize)..(end as usize)].into();
+        let val: Vec<T> = data[start..end].into();
 
-        return val;
+        val
     });
 
     let total_pages =
-        Memo::new(move |_| (((memoised_data.get().len() as f32) / limit() as f32).ceil() as usize));
+        Memo::new(move |_| ((memoised_data.get().len() as f32) / limit() as f32).ceil() as usize);
 
     PaginationData {
         current_page,
