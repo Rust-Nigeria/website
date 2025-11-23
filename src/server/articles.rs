@@ -4,7 +4,6 @@ use leptos::prelude::*;
 #[server]
 pub async fn get_articles() -> Result<Vec<CommunityArticle>, ActionErrors> {
     use crate::types::actions::ActionServerErr;
-    use chrono::DateTime;
     use std::fs;
 
     let body = fs::read_to_string("data/articles.json").map_err(|e| ActionErrors {
