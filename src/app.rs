@@ -5,7 +5,9 @@ use leptos_router::{
     StaticSegment, WildcardSegment,
 };
 
-use crate::components::{footer::Footer, nav::Nav};
+use crate::components::{
+    footer::Footer, join_dialog::JoinDialog, nav::Nav, providers::AppProviders,
+};
 use crate::pages::{home::HomePage, not_found::NotFound};
 
 #[component]
@@ -23,12 +25,15 @@ pub fn App() -> impl IntoView {
 
         // content for this welcome page
         <Router>
+          <AppProviders>
             <Nav />
             <Routes fallback=move || "Not found.">
                 <Route path=StaticSegment("") view=HomePage/>
                 <Route path=WildcardSegment("any") view=NotFound/>
             </Routes>
             <Footer />
+            <JoinDialog />
+          </AppProviders>
         </Router>
     }
 }
