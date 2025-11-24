@@ -1,8 +1,10 @@
 # Rust Nigeria website
+
 Ensure you have Rust install, if you don't fellow [this steps](https://rust-lang.org/tools/install/)
 
 ## Setup
-### using just 
+
+### using just
 
 Install `cargo-leptos` by running: `cargo install cargo-leptos`
 
@@ -17,6 +19,7 @@ RUN `just setup` to build the site
 Run `just start` to start/run the site localy
 
 ---
+
 ### using docker
 
 Install docker [checkout](https://docs.docker.com/engine/install/)
@@ -25,11 +28,12 @@ Install docker [checkout](https://docs.docker.com/engine/install/)
 
 `cd WEBSITE`
 
-RUN `docker build -t rust-nigeria-website .` to build 
+RUN `docker build -t rust-nigeria-website .` to build
 
 RUN `docker run -p 3000:8080 rust-nigeria-website` to start/run the site localy
 
 ---
+
 By default, you can access your local project at `http://localhost:3000`
 
 Styling is done in [tailwindcss](https://tailwindcss.com/docs/installation) and [sass](https://sass-lang.com/documentation)
@@ -66,18 +70,20 @@ When submitting an article, use the following JSON format:
       "name": "Bolu",
       "image": "/assets/images/members/bolu.png"
     }
-  ]
+  ],
+  "tags": ["developer_story"]
 }
 ```
 
 **Notes:**
 
-* `banner` is the path to your article image `assets/images/article-banners`.
-* `name` is the article title.
-* `description` is a short summary of the article.
-* `article_link` is the external URL of the article.
-* `date` should be in ISO 8601 format.
-* `authors` is an array of contributors with their names and images `assets/images/members`.
+- `banner` is the path to your article image `assets/images/article-banners`.
+- `name` is the article title.
+- `description` is a short summary of the article.
+- `article_link` is the external URL of the article.
+- `date` should be in ISO 8601 format.
+- `authors` is an array of contributors with their names and images `assets/images/members`.
+- `tags` is an array of tags that best describe your article. Check for a tag that best fits your article or add a new one [here.](/src/types/articles.rs#L10)
 
 ---
 
@@ -94,22 +100,24 @@ When submitting an event, use the following JSON format:
   "date": "2025-07-21T16:00:00.000Z",
   "speakers": [
     {
-        "name": "promise paul",
-        "image": "assets/images/speakers/bolu.png",
-        "portfolio":"url link"
+      "name": "promise paul",
+      "image": "assets/images/speakers/bolu.png",
+      "portfolio": "url link"
     }
-  ]
+  ],
+  "tags": ["workshop"]
 }
 ```
 
 **Notes:**
 
-* `banner` is the path to the event image `assets/images/event-banners`.
-* `name` is the event title.
-* `description` is a short summary of the event.
-* `event_link` is a URL to the event page or announcement.
-* `date` should be in ISO 8601 format 2025-07-21T16:00:00.000Z.
-* `speakers` is an array of speaker objects (if any) name, speaker image `assets/images/speakers` portfolio can be empty if non.
+- `banner` is the path to the event image `assets/images/event-banners`.
+- `name` is the event title.
+- `description` is a short summary of the event.
+- `event_link` is a URL to the event page or announcement.
+- `date` should be in ISO 8601 format 2025-07-21T16:00:00.000Z.
+- `speakers` is an array of speaker objects (if any) name, speaker image `assets/images/speakers` portfolio can be empty if non.
+- `tags` is an array of tags that best describe your event. Check for a tag that best fits your event or add a new one [here.](/src/types/events.rs#L10)
 
 ---
 
@@ -121,15 +129,17 @@ When submitting a project, use the following JSON format:
 [
   {
     "repo_url": "https://github.com/zerocore-ai/microsandbox",
-    "banner": "https://opengraph.githubassets.com/1/zerocore-ai/microsandbox"
+    "banner": "https://opengraph.githubassets.com/1/zerocore-ai/microsandbox",
+    "tags": ["ai"]
   }
 ]
 ```
 
 **Notes:**
 
-* `repo_url` is the GitHub repository link.
-* `banner` is an image representing the project (e.g., Open Graph image or any image url).
+- `repo_url` is the GitHub repository link.
+- `banner` is an image representing the project (e.g., Open Graph image or any image url).
+- `tags` is an array of tags that best describe your project. Check for a tag that best fits your project or add a new one [here.](/src/types/projects.rs#L8)
 
 ---
 
@@ -143,10 +153,10 @@ When submitting a project, use the following JSON format:
 Your contribution will be reviewed and merged once it follows the format and standards.
 
 ---
+
 For other forms of contribution checkout [CONTRIBUTING.md](CONTRIBUTING.md)
 
 This ensures all contributions are **structured consistently** and can be displayed properly on the website.
-
 
 [live url](coming soon)
 
