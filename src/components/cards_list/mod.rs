@@ -68,7 +68,7 @@ where
         tags_set
     };
 
-    let selected_tags: RwSignal<HashSet<N::Tag>> = RwSignal::new(HashSet::from(tags()));
+    let selected_tags: RwSignal<HashSet<N::Tag>> = RwSignal::new(tags());
 
     let filtered_data = move || {
         cards_data_memo()
@@ -118,6 +118,8 @@ where
     };
 
     let is_light_theme = matches!(theme, CardsListTheme::Light);
+
+    Effect::new(move || selected_tags.set(tags()));
 
     view! {
      <div node_ref=section_ref>
@@ -190,27 +192,36 @@ where
 
         <ul class="flex items-center justify-center mt-4">
             {move || {
-                page_items().into_iter()
-                .map(|value|
-                view! {
-                    <li>
-                        {move || {
-                            match value {
-                                PageItem::Ellipsis => Either::Left(view! { <div class=cn!(#(
-                                    "text-grey-70",
-                                    (is_light_theme, "text-grey-20")
-                                ))>...</div> }),
-                                PageItem::Page(num) => Either::Right(view! { <button class=cn!(#(
-                                    "size-10 sm:text-lg rounded-full bg-white text-grey-20 cursor-pointer duration-300",
-                                    (is_light_theme, "bg-grey-20 text-white"),
-                                    (num != current_page.get(), "bg-transparent hover:opacity-50", (!is_light_theme, "text-white"), (is_light_theme, "text-grey-20"))
+                let is_empty = page_items().len() == 0;
 
-                                )) on:click=move |_| set_current_page(num)>{num}</button> })
-                            }
-                        }}
-                    </li>
-                })
-                .collect_view()
+                if is_empty {
+                    Either::Left(
+                        view! { <div class="h-[400px] items-center justify-center flex p-5">No Data Available for this Selection</div>}
+                    )
+                } else {
+                    Either::Right(
+                        page_items().into_iter()
+                        .map(|value|
+                        view! {
+                            <li>
+                                {move || {
+                                    match value {
+                                        PageItem::Ellipsis => Either::Left(view! { <div class=cn!(#(
+                                            "text-grey-70",
+                                            (is_light_theme, "text-grey-20")
+                                        ))>...</div> }),
+                                        PageItem::Page(num) => Either::Right(view! { <button class=cn!(#(
+                                            "size-10 sm:text-lg rounded-full bg-white text-grey-20 cursor-pointer duration-300",
+                                            (is_light_theme, "bg-grey-20 text-white"),
+                                            (num != current_page.get(), "bg-transparent hover:opacity-50", (!is_light_theme, "text-white"), (is_light_theme, "text-grey-20"))
+
+                                        )) on:click=move |_| set_current_page(num)>{num}</button> })
+                                    }
+                                }}
+                            </li>
+                        }).collect_view()
+                    )
+                }
             }}
         </ul>
      </div>

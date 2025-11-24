@@ -54,7 +54,6 @@ pub fn Events() -> impl IntoView {
 
                     <Show
                         when=move || error().is_some()
-                        fallback=|| view! { }
                     >
                         {move || {
                             let err = error().unwrap();
@@ -72,11 +71,7 @@ pub fn Events() -> impl IntoView {
                         >
                             <CardsList cards_data=upcoming_events render_card=|evt, idx| view! { <EventCard event=evt index=idx /> }  title="Upcoming Events" />
                         </Show>
-                        <Show
-                            when=move || !past_events().is_empty()
-                        >
-                             <CardsList cards_data=past_events render_card=|evt, idx| view! { <EventCard event=evt index=idx /> }  title="Past Events" />
-                        </Show>
+                        <CardsList cards_data=past_events render_card=|evt, idx| view! { <EventCard event=evt index=idx /> }  title="Past Events" />
                     </div>
                 </Transition>
             </div>

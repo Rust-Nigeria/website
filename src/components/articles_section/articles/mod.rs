@@ -35,7 +35,6 @@ pub fn Articles() -> impl IntoView {
 
                 <Show
                     when=move || error().is_some()
-                    fallback=|| view! { }
                     >
                     {move || {
                         let err = error().unwrap();

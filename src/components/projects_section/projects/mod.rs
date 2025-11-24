@@ -37,7 +37,6 @@ pub fn Projects() -> impl IntoView {
                 >
                  <Show
                         when=move || error().is_some()
-                        fallback=|| view! { }
                     >
                         {move || {
                             let err = error().unwrap();
