@@ -1,7 +1,7 @@
 use leptos::either::Either;
 use leptos::prelude::*;
 mod article_card;
-use crate::components::cards_list::CardsList;
+use crate::components::{cards_list::CardsList, section_error::SectionError};
 use crate::server::articles::get_articles;
 
 use crate::icons::rust_nigeria_logo::RustNigeriaLogo;
@@ -10,6 +10,8 @@ use article_card::ArticleCard;
 #[component]
 pub fn Articles() -> impl IntoView {
     let articles = OnceResource::new(get_articles());
+
+    let error = move || articles.get().and_then(|res| res.err());
 
     view! {
         <div class="w-full flex justify-center">
@@ -31,6 +33,19 @@ pub fn Articles() -> impl IntoView {
                      }
                 >
 
+                <Show
+                    when=move || error().is_some()
+                    fallback=|| view! { }
+                    >
+                    {move || {
+                        let err = error().unwrap();
+                        view! {
+                            <SectionError>
+                                {err.client_err.clone()}
+                            </SectionError>
+                        }
+                    }}
+                </Show>
 
                     {
                         move || {

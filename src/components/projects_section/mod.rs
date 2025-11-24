@@ -28,7 +28,7 @@ pub fn ProjectsSection() -> impl IntoView {
                     </h2>
                     <p class="header-6 text-grey-70 text-left max-w-3xl mt-3">
                         <RevealTextLine delay=300 reveal={section_in_view}>
-                           Explore Projects created by community memebers
+                           Explore Projects created by community members
                         </RevealTextLine>
                     </p>
                 </div>

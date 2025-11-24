@@ -4,16 +4,9 @@ use crate::{
         Button, ButtonColorVariants, ButtonIconTypes, ButtonSizeVariants, ButtonUsecase,
     },
     types::events::CommunityEvent,
-    utils::parse_iso_js::parse_iso_js,
+    utils::{get_color_pair::get_color_pair, parse_iso_js::parse_iso_js},
 };
 use leptos::prelude::*;
-
-fn get_color_pair(index: usize) -> (String, String) {
-    let hue = (index as f32 * 47.0) % 360.0; // deterministic hue spread
-    let bg = format!("hsl({hue:.0}, 70%, 85%)"); // light background
-    let text = format!("hsl({hue:.0}, 70%, 25%)"); // darker text
-    (bg, text)
-}
 
 #[component]
 pub fn EventCard(
@@ -27,7 +20,7 @@ pub fn EventCard(
         date.set(Some(parse_iso_js(&event.date.to_rfc3339())));
     });
 
-    let (bg, text) = get_color_pair(index);
+    let (bg, text) = get_color_pair(index, 200);
 
     view! {
         <div class=cn!("h-full relative flex flex-col w-full border border-grey-20 bg-background-dark rounded-2xl text-left p-4", class)>

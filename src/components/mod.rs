@@ -12,3 +12,4 @@ pub mod projects_section;
 pub mod providers;
 pub mod reveal_text_line;
 pub mod rocket;
+pub mod section_error;

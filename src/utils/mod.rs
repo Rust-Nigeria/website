@@ -1,5 +1,6 @@
 pub mod clamp;
 pub mod cn;
+pub mod get_color_pair;
 pub mod get_pagination_page_list;
 pub mod intersection_observer_wrap;
 pub mod load_image;
