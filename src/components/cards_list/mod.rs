@@ -192,7 +192,7 @@ where
 
         <ul class="flex items-center justify-center mt-4">
             {move || {
-                let is_empty = page_items().len() == 0;
+                let is_empty = page_items().is_empty();
 
                 if is_empty {
                     Either::Left(
