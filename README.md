@@ -1,6 +1,6 @@
 # Rust Nigeria website
 
-Ensure you have Rust install, if you don't fellow [this steps](https://rust-lang.org/tools/install/)
+Ensure you have Rust installed, if you don't, follow [these steps](https://rust-lang.org/tools/install/)
 
 ## Setup
 
