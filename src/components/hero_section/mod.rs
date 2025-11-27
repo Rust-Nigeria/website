@@ -8,8 +8,8 @@ use crate::components::button::{
     Button, ButtonColorVariants, ButtonIconTypes, ButtonSizeVariants, ButtonUsecase,
 };
 use crate::components::reveal_text_line::RevealTextLine;
-use crate::constants::urls;
 use crate::hooks::use_in_view::{use_in_view, ElementVisibilityData};
+use crate::hooks::use_join_community_dialog::use_join_community_dialog;
 use crate::icons::nigeria_flag::NigeriaFlag;
 use member_pointers::MemberPointers;
 
@@ -17,6 +17,7 @@ use member_pointers::MemberPointers;
 pub fn HeroSection() -> impl IntoView {
     let wrapper_el = NodeRef::<Div>::new();
 
+    let (open_join_dialog, _, _) = use_join_community_dialog();
     let ElementVisibilityData { in_view } = use_in_view(wrapper_el, None);
 
     view! {
@@ -34,15 +35,21 @@ pub fn HeroSection() -> impl IntoView {
                     <RevealTextLine reveal=in_view delay=200>Proudly Nigerian</RevealTextLine>
                 </div>
                 <h1 class="header-1 relative flex flex-col items-center text-center max-w-4xl mt-4">
-                    <RevealTextLine reveal=in_view>NAIJA</RevealTextLine>
-                    <RevealTextLine reveal=in_view delay=200> Rust Enthusiasts</RevealTextLine>
+                    <RevealTextLine reveal=in_view class="md:pb-1">The Nigerian</RevealTextLine>
+                    <RevealTextLine reveal=in_view delay=200>Rust Community</RevealTextLine>
                 </h1>
                 <p class="header-6 relative text-grey-50 text-center max-w-lg lg:max-w-xl mt-4">
-                    <RevealTextLine reveal=in_view delay=200>Welcome to the community of Nigerian Rustacean</RevealTextLine>
+                    <RevealTextLine reveal=in_view delay=200>Welcome to the community of Nigerian Rustaceans</RevealTextLine>
                 </p>
                 <Button
                     class="animate-scale-in mt-6 relative"
-                    use_as=ButtonUsecase::Link { href: String::from(urls::JOIN_US) }
+                    use_as=ButtonUsecase::Button {
+                        on_click: Box::new(
+                            move |_| {
+                                open_join_dialog()
+                            }
+                        )
+                    }
                     color=ButtonColorVariants::Black
                     icon=ButtonIconTypes::RightArrow
                     size={ButtonSizeVariants::Lg}

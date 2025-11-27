@@ -1,7 +1,10 @@
 use leptos::either::Either;
 use leptos::prelude::*;
 mod project_card;
-use crate::components::cards_list::{CardsList, CardsListMaxColCount};
+use crate::components::{
+    cards_list::{CardsList, CardsListMaxColCount},
+    section_error::SectionError,
+};
 use crate::server::projects::get_projects;
 
 use crate::icons::rust_nigeria_logo::RustNigeriaLogo;
@@ -10,6 +13,8 @@ use project_card::ProjectCard;
 #[component]
 pub fn Projects() -> impl IntoView {
     let projects = OnceResource::new(get_projects());
+
+    let error = move || projects.get().and_then(|res| res.err());
 
     view! {
         <div class="w-full flex justify-center">
@@ -30,6 +35,18 @@ pub fn Projects() -> impl IntoView {
                         </div>
                      }
                 >
+                 <Show
+                        when=move || error().is_some()
+                    >
+                        {move || {
+                            let err = error().unwrap();
+                            view! {
+                               <SectionError>
+                                    {err.client_err.clone()}
+                                </SectionError>
+                            }
+                        }}
+                </Show>
                 {
                     move || {
                         match projects.get() {

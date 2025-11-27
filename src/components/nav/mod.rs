@@ -3,17 +3,18 @@ use leptos::{ev, prelude::*};
 use crate::cn;
 use crate::components::button::{Button, ButtonColorVariants, ButtonIconTypes, ButtonUsecase};
 use crate::constants::urls;
+use crate::hooks::use_join_community_dialog::use_join_community_dialog;
 use crate::icons::rust_nigeria_logo::RustNigeriaLogo;
+
+const LINKS: [(&str, &str); 3] = [
+    ("Blogs", urls::RUST_NIGERIA_BLOGS),
+    ("Newsletter", urls::RUST_NIGERIA_NEWSLETTER),
+    ("Projects", urls::RUST_NIGERIA_GITHUB),
+];
 
 #[component]
 pub fn Nav() -> impl IntoView {
-    #[allow(non_snake_case)]
-    let LINKS = [
-        ("Blogs", urls::RUST_NIGERIA_BLOGS),
-        ("Newsletter", urls::RUST_NIGERIA_NEWSLETTER),
-        ("Projects", urls::RUST_NIGERIA_GITHUB),
-    ];
-
+    let (open_join_dialog, _, _) = use_join_community_dialog();
     let (mobile_nav_open, set_mobile_nav_open) = signal(false);
     let (is_out_of_threshold, set_is_out_of_threshold) = signal(false);
 
@@ -69,7 +70,13 @@ pub fn Nav() -> impl IntoView {
                         <li>
                             <Button
                                 class="animate-scale-in"
-                                use_as=ButtonUsecase::Link { href: String::from(urls::JOIN_US) }
+                                use_as=ButtonUsecase::Button {
+                                    on_click: Box::new(
+                                        move |_| {
+                                            open_join_dialog()
+                                        }
+                                    )
+                                }
                                 color=ButtonColorVariants::Black
                                 icon=ButtonIconTypes::RightArrow
                             >

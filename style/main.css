@@ -76,9 +76,12 @@ body {
   --color-background-dark: #030303;
 
   --animate-fade-in: fade-in 0.3s forwards;
+  --animate-fade-out: fade-out 0.3s forwards;
   --animate-scale-in: scale-in 0.3s forwards;
   --animate-translate-in-from-b: translate-in-from-b 0.3s forwards;
   --animate-fade-in-40-from-r: fade-in-40-from-r 0.5s forwards;
+  --animate-scale-in-95: scale-in-95 0.3s ease-in-out forwards;
+  --animate-scale-out-95: scale-out-95 0.3s ease-in-out forwards;
 
   @keyframes fade-in {
     from {
@@ -86,6 +89,15 @@ body {
     }
     to {
       opacity: 1;
+    }
+  }
+
+  @keyframes fade-out {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
     }
   }
 
@@ -97,6 +109,17 @@ body {
     to {
       opacity: 1;
       scale: 1;
+    }
+  }
+
+  @keyframes scale-out {
+    from {
+      opacity: 1;
+      scale: 1;
+    }
+    to {
+      opacity: 0;
+      scale: 0;
     }
   }
 
@@ -121,6 +144,17 @@ body {
       opacity: 1;
     }
   }
+
+  @keyframes scale-in-95 {
+    from {
+      transform: scale(0.95);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
 }
 
 @layer utilities {
@@ -130,5 +164,8 @@ body {
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+  .link {
+    text-decoration: underline;
   }
 }

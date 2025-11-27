@@ -1,7 +1,7 @@
 use leptos::prelude::*;
 use web_sys::js_sys::Date;
 mod event_card;
-use crate::components::cards_list::CardsList;
+use crate::components::{cards_list::CardsList, section_error::SectionError};
 use crate::server::events::get_events;
 
 use crate::icons::rust_nigeria_logo::RustNigeriaLogo;
@@ -22,12 +22,15 @@ pub fn Events() -> impl IntoView {
     });
 
     let past_events = move || events.get().and_then(Result::ok).map_or(vec![], |v| v.past);
+
     let upcoming_events = move || {
         events
             .get()
             .and_then(Result::ok)
             .map_or(vec![], |v| v.upcoming)
     };
+
+    let error = move || events.get().and_then(|res| res.err());
 
     view! {
         <div class="w-full flex justify-center">
@@ -48,6 +51,19 @@ pub fn Events() -> impl IntoView {
                         </div>
                      }
                 >
+
+                    <Show
+                        when=move || error().is_some()
+                    >
+                        {move || {
+                            let err = error().unwrap();
+                            view! {
+                                <SectionError>
+                                    {err.client_err.clone()}
+                                </SectionError>
+                            }
+                        }}
+                    </Show>
 
                     <div class="flex flex-col gap-y-8">
                         <Show

@@ -28,7 +28,7 @@ pub fn ArticlesSection() -> impl IntoView {
                     </h2>
                     <p class="header-6 text-grey-40 text-left max-w-3xl mt-3">
                         <RevealTextLine delay=300 reveal={section_in_view}>
-                           Read about our updates and interviews!
+                           Read articles written by members of our community!
                         </RevealTextLine>
                     </p>
                 </div>
