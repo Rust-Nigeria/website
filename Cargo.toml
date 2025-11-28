@@ -116,7 +116,8 @@ lib-default-features = false
 # Optional. Defaults to "release".
 lib-profile-release = "wasm-release"
 
-wasm-opt-version = "0.125.0"
+wasm-opt = false
+# wasm-opt-version = "0.125.0"
 
 
 [package.metadata.stylance]
