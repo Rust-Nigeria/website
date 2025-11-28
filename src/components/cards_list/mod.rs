@@ -134,9 +134,7 @@ where
     let is_xl = use_media_query("(min-width: 80rem)");
 
     let count_data = Memo::new(move |_| {
-        let config = cols_by_breakpoint
-            .clone()
-            .unwrap_or(CardListColsByBreakpoint::default());
+        let config = cols_by_breakpoint.clone().unwrap_or_default();
 
         let mut count = config.base;
         let mut multiplier = 4;
