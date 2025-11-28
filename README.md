@@ -158,6 +158,5 @@ For other forms of contribution checkout [CONTRIBUTING.md](CONTRIBUTING.md)
 
 This ensures all contributions are **structured consistently** and can be displayed properly on the website.
 
-[live url](coming soon)
-
-[STAGE url](https://nigeria-website.fly.dev/)
+[https://www.rustnigeria.org](rustnigeria.org)
+[STAGEING url](https://nigeria-website.fly.dev/)

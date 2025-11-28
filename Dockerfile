@@ -23,14 +23,13 @@ FROM chef AS builder
 
 # Install system dependencies
 RUN apk update && \
-    apk add --no-cache bash curl npm libc-dev binaryen git
+    apk add --no-cache bash curl npm libc-dev git
 
 # Install SASS (used by stylance output)
 RUN npm install -g sass
 
 # Install Rust tools
 RUN cargo install stylance-cli
-# RUN curl --proto '=https' --tlsv1.2 -LsSf https://github.com/leptos-rs/cargo-leptos/releases/latest/download/cargo-leptos-installer.sh | sh
 RUN curl --proto '=https' --tlsv1.2 -LsSf https://github.com/leptos-rs/cargo-leptos/releases/download/v0.3.0/cargo-leptos-installer.sh | sh
 
 RUN cargo install -f wasm-bindgen-cli --version 0.2.105
@@ -50,9 +49,6 @@ COPY . .
 # Run stylance first
 RUN stylance .
 
-ENV LEPTOS_WASM_BINDGEN_VERSION=0.2.105
-ENV LEPTOS_WASM_OPT_VERSION=skip
-# Then run the leptos build
 RUN cargo leptos build --release -vv
 
 
