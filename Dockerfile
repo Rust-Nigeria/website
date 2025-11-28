@@ -56,7 +56,7 @@ RUN stylance .
 # ENV LEPTOS_WASM_OPT_VERSION=version_125
 # Then run the leptos build
 # RUN cargo leptos build --release -vv
-RUN cargo leptos build --release --no-wasm-opt -vv
+RUN cargo leptos build --release
 
 
 
