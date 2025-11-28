@@ -90,7 +90,7 @@ end2end-dir = "end2end"
 #  The browserlist query used for optimizing the CSS.
 browserquery = "defaults"
 # The environment Leptos will run in, usually either "DEV" or "PROD"
-env = "DEV"
+env = "PROD"
 # The features to use when compiling the bin target
 #
 # Optional. Can be over-ridden with the command line parameter --bin-features
@@ -116,8 +116,6 @@ lib-default-features = false
 # Optional. Defaults to "release".
 lib-profile-release = "wasm-release"
 
-# wasm-opt = false
-# # wasm-opt-version = "0.125.0"
 
 
 [package.metadata.stylance]
