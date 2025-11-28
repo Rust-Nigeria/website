@@ -23,7 +23,7 @@ FROM chef AS builder
 
 # Install system dependencies
 RUN apk update && \
-    apk add --no-cache bash curl npm libc-dev binaryen git
+    apk add --no-cache bash curl npm libc-dev git
 
 # Install SASS (used by stylance output)
 RUN npm install -g sass
@@ -63,7 +63,7 @@ ENV LEPTOS_WASM_OPT_VERSION=version_125
 ENV LEPTOS_USE_INSTALLED_WASM_BIN=true
 ENV LEPTOS_ENV=PROD
 # RUN cargo leptos build --release -vv
-RUN cargo leptos build --release --no-wasm-opt
+RUN cargo leptos build --release -vv
 
 
 
