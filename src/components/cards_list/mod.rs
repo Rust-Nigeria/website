@@ -28,10 +28,48 @@ pub enum CardsListTheme {
     Light,
 }
 
-#[derive(Clone, Copy)]
-pub enum CardsListMaxColCount {
-    Four,
-    Three,
+#[derive(Clone, Debug, PartialEq)]
+pub struct CardListColsByBreakpoint {
+    pub base: u8,
+    pub sm: Option<u8>,
+    pub md: Option<u8>,
+    pub lg: Option<u8>,
+    pub xl: Option<u8>,
+}
+
+impl Default for CardListColsByBreakpoint {
+    fn default() -> Self {
+        CardListColsByBreakpoint {
+            sm: Some(2),
+            md: None,
+            lg: Some(3),
+            xl: Some(4),
+            base: 1,
+        }
+    }
+}
+
+impl CardListColsByBreakpoint {
+    pub fn set_base(mut self, value: u8) -> Self {
+        self.base = value;
+        self
+    }
+    pub fn set_sm(mut self, value: u8) -> Self {
+        self.sm = Some(value);
+        self
+    }
+    pub fn set_md(mut self, value: u8) -> Self {
+        self.md = Some(value);
+        self
+    }
+    pub fn set_lg(mut self, value: u8) -> Self {
+        self.lg = Some(value);
+        self
+    }
+    pub fn set_xl(mut self, value: u8) -> Self {
+        self.xl = Some(value);
+        self
+    }
 }
 
 #[component]
@@ -40,7 +78,7 @@ pub fn CardsList<T, N, F, IV>(
     render_card: F,
     #[prop(optional)] title: Option<&'static str>,
     #[prop(default = CardsListTheme::Dark)] theme: CardsListTheme,
-    #[prop(default = CardsListMaxColCount::Four)] max_col_count: CardsListMaxColCount,
+    #[prop(optional)] cols_by_breakpoint: Option<CardListColsByBreakpoint>,
 ) -> impl IntoView
 where
     N: CardsListItem + Send + Sync + PartialEq + Clone + Debug + 'static,
@@ -81,25 +119,43 @@ where
             .collect::<Vec<N>>()
     };
 
-    let is_larger_than_sm = use_media_query("(min-width: 40rem)");
+    let is_sm = use_media_query("(min-width: 40rem)");
 
-    let is_larger_than_lg = use_media_query("(min-width: 64rem)");
+    let is_md = use_media_query("(min-width: 48rem)");
 
-    let is_larger_than_xl = use_media_query("(min-width: 80rem)");
+    let is_lg = use_media_query("(min-width: 64rem)");
+
+    let is_xl = use_media_query("(min-width: 80rem)");
 
     let col_count = Memo::new(move |_| {
-        let mut count: usize = 1;
+        let config = cols_by_breakpoint
+            .clone()
+            .unwrap_or(CardListColsByBreakpoint::default());
 
-        if is_larger_than_sm.get() {
-            count = 2;
+        let mut count = config.base;
+
+        if is_sm.get() {
+            if let Some(v) = config.sm {
+                count = v;
+            }
         }
 
-        if is_larger_than_lg.get() {
-            count = 3;
+        if is_md.get() {
+            if let Some(v) = config.md {
+                count = v;
+            }
         }
 
-        if matches!(max_col_count, CardsListMaxColCount::Four) && is_larger_than_xl.get() {
-            count = 4;
+        if is_lg.get() {
+            if let Some(v) = config.lg {
+                count = v;
+            }
+        }
+
+        if is_xl.get() {
+            if let Some(v) = config.xl {
+                count = v;
+            }
         }
 
         count
@@ -175,10 +231,9 @@ where
             }
         </div>
 
-        <div class=cn!(#(
-            "grid sm:grid-cols-2 lg:grid-cols-3 h-full gap-x-4 overflow-x-hidden",
-            (matches!(max_col_count, CardsListMaxColCount::Four), "xl:grid-cols-4")
-        ))>
+        <div
+            style=move || format!("grid-template-columns: repeat({}, 1fr)", col_count())
+         class="grid h-full gap-x-4 overflow-x-hidden">
             <ForEnumerate
                 each=move || paginated_data()
                 key=move |ev| format!("{}-{}", ev.get_key().clone(), current_page.get())

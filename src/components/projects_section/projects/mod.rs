@@ -2,7 +2,7 @@ use leptos::either::Either;
 use leptos::prelude::*;
 mod project_card;
 use crate::components::{
-    cards_list::{CardsList, CardsListMaxColCount},
+    cards_list::{CardListColsByBreakpoint, CardsList},
     section_error::SectionError,
 };
 use crate::server::projects::get_projects;
@@ -55,7 +55,7 @@ pub fn Projects() -> impl IntoView {
                                     <CardsList
                                         cards_data=move || data.clone()
                                         render_card=|project, idx| view! { <ProjectCard project=project index=idx /> }
-                                        max_col_count=CardsListMaxColCount::Three
+                                        cols_by_breakpoint=CardListColsByBreakpoint::default().set_xl(3)
                                     />
                                 }
                             ),
