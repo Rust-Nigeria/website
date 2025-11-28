@@ -63,7 +63,7 @@ ENV LEPTOS_WASM_OPT_VERSION=version_125
 ENV LEPTOS_USE_INSTALLED_WASM_BIN=true
 ENV LEPTOS_ENV=PROD
 # RUN cargo leptos build --release -vv
-RUN cargo leptos build --release
+RUN cargo leptos build --release --no-wasm-opt
 
 
 
