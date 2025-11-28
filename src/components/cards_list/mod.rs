@@ -1,6 +1,12 @@
 use crate::icons::check::Check;
 use crate::utils::get_color_pair::get_color_pair;
-use crate::{cn, components::reveal_text_line::RevealTextLine};
+use crate::{
+    cn,
+    components::{
+        button::{Button, ButtonColorVariants, ButtonSizeVariants, ButtonUsecase},
+        reveal_text_line::RevealTextLine,
+    },
+};
 use crate::{
     hooks::{
         use_in_view::{use_in_view, ElementVisibilityData},
@@ -127,12 +133,13 @@ where
 
     let is_xl = use_media_query("(min-width: 80rem)");
 
-    let col_count = Memo::new(move |_| {
+    let count_data = Memo::new(move |_| {
         let config = cols_by_breakpoint
             .clone()
             .unwrap_or(CardListColsByBreakpoint::default());
 
         let mut count = config.base;
+        let mut multiplier = 4;
 
         if is_sm.get() {
             if let Some(v) = config.sm {
@@ -143,6 +150,7 @@ where
         if is_md.get() {
             if let Some(v) = config.md {
                 count = v;
+                multiplier = 2;
             }
         }
 
@@ -158,15 +166,17 @@ where
             }
         }
 
-        count
+        (count, (count * multiplier) as usize)
     });
+
+    let (items_count, set_items_count) = signal(count_data().1);
 
     let PaginationData {
         current_page,
         data: paginated_data,
         set_current_page,
         total_pages,
-    } = use_pagination(filtered_data, col_count);
+    } = use_pagination(filtered_data, items_count);
 
     let page_items = move || {
         let pagination = PaginationUiData::new(total_pages.get(), current_page.get());
@@ -174,6 +184,8 @@ where
     };
 
     let is_light_theme = matches!(theme, CardsListTheme::Light);
+
+    let has_more_to_show = move || items_count() < filtered_data().len();
 
     Effect::new(move || selected_tags.set(tags()));
 
@@ -232,7 +244,7 @@ where
         </div>
 
         <div
-            style=move || format!("grid-template-columns: repeat({}, 1fr)", col_count())
+            style=move || format!("grid-template-columns: repeat({}, 1fr)", count_data().0)
          class="grid h-full gap-x-4 overflow-x-hidden">
             <ForEnumerate
                 each=move || paginated_data()
@@ -243,6 +255,25 @@ where
                     {render_card(ev, idx.get())}
                 </div>
             </ForEnumerate>
+        </div>
+
+        <div class=cn!(#(
+            "flex w-full justify-start mt-4 md:hidden duration-300",
+            (!has_more_to_show(), "opacity-70 pointer-events-none")
+        ))>
+            <Button
+                use_as=ButtonUsecase::Button {
+                on_click: Box::new(
+                    move |_| {
+                        set_items_count(items_count() + count_data().1)
+                    }
+                )
+            }
+                color=if is_light_theme { ButtonColorVariants::Grey } else { ButtonColorVariants::White }
+                size=ButtonSizeVariants::Md
+            >
+                Show More
+            </Button>
         </div>
 
         <ul class="flex items-center justify-center mt-4">

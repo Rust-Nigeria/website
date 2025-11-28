@@ -13,7 +13,7 @@ pub fn use_pagination<N, T, M>(data: N, limit: M) -> PaginationData<T>
 where
     T: Send + Sync + PartialEq + Clone + Debug + 'static,
     N: Fn() -> Vec<T> + Send + Sync + 'static,
-    M: Fn() -> u8 + Send + Sync + Clone + Copy + 'static,
+    M: Fn() -> usize + Send + Sync + Clone + Copy + 'static,
 {
     // TODO - Remove memo spam. This should not spam memo as it does here
 
@@ -22,10 +22,9 @@ where
     let memoised_data = Memo::new(move |_| data());
 
     let paginated_data = Memo::new(move |_| {
-        let limit = limit() as usize;
         let data = memoised_data.get();
-        let start = (current_page.get() - 1) * limit;
-        let end = (current_page.get() * limit).min(data.len());
+        let start = (current_page.get() - 1) * limit();
+        let end = (current_page.get() * limit()).min(data.len());
 
         let val: Vec<T> = data[start..end].into();
 
