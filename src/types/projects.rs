@@ -9,6 +9,7 @@ pub enum ProjectTags {
     Wasm,
     Ai,
     Blockchain,
+    Leptos,
 }
 
 impl fmt::Display for ProjectTags {
@@ -17,6 +18,7 @@ impl fmt::Display for ProjectTags {
             ProjectTags::Wasm => "WASM",
             ProjectTags::Ai => "AI",
             ProjectTags::Blockchain => "Blockchain",
+            ProjectTags::Leptos => "Leptos",
         };
         write!(f, "{}", s)
     }

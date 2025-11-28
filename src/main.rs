@@ -40,6 +40,16 @@ async fn main() -> std::io::Result<()> {
                                 <HydrationScripts options=leptos_options.clone()/>
                                 <MetaTags/>
                             </head>
+                            <script async src="https://www.googletagmanager.com/gtag/js?id=G-76PK4SMCZD"></script>
+                            <script>
+                                {r#"
+                                window.dataLayer = window.dataLayer || [];
+                                function gtag(){dataLayer.push(arguments);}
+                                gtag('js', new Date());
+
+                                gtag('config', 'G-76PK4SMCZD');
+                                "#}
+                            </script>
                             <body class="relative flex flex-col w-full items-center">
                                 <App/>
                             </body>
