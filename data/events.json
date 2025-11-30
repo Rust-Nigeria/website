@@ -7,5 +7,53 @@
     "date": "2025-07-21T16:00:00.000Z",
     "speakers": [],
     "tags": ["workshop", "in_person"]
+  },
+  {
+    "banner": "/assets/images/event-banners/thebuildl-kadauna.jpg",
+    "name": "TheBuildl kanduna Rust Developers Training",
+    "description": "Join us for our upcoming rustlang workshop, where you'll dive into the power, performance, and safety that Rust offers.",
+    "event_link": "https://x.com/RustNigeria/status/1919666372654547009",
+    "date": "2025-05-02T09:30:00.000Z",
+    "speakers": [],
+    "tags": ["workshop", "in_person"]
+  },
+  {
+    "banner": "/assets/images/event-banners/uniben-training.jpg",
+    "name": "Class-room Rust training Uniben",
+    "description": "empowering the next generation of Rustaceans!🦀 Our tech cohort at the Department of Computer Engineering, UNIBEN, is diving deep into Rust",
+    "event_link": "https://x.com/RustNigeria/status/1901517708857921711",
+    "date": "2025-03-17T09:00:00.000Z",
+    "speakers": [],
+    "tags": ["workshop", "in_person"]
+  },
+  {
+    "banner": "/assets/images/event-banners/rust-class-series1.jpg",
+    "name": "Rust class series",
+    "description": "Working with Vectors & Looking At the Iterator Trait a Little Closely at the Concept of Traits in Rust",
+    "event_link": "https://x.com/RustNigeria/status/1893623969258910075",
+    "date": "2025-02-23T09:30:00.000Z",
+    "speakers": [
+            {
+                "name": "Mart",
+                "image": "assets/images/speakers/mart.jpg",
+                "portfolio": "https://x.com/mart_cpp"
+              }
+    ],
+    "tags": ["bootcamp", "Remote"]
+  },
+  {
+    "banner": "/assets/images/event-banners/rust-class-series2.jpg",
+    "name": "Rust class series ",
+    "description": "Join us as we disect Generics, Enums & Grouping Types with Structs.",
+    "event_link": "https://x.com/RustNigeria/status/1885221234567890123",
+    "date": "2025-01-15T10:00:00.000Z",
+    "speakers": [
+          {
+                "name": "Bekka",
+                "image": "assets/images/speakers/bekka.png",
+                "portfolio": "https://x.com/ayomide_bajo"
+              }
+    ],
+    "tags": ["bootcamp", "Remote"]
   }
 ]
