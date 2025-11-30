@@ -32,13 +32,7 @@
     "description": "Working with Vectors & Looking At the Iterator Trait a Little Closely at the Concept of Traits in Rust",
     "event_link": "https://x.com/RustNigeria/status/1893623969258910075",
     "date": "2025-02-23T09:30:00.000Z",
-    "speakers": [
-            {
-                "name": "Mart",
-                "image": "assets/images/speakers/mart.jpg",
-                "portfolio": "https://x.com/mart_cpp"
-              }
-    ],
+    "speakers": [],
     "tags": ["bootcamp", "Remote"]
   },
   {
@@ -47,13 +41,7 @@
     "description": "Join us as we disect Generics, Enums & Grouping Types with Structs.",
     "event_link": "https://x.com/RustNigeria/status/1885221234567890123",
     "date": "2025-01-15T10:00:00.000Z",
-    "speakers": [
-          {
-                "name": "Bekka",
-                "image": "assets/images/speakers/bekka.png",
-                "portfolio": "https://x.com/ayomide_bajo"
-              }
-    ],
+    "speakers": [],
     "tags": ["bootcamp", "Remote"]
   }
 ]
