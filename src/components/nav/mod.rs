@@ -9,7 +9,7 @@ use crate::icons::rust_nigeria_logo::RustNigeriaLogo;
 const LINKS: [(&str, &str); 3] = [
     ("Blogs", urls::RUST_NIGERIA_BLOGS),
     ("Newsletter", urls::RUST_NIGERIA_NEWSLETTER),
-    ("Projects", urls::RUST_NIGERIA_GITHUB),
+    ("Github", urls::RUST_NIGERIA_GITHUB),
 ];
 
 #[component]
