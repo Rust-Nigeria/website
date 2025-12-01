@@ -54,8 +54,9 @@ pub fn EventCard(
             }}
 
 
-            <Button
-                class="mt-6 w-fit"
+          <div class="pt-6 mt-auto">
+              <Button
+                class="w-fit"
                 use_as=ButtonUsecase::Link { href: event.event_link }
                 color=ButtonColorVariants::Grey
                 size=ButtonSizeVariants::Md
@@ -63,6 +64,7 @@ pub fn EventCard(
             >
                 Learn More
             </Button>
+          </div>
         </div>
     }
 }
