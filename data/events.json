@@ -104,5 +104,21 @@
 
     ],
     "tags": ["webinar"]
+  },
+   {
+    "banner": "/assets/images/event-banners/gitthubwebinar.jpg",
+    "name": "GitHub setup for Rust project",
+    "description": "Ready to supercharge your Rust projects? Join us for an exclusive webinar with MarcoIeni, Infrastructure ",
+    "event_link": "https://www.youtube.com/live/5QSYa5TkKKY",
+    "date": "2024-12-26T18:00:00.000Z",
+    "speakers": [
+          {
+                "name": "marco Ieni",
+                "image": "assets/images/speakers/marco-ieni.jpg",
+                "portfolio": "https://x.com/marcoieni"
+              }
+
+    ],
+    "tags": ["webinar", "workshop"]
   }
 ]
