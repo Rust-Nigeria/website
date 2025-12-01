@@ -8,5 +8,10 @@
     "repo_url": "https://github.com/Rust-Nigeria/website",
     "banner": "https://opengraph.githubassets.com/1/Rust-Nigeria/website",
     "tags": ["leptos"]
+  },
+   {
+    "repo_url": "https://github.com/mahmudsudo/rate_rs",
+    "banner": "https://opengraph.githubassets.com/1/mahmudsudo/rate_rs",
+    "tags": ["crate"]
   }
 ]
