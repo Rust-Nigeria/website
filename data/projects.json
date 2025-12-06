@@ -13,5 +13,10 @@
     "repo_url": "https://github.com/mahmudsudo/rate_rs",
     "banner": "https://opengraph.githubassets.com/1/mahmudsudo/rate_rs",
     "tags": ["crate"]
+  },
+  {
+    "repo_url": "https://github.com/alob-mtc/runnerq",
+    "banner": "https://opengraph.githubassets.com/1/alob-mtc/runnerq",
+    "tags": ["crate"]
   }
 ]
