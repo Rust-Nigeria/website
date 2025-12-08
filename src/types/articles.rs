@@ -5,7 +5,7 @@ use crate::components::cards_list::CardsListItem;
 use crate::types::person::Person;
 use std::fmt;
 
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, Hash, Ord, PartialOrd, Copy)]
 #[serde(rename_all = "snake_case")]
 pub enum ArticleTags {
     Technical,

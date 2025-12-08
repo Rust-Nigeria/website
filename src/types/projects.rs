@@ -3,14 +3,14 @@ use std::fmt;
 
 use crate::components::cards_list::CardsListItem;
 
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, Hash, Ord, PartialOrd, Copy)]
 #[serde(rename_all = "snake_case")]
 pub enum ProjectTags {
     Wasm,
     Ai,
     Blockchain,
     Leptos,
-    Crate
+    Crate,
 }
 
 impl fmt::Display for ProjectTags {
