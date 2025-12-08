@@ -103,7 +103,7 @@ where
         let mut tags_set = HashSet::new();
         for card_item in cards_data_memo.get().iter() {
             for tag in card_item.get_tags().iter() {
-                tags_set.insert(tag.clone());
+                tags_set.insert(*tag);
             }
         }
         tags_set
