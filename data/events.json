@@ -33,92 +33,98 @@
     "event_link": "https://x.com/RustNigeria/status/1893623969258910075",
     "date": "2025-02-23T09:30:00.000Z",
     "speakers": [
-            {
-                "image": "assets/images/speakers/mart.jpg",
-                "name": "Mart",
-                "portfolio": "https://x.com/mart_cpp"
-              },
-              {
-                "name": "Bekka",
-                "image": "assets/images/speakers/bekka.png",
-                "portfolio": "https://x.com/ayomide_bajo"
-              }
+      {
+        "image": "assets/images/speakers/mart.jpg",
+        "name": "Mart",
+        "portfolio": "https://x.com/mart_cpp"
+      },
+      {
+        "name": "Bekka",
+        "image": "assets/images/speakers/bekka.png",
+        "portfolio": "https://x.com/ayomide_bajo"
+      }
     ],
     "tags": ["workshop"]
   },
-   {
+  {
     "banner": "/assets/images/event-banners/rust-class-series2.jpg",
     "name": "Rust class series ",
     "description": "Join us as we disect Generics, Enums & Grouping Types with Structs.",
     "event_link": "https://x.com/RustNigeria/status/1885221234567890123",
     "date": "2025-01-15T10:00:00.000Z",
     "speakers": [
-          {
-                "name": "Bekka",
-                "image": "assets/images/speakers/bekka.png",
-                "portfolio": "https://x.com/ayomide_bajo"
-              }
+      {
+        "name": "Bekka",
+        "image": "assets/images/speakers/bekka.png",
+        "portfolio": "https://x.com/ayomide_bajo"
+      }
     ],
     "tags": ["workshop"]
   },
-   {
+  {
     "banner": "/assets/images/event-banners/space2.jpg",
     "name": "How much of Rust is needed for Blockchain ",
     "description": "how Rust plays a pivotal role in building one of the most cutting-edge technologies of our time.",
     "event_link": "https://x.com/RustNigeria/status/1871824461579813129",
     "date": "2024-12-26T18:00:00.000Z",
     "speakers": [
-          {
-                "name": "seun lanlege",
-                "image": "assets/images/speakers/sune.jpg",
-                "portfolio": "https://x.com/seunlanlege"
-              },
-		
-          {
-                "name": "japar jam",
-                "image": "assets/images/speakers/jef.jpg",
-                "portfolio": "https://x.com/japarjam"
-              }
+      {
+        "name": "seun lanlege",
+        "image": "assets/images/speakers/sune.jpg",
+        "portfolio": "https://x.com/seunlanlege"
+      },
 
+      {
+        "name": "japar jam",
+        "image": "assets/images/speakers/jef.jpg",
+        "portfolio": "https://x.com/japarjam"
+      }
     ],
     "tags": ["webinar"]
   },
-   {
+  {
     "banner": "/assets/images/event-banners/space1.jpg",
     "name": "Beginner approach to learning Rust ",
     "description": "exciting session with Rust Experts who will break down the learning curve and guide you on your journey from Zero to Hero",
     "event_link": "https://x.com/RustNigeria/status/1884271805181092189",
     "date": "2025-01-31T18:00:00.000Z",
     "speakers": [
-          {
-                "name": "Francesco",
-                "image": "assets/images/speakers/francesco.jpg",
-                "portfolio": "https://x.com/FrancescoCiull4"
-              },
-		
-          {
-                "name": "chinedu",
-                "image": "assets/images/speakers/chinedutherustguy.jpg",
-                "portfolio": "https://x.com/chinedu"
-              }
+      {
+        "name": "Francesco",
+        "image": "assets/images/speakers/francesco.jpg",
+        "portfolio": "https://x.com/FrancescoCiull4"
+      },
 
+      {
+        "name": "chinedu",
+        "image": "assets/images/speakers/chinedutherustguy.jpg",
+        "portfolio": "https://x.com/chinedu"
+      }
     ],
     "tags": ["webinar"]
   },
-   {
+  {
     "banner": "/assets/images/event-banners/gitthubwebinar.jpg",
     "name": "GitHub setup for Rust project",
     "description": "Ready to supercharge your Rust projects? Join us for an exclusive webinar with MarcoIeni, Infrastructure ",
     "event_link": "https://www.youtube.com/live/5QSYa5TkKKY",
     "date": "2024-12-26T18:00:00.000Z",
     "speakers": [
-          {
-                "name": "marco Ieni",
-                "image": "assets/images/speakers/marco-ieni.jpg",
-                "portfolio": "https://x.com/marcoieni"
-              }
-
+      {
+        "name": "marco Ieni",
+        "image": "assets/images/speakers/marco-ieni.jpg",
+        "portfolio": "https://x.com/marcoieni"
+      }
     ],
     "tags": ["webinar", "workshop"]
+  },
+  {
+    "banner": "/assets/images/event-banners/rust-africa-hackathon.png",
+    "name": "The Rust Africa Hackathon 2026",
+    "description": "5+ tracks, expert judges, real prizes, and a mission to spotlight Africa’s rising influence in the global Rust ecosystem.",
+    "event_link": "https://rustafrica.org/the-future-is-written-in-rust-rust-africa-hackathon-2026",
+    "date": "2026-01-03T00:00:00-06:00",
+    "speakers": [],
+    "tags": ["hackathon"]
   }
 ]

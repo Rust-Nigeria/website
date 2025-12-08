@@ -23,7 +23,7 @@ use std::fmt::{Debug, Display};
 use std::hash::Hash;
 
 pub trait CardsListItem: Send + Sync + Clone + PartialEq + Debug + 'static {
-    type Tag: Display + Clone + Eq + Hash + Sync + Send + Debug + 'static;
+    type Tag: Display + Clone + Eq + Hash + Sync + Send + Debug + Ord + Copy + 'static;
 
     fn get_key(&self) -> String;
     fn get_tags(&self) -> &Vec<Self::Tag>;
@@ -99,20 +99,17 @@ where
 
     let cards_data_memo = Memo::new(move |_| cards_data());
 
-    let tags = move || {
+    let tags = Memo::new(move |_| {
         let mut tags_set = HashSet::new();
-        for card_item in cards_data_memo().iter() {
-            let tags = card_item.get_tags();
-
-            for tag in tags.iter() {
+        for card_item in cards_data_memo.get().iter() {
+            for tag in card_item.get_tags().iter() {
                 tags_set.insert(tag.clone());
             }
         }
-
         tags_set
-    };
+    });
 
-    let selected_tags: RwSignal<HashSet<N::Tag>> = RwSignal::new(tags());
+    let selected_tags: RwSignal<HashSet<N::Tag>> = RwSignal::new(tags.get());
 
     let filtered_data = move || {
         cards_data_memo()
@@ -137,7 +134,7 @@ where
         let config = cols_by_breakpoint.clone().unwrap_or_default();
 
         let mut count = config.base;
-        let mut multiplier = 4;
+        let mut multiplier = 1;
 
         if is_sm.get() {
             if let Some(v) = config.sm {
@@ -148,8 +145,11 @@ where
         if is_md.get() {
             if let Some(v) = config.md {
                 count = v;
-                multiplier = 2;
             }
+        }
+
+        if !is_md.get() {
+            multiplier = 4;
         }
 
         if is_lg.get() {
@@ -187,6 +187,8 @@ where
 
     Effect::new(move || selected_tags.set(tags()));
 
+    Effect::new(move || set_items_count(count_data().1));
+
     view! {
      <div node_ref=section_ref>
         <Show when=move || title.is_some()>
@@ -202,57 +204,62 @@ where
                 )) />
             </div>
         </Show>
+
         <div class="flex mt-3 items-center gap-x-2 flex-wrap">
             {move ||
-                tags().iter().enumerate()
-                .map(|(index, tag)| {
-                    let tag_clone = tag.clone();
-                    let tag_clone_2 = tag.clone();
-                    let tag_clone_3 = tag.clone();
-                    let (bg, text) = get_color_pair(index, 30);
-                    view! {
-                        <button
-                            style=format!("background-color: {}; color: {}; border-color: {}", bg, text, text)
-                            class=cn!(#(
-                                "text-base cursor-pointer border flex items-center rounded-full px-2 py-0.5 font-medium opacity-70",
-                                (selected_tags.get().contains(&tag_clone_3), "opacity-100")
-                            ))
-                            on:click=move |_| {
-                                let t = tag_clone.clone();
-                                selected_tags.update(|set| {
-                                    if set.contains(&t) {
-                                        set.remove(&t);
-                                    } else {
-                                        set.insert(t);
-                                    }
-                                });
-                            }
-                        >
-                            {format!("{}", tag)}
-                            <div class=cn!(#(
-                                "duration-300 overflow-hidden w-5 flex justify-end",
-                                (!selected_tags.read().contains(&tag_clone_2), "w-0")
-                            ))>
-                                <Check {..} class="max-w-3" />
-                            </div>
-                        </button>
-                    }
-                }).collect_view()
+                {
+
+                    let mut sorted_tags: Vec<_> = tags.get().iter().cloned().collect();
+
+                    sorted_tags.sort();
+
+                    sorted_tags.into_iter().enumerate()
+                    .map(|(index, tag)| {
+
+                        let (bg, text) = get_color_pair(index, 30);
+                        view! {
+                            <button
+                                style=format!("background-color: {}; color: {}; border-color: {}", bg, text, text)
+                                class=cn!(#(
+                                    "text-base cursor-pointer border flex items-center rounded-full px-2 py-0.5 font-medium opacity-70",
+                                    (selected_tags.get().contains(&tag), "opacity-100")
+                                ))
+                                on:click=move |_| {
+                                    selected_tags.update(|set| {
+                                        if set.contains(&tag) {
+                                            set.remove(&tag);
+                                        } else {
+                                            set.insert(tag);
+                                        }
+                                    });
+                                }
+                            >
+                                {format!("{}", tag)}
+                                <div class=cn!(#(
+                                    "duration-300 overflow-hidden w-5 flex justify-end",
+                                    (!selected_tags.read().contains(&tag), "w-0")
+                                ))>
+                                    <Check {..} class="max-w-3" />
+                                </div>
+                            </button>
+                        }
+                    }).collect_view()
+                }
             }
         </div>
 
         <div
-            style=move || format!("grid-template-columns: repeat({}, 1fr)", count_data().0)
-         class="grid h-full gap-x-4 overflow-x-hidden">
-            <ForEnumerate
-                each=move || paginated_data()
-                key=move |ev| format!("{}-{}", ev.get_key().clone(), current_page.get())
-                let(idx, ev)
-            >
-                <div style=format!("animation-delay: {}s", (idx.get() as f32) * 0.1) class=cn!(#("opacity-0 pt-6", (section_in_view(), "animate-fade-in-40-from-r")))>
-                    {render_card(ev, idx.get())}
-                </div>
-            </ForEnumerate>
+            style=move || format!("grid-template-columns: repeat({}, 1fr)", count_data.get().0)
+            class="grid h-full gap-x-4 overflow-x-hidden">
+                <ForEnumerate
+                    each=move || paginated_data()
+                    key=move |ev| format!("{}-{}", ev.get_key().clone(), current_page.get())
+                    let(idx, ev)
+                >
+                    <div style=format!("animation-delay: {}s", (idx.get() as f32) * 0.1) class=cn!(#("opacity-0 pt-6", (section_in_view(), "animate-fade-in-40-from-r")))>
+                        {render_card(ev, idx.get())}
+                    </div>
+                </ForEnumerate>
         </div>
 
         <div class=cn!(#(
@@ -263,7 +270,7 @@ where
                 use_as=ButtonUsecase::Button {
                 on_click: Box::new(
                     move |_| {
-                        set_items_count(items_count() + count_data().1)
+                        set_items_count(items_count() + count_data.get().1)
                     }
                 )
             }
@@ -274,40 +281,50 @@ where
             </Button>
         </div>
 
-        <ul class="flex items-center justify-center mt-4">
-            {move || {
-                let is_empty = page_items().is_empty();
+        {move || {
+            if total_pages.get() > 1 {
+                Some(
+                    view! {
+                        <ul class="flex items-center justify-center mt-4">
+                            {move || {
+                                let is_empty = page_items().is_empty();
 
-                if is_empty {
-                    Either::Left(
-                        view! { <div class="h-[400px] items-center justify-center flex p-5">No Data Available for this Selection</div>}
-                    )
-                } else {
-                    Either::Right(
-                        page_items().into_iter()
-                        .map(|value|
-                        view! {
-                            <li>
-                                {move || {
-                                    match value {
-                                        PageItem::Ellipsis => Either::Left(view! { <div class=cn!(#(
-                                            "text-grey-70",
-                                            (is_light_theme, "text-grey-20")
-                                        ))>...</div> }),
-                                        PageItem::Page(num) => Either::Right(view! { <button class=cn!(#(
-                                            "size-10 sm:text-lg rounded-full bg-white text-grey-20 cursor-pointer duration-300",
-                                            (is_light_theme, "bg-grey-20 text-white"),
-                                            (num != current_page.get(), "bg-transparent hover:opacity-50", (!is_light_theme, "text-white"), (is_light_theme, "text-grey-20"))
+                                if is_empty {
+                                    Either::Left(
+                                        view! { <div class="h-[400px] items-center justify-center flex p-5">No Data Available for this Selection</div>}
+                                    )
+                                } else {
+                                    Either::Right(
+                                        page_items().into_iter()
+                                        .map(|value|
+                                        view! {
+                                            <li>
+                                                {move || {
+                                                    match value {
+                                                        PageItem::Ellipsis => Either::Left(view! { <div class=cn!(#(
+                                                            "text-grey-70",
+                                                            (is_light_theme, "text-grey-20")
+                                                        ))>...</div> }),
+                                                        PageItem::Page(num) => Either::Right(view! { <button class=cn!(#(
+                                                            "size-10 sm:text-lg rounded-full bg-white text-grey-20 cursor-pointer duration-300",
+                                                            (is_light_theme, "bg-grey-20 text-white"),
+                                                            (num != current_page.get(), "bg-transparent hover:opacity-50", (!is_light_theme, "text-white"), (is_light_theme, "text-grey-20"))
 
-                                        )) on:click=move |_| set_current_page(num)>{num}</button> })
-                                    }
-                                }}
-                            </li>
-                        }).collect_view()
-                    )
-                }
-            }}
-        </ul>
+                                                        )) on:click=move |_| set_current_page(num)>{num}</button> })
+                                                    }
+                                                }}
+                                            </li>
+                                        }).collect_view()
+                                    )
+                                }
+                            }}
+                        </ul>
+                    }
+                )
+            } else {
+                None
+            }
+        }}
      </div>
     }
 }
