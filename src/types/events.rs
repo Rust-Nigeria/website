@@ -5,13 +5,14 @@ use std::fmt;
 use crate::components::cards_list::CardsListItem;
 use crate::types::person::Person;
 
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, Hash, Ord, PartialOrd, Copy)]
 #[serde(rename_all = "snake_case")]
 pub enum EventTags {
     Workshop,
     Meetup,
     Webinar,
     InPerson,
+    Hackathon,
 }
 
 impl fmt::Display for EventTags {
@@ -21,6 +22,7 @@ impl fmt::Display for EventTags {
             EventTags::Meetup => "Meetup",
             EventTags::Webinar => "Webinar",
             EventTags::InPerson => "In-Person",
+            EventTags::Hackathon => "Hackathon",
         };
         write!(f, "{}", s)
     }
