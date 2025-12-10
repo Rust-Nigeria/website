@@ -18,5 +18,10 @@
     "repo_url": "https://github.com/alob-mtc/runnerq",
     "banner": "https://opengraph.githubassets.com/1/alob-mtc/runnerq",
     "tags": ["crate"]
+  },
+  {
+    "repo_url": "https://github.com/deven96/ahnlich",
+    "banner": "https://opengraph.githubassets.com/1/deven96/ahnlich",
+    "tags": ["ai", "crate"]
   }
 ]
