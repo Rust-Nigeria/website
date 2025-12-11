@@ -45,7 +45,9 @@ where
             let set_visible = set_in_view;
             let observer = IntersectionObserverWrap::new(
                 Box::new(move |entries, _| {
-                    set_visible(entries[0].is_intersecting());
+                    for entry in entries.iter() {
+                        set_visible(entry.is_intersecting());
+                    }
                 }),
                 in_view_options.observer_options.as_ref(),
             );
