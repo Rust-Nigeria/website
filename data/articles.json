@@ -101,5 +101,16 @@
       { "name": "Austin Aigbe", "image": "/assets/images/members/austin.jpg" }
     ],
     "tags": ["technical"]
+  },
+  {
+    "banner": "/assets/images/article-banners/iambenkay-header-rust.png",
+    "name": "Rust features that make programming fun again",
+    "description": "There are a number of features that make Rust a fun language to work with and I am going to be discussing some of them that I find particularly interesting in this article",
+    "article_link": "https://iambenkay.github.io/rust-features-that-make-programming-fun-again/",
+    "date": "2025-12-11T00:00:00.000Z",
+    "authors": [
+      { "name": "BENKAY", "image": "/assets/images/members/iambenkay.jpeg" }
+    ],
+    "tags": ["technical"]
   }
 ]

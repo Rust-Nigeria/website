@@ -29,9 +29,11 @@ pub fn ArticleCard(
             <div class="p-4">
                 <p class="text-sm py-1 font-medium rounded-lg text-primary-50">{date}</p>
 
-                <h3 class="mt-2 title-1 line-clamp-2 h-14">{article.name.clone()}</h3>
+                <h3 class="mt-2 title-1 line-clamp-2 h-14">
+                    <a class="hover:underline" href=article.article_link.clone()>{article.name.clone()}</a>
+                </h3>
 
-                <p class="text-grey-40 text-sm mt-1 line-clamp-3">{article.description}</p>
+                <p class="text-grey-40 text-sm mt-1 cursor-pointer line-clamp-3">{article.description}</p>
 
                 <div class="flex items-center gap-x-2 mt-2">
                     <span class="font-semibold">AUTHORS:</span>
