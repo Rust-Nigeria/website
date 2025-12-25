@@ -1,4 +1,4 @@
-FROM rust:1.92.0-slim-bookworm AS base
+FROM rustlang/rust:nightly-bookworm  AS base
 
 RUN apt-get update && apt-get install -y \
     build-essential \
