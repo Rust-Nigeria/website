@@ -35,7 +35,7 @@ pub fn HeroSection() -> impl IntoView {
                     <RevealTextLine reveal=in_view delay=200>Proudly Nigerian</RevealTextLine>
                 </div>
                 <h1 class="header-1 relative flex flex-col items-center text-center max-w-4xl mt-4">
-                    <RevealTextLine reveal=in_view class="md:pb-1">test The Nigerian</RevealTextLine>
+                    <RevealTextLine reveal=in_view class="md:pb-1">The Nigerian</RevealTextLine>
                     <RevealTextLine reveal=in_view delay=200>Rust Community</RevealTextLine>
                 </h1>
                 <p class="header-6 relative text-grey-50 text-center max-w-lg lg:max-w-xl mt-4">
