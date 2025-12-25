@@ -3,7 +3,7 @@ name: Fly Deploy
 on:
   push:
     branches:
-      - dev
+      - ciopt
 jobs:
   deploy:
     name: Deploy website to fly
