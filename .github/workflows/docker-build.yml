@@ -3,13 +3,13 @@ name: Build and Push Docker Image
 on:
   push:
     branches:
-      - ciopt
+      - main
       - dev
     tags:
       - 'v*'
   pull_request:
     branches:
-      - dev
+      - main
   workflow_dispatch:  # Allows manual trigger
 
 env:
@@ -68,4 +68,4 @@ jobs:
       - name: Trigger Render Deploy
         run: curl -f "$RENDER_HOOK" || exit 1
         env:
-          RENDER_HOOK: ${{ secrets.RENDER_TEST_HOOK }}
+          RENDER_HOOK: ${{ secrets.RENDER_HOOK }}
