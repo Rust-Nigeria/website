@@ -26,3 +26,5 @@ fly.toml
 .cargo/
 *.wasm
 *.wasm.map
+.gitignore
+.git
