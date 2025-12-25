@@ -19,7 +19,7 @@ pub fn App() -> impl IntoView {
         // injects a stylesheet into the document <head>
         // id=leptos means cargo-leptos will hot-reload this stylesheet
         <Stylesheet id="leptos" href="/pkg/rust-nigeria-website.css"/>
-        <Meta name="description" content="The Nigerian Rust community website. Find out about community projects, events and articles." />
+        <Meta name="description" content="test The Nigerian Rust community website. Find out about community projects, events and articles." />
         // sets the document title
         <Title text="Welcome to Rust Nigeria"/>
 
