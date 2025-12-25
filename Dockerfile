@@ -1,8 +1,20 @@
 FROM rust:1.92.0-alpine3.23 AS base
 
-RUN apk update && \
-    apk add --no-cache bash curl npm libc-dev binaryen git build-base cmake openssl-dev pkgconf musl-dev pearl   
-
+RUN apk add --no-cache \
+    bash \
+    curl \
+    git \
+    npm \
+    build-base \
+    openssl-dev \
+    pkgconf \
+    libc-dev \
+    musl-dev \
+    binaryen \
+    perl \
+    python3 \
+    cmake
+    
 COPY rust-toolchain.toml ./
 RUN rustup show
 # Install all Rust tools once in base
