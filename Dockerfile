@@ -1,11 +1,7 @@
-FROM rustlang/rust:nightly-bookworm  AS base
+FROM rust:1.92.0-alpine3.23 AS base
 
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    pkg-config \
-    libssl-dev \
-    curl \
-    npm    
+RUN apk update && \
+    apk add --no-cache bash curl npm libc-dev binaryen git build-base cmake openssl-dev pkgconf musl-dev pearl   
 
 COPY rust-toolchain.toml ./
 RUN rustup show
