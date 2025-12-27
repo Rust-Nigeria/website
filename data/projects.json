@@ -9,7 +9,7 @@
     "banner": "https://opengraph.githubassets.com/1/Rust-Nigeria/website",
     "tags": ["leptos"]
   },
-   {
+  {
     "repo_url": "https://github.com/mahmudsudo/rate_rs",
     "banner": "https://opengraph.githubassets.com/1/mahmudsudo/rate_rs",
     "tags": ["crate"]
@@ -23,5 +23,10 @@
     "repo_url": "https://github.com/deven96/ahnlich",
     "banner": "https://opengraph.githubassets.com/1/deven96/ahnlich",
     "tags": ["ai", "crate"]
+  },
+  {
+    "repo_url": "https://github.com/ahkohd/oyo",
+    "banner": "https://opengraph.githubassets.com/1/ahkohd/oyo",
+    "tags": ["crate"]
   }
 ]
