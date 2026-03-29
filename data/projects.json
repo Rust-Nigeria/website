@@ -28,5 +28,10 @@
     "repo_url": "https://github.com/ahkohd/oyo",
     "banner": "https://opengraph.githubassets.com/1/ahkohd/oyo",
     "tags": ["crate"]
+  },
+  {
+    "repo_url": "https://github.com/opeolluwa/almonds",
+    "banner": "https://opengraph.githubassets.com/1/opeolluwa/almonds",
+    "tags": ["tauri", "devtools", "deskop"]
   }
 ]
