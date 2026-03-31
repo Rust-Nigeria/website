@@ -11,6 +11,10 @@ pub enum ProjectTags {
     Blockchain,
     Leptos,
     Crate,
+    Tauri,
+    DistributedSystem,
+    RateLimiting,
+    Template,
 }
 
 impl fmt::Display for ProjectTags {
@@ -21,6 +25,10 @@ impl fmt::Display for ProjectTags {
             ProjectTags::Blockchain => "Blockchain",
             ProjectTags::Leptos => "Leptos",
             ProjectTags::Crate => "Crate",
+            ProjectTags::Tauri => "Tauri",
+            ProjectTags::DistributedSystem => "Distributed System",
+            ProjectTags::RateLimiting => "Rate Limiting",
+            ProjectTags::Template => "Template",
         };
         write!(f, "{}", s)
     }
