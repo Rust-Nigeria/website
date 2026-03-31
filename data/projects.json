@@ -33,5 +33,10 @@
     "repo_url": "https://github.com/opeolluwa/almonds",
     "banner": "https://opengraph.githubassets.com/1/opeolluwa/almonds",
     "tags": ["tauri"]
+  },
+  {
+    "repo_url": "https://github.com/Zfinix/another",
+    "banner": "https://opengraph.githubassets.com/1/Zfinix/another",
+    "tags": ["tauri"]
   }
 ]
