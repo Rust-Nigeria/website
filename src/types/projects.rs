@@ -14,6 +14,7 @@ pub enum ProjectTags {
     Tauri,
     DistributedSystem,
     RateLimiting,
+    Template,
 }
 
 impl fmt::Display for ProjectTags {
@@ -27,6 +28,7 @@ impl fmt::Display for ProjectTags {
             ProjectTags::Tauri => "Tauri",
             ProjectTags::DistributedSystem => "Distributed System",
             ProjectTags::RateLimiting => "Rate Limiting",
+            ProjectTags::Template => "Template",
         };
         write!(f, "{}", s)
     }
