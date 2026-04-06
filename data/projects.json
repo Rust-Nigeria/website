@@ -53,5 +53,10 @@
     "repo_url": "https://github.com/dev-davexoyinbo/actix-web-starter-template",
     "banner": "https://opengraph.githubassets.com/1/dev-davexoyinbo/actix-web-starter-template",
     "tags": ["template"]
+  },
+  {
+    "repo_url": "https://github.com/KodeSage/rustyochestrator",
+    "banner": "https://opengraph.githubassets.com/1/KodeSage/rustyochestrator",
+    "tags": ["crate", "tauri"]
   }
 ]
