@@ -59,4 +59,9 @@
     "banner": "https://opengraph.githubassets.com/1/KodeSage/rustyochestrator",
     "tags": ["crate", "tauri"]
   }
+    {
+    "repo_url": "https://github.com/enigma-137/log-analyzer",
+    "banner": "https://opengraph.githubassets.com/1/enigma-137/log-analyzer",
+    "tags": ["cli"]
+  },
 ]
