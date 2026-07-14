@@ -68,20 +68,20 @@ pub fn Nav() -> impl IntoView {
                             ).collect_view()
                     }
                         <li>
-                            <Button
-                                class="animate-scale-in"
-                                use_as=ButtonUsecase::Button {
-                                    on_click: Box::new(
-                                        move |_| {
-                                            open_join_dialog()
-                                        }
-                                    )
-                                }
-                                color=ButtonColorVariants::Black
-                                icon=ButtonIconTypes::RightArrow
-                            >
-                            Join Us!
-                            </Button>
+                            // <Button
+                            //     class="animate-scale-in"
+                            //     use_as=ButtonUsecase::Button {
+                            //         on_click: Box::new(
+                            //             move |_| {
+                            //                 open_join_dialog()
+                            //             }
+                            //         )
+                            //     }
+                            //     color=ButtonColorVariants::Black
+                            //     icon=ButtonIconTypes::RightArrow
+                            // >
+                            // Join Us!
+                            // </Button>
                         </li>
                     </ul>
                 </div>

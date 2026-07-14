@@ -1,7 +1,12 @@
-use leptos::{either::Either, ev::MouseEvent, prelude::*};
+mod button_backdrop;
+mod shaders;
+
+use leptos::{either::Either, ev::MouseEvent, html, prelude::*};
 use tailwind_fuse::*;
 
-use crate::icons::right_arrow::RightArrow;
+use crate::{
+    components::button::button_backdrop::ButtonBackdropBuilder, icons::right_arrow::RightArrow,
+};
 
 pub enum ButtonUsecase {
     Button {
@@ -46,7 +51,7 @@ pub enum ButtonSizeVariants {
 
 #[derive(TwClass)]
 #[tw(
-    class = "inline-flex gap-x-1 cursor-pointer items-center font-medium overflow-hidden duration-300"
+    class = "inline-flex relative gap-x-1 cursor-pointer items-center font-medium overflow-visible duration-300"
 )]
 struct ButtonVariants {
     size: ButtonSizeVariants,
@@ -62,6 +67,10 @@ pub fn Button(
     #[prop(default = "")] class: &'static str,
     #[prop(optional)] icon: Option<ButtonIconTypes>,
 ) -> impl IntoView {
+    let canvas_ref: NodeRef<html::Canvas> = NodeRef::new();
+    let button_ref: NodeRef<html::Button> = NodeRef::new();
+    let link_ref: NodeRef<html::A> = NodeRef::new();
+
     let class = ButtonVariants { size, color }.with_class(class);
 
     let icon_el = match icon {
@@ -79,9 +88,78 @@ pub fn Button(
         ""
     };
 
+    let maybe_backdrop_builder = LocalResource::new(move || ButtonBackdropBuilder::load());
+
+    let (extension_dimension, set_extension_dimension) = signal::<Option<i32>>(None);
+
+    let (is_hovering, set_is_hovering) = signal(false);
+
+    // Effect::new(move || {
+    //     match use_as.clone() {
+    //         ButtonUsecase::Button { on_click: _ } => {
+    //             set_extension_dimension(
+    //                 button_ref
+    //                     .get()
+    //                     .map_or(None, |button| Some(button.client_height())),
+    //             );
+    //         }
+    //         ButtonUsecase::Link { href: _ } => {
+    //             set_extension_dimension(
+    //                 link_ref
+    //                     .get()
+    //                     .map_or(None, |link| Some(link.client_height())),
+    //             );
+    //         }
+    //     };
+    // });
+
+    Effect::new(move || {
+        set_extension_dimension(
+            button_ref
+                .get()
+                .map_or(None, |button| Some(button.client_height())),
+        );
+    });
+
+    Effect::new(move || {
+        if let Some(canvas) = canvas_ref.get() {
+            if let Some(backdrop_builder) = maybe_backdrop_builder.get() {
+                let backdrop = backdrop_builder.create_backdrop(canvas);
+                backdrop.render();
+            }
+        }
+    });
+
     match use_as {
         ButtonUsecase::Button { on_click } => Either::Left(view! {
-          <button class=tw_merge!(additional_class, class) on:click=on_click><span class="btn-inner group-hover/with-icon:translate-x-4">{children()}</span>{icon_el}</button>
+          <button node_ref=button_ref class=tw_merge!(additional_class, class) on:click=on_click>
+            <span class="btn-inner group-hover/with-icon:translate-x-4">
+                {children()}
+            </span>
+            {
+                move ||match extension_dimension() {
+                    Some(v) => {
+                       Either::Left(
+                           view! {
+                               <canvas
+                                   style=move || format!("width: calc(100% + {}px)", v)
+                                   node_ref=canvas_ref class="absolute top-0 h-full left-0"
+                               >
+                               </canvas>
+                           }
+                       )
+                    }
+                    None => {
+                        Either::Right(
+                            view!{
+                                <span>Tea</span>
+                            }
+                        )
+                    }
+                }
+            }
+            {icon_el}
+          </button>
         }),
         ButtonUsecase::Link { href } => Either::Right(view! {
           <a class=tw_merge!(additional_class, class) href=href><span class="btn-inner group-hover/with-icon:translate-x-4">{children()}</span>{icon_el}</a>
