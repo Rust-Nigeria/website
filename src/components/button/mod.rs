@@ -200,6 +200,9 @@ pub fn Button(
 
     let use_as_clone = use_as.clone();
 
+    // TODO - This should respond to resizing. We might also benefit from making the backdrop
+    // struct also get it's extension from here
+
     Effect::new(move || {
         if icon.is_none()
             || matches!(size, ButtonSizeVariants::Thin)
