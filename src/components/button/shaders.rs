@@ -60,11 +60,10 @@ pub const FRAGMENT_SHADER: &str = r#"
 
     void main() {
         vec4 clear = vec4(srgbToLinear(vec3(0.0)).xyz, 0.0);
-        vec4 buttonColor = mix(
-            vec4(srgbToLinear(vec3(u_base_color.xyz) / 225.0).xyz, u_base_color.a),
-            vec4(srgbToLinear(vec3(u_hover_color.xyz) / 225.0).xyz, u_hover_color.a),
-            u_progression
-        );
+        vec4 baseColor = vec4(srgbToLinear(vec3(u_base_color.xyz) / 225.0).xyz, u_base_color.a);
+        vec4 hoverColor =  vec4(srgbToLinear(vec3(u_hover_color.xyz) / 225.0).xyz, u_hover_color.a);
+
+        vec4 buttonColor =  mix(baseColor, hoverColor, u_progression);
 
         vec4 color = clear;
 

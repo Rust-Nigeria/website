@@ -53,11 +53,11 @@ impl ButtonColorVariants {
     pub fn get_state_rgbs(&self) -> StateRgbs {
         match self {
             ButtonColorVariants::Black => StateRgbs {
-                base: [42.0, 42.0, 42.0, 1.0],
+                base: [10.0, 10.0, 10.0, 1.0],
                 hover: [38.0, 38.0, 38.0, 1.0],
             },
             ButtonColorVariants::Grey => StateRgbs {
-                base: [42.0, 42.0, 42.0, 1.0],
+                base: [62.0, 62.0, 62.0, 1.0], // TODO - Not the same as bg-grey-30. Fix
                 hover: [79.0, 79.0, 79.0, 1.0],
             },
             ButtonColorVariants::White => StateRgbs {
