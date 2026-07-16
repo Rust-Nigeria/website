@@ -2114,6 +2114,7 @@ dependencies = [
  "leptos_router",
  "serde",
  "serde_json",
+ "simple-bezier-easing",
  "stylance",
  "tailwind_fuse",
  "wasm-bindgen",
@@ -2358,6 +2359,12 @@ checksum = "9203b8055f63a2a00e2f593bb0510367fe707d7ff1e5c872de2f537b339e5410"
 dependencies = [
  "libc",
 ]
+
+[[package]]
+name = "simple-bezier-easing"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "29f783d6e697cb9df4af34e64d6bc72e859d84a8b4a7b9024a9500ef9e364379"
 
 [[package]]
 name = "siphasher"

@@ -109,14 +109,14 @@ where
         tags_set
     });
 
-    let selected_tags: RwSignal<HashSet<N::Tag>> = RwSignal::new(tags.get());
+    let (selected_tags, set_selected_tags) = signal::<HashSet<N::Tag>>(tags.get_untracked());
 
     let filtered_data = move || {
         cards_data_memo()
             .iter()
             .filter(|d| {
                 let tags = d.get_tags();
-                tags.iter().any(|tag| selected_tags.read().contains(tag))
+                tags.iter().any(|tag| selected_tags.get().contains(tag))
             })
             .cloned()
             .collect::<Vec<N>>()
@@ -167,7 +167,7 @@ where
         (count, (count * multiplier) as usize)
     });
 
-    let (items_count, set_items_count) = signal(count_data().1);
+    let (items_count, set_items_count) = signal(count_data.get_untracked().1);
 
     let PaginationData {
         current_page,
@@ -185,7 +185,7 @@ where
 
     let has_more_to_show = move || items_count() < filtered_data().len();
 
-    Effect::new(move || selected_tags.set(tags()));
+    Effect::new(move || set_selected_tags(tags()));
 
     Effect::new(move || set_items_count(count_data().1));
 
@@ -228,13 +228,14 @@ where
                                     (selected_tags.get().contains(&tag), "opacity-100")
                                 ))
                                 on:click=move |_| {
-                                    selected_tags.update(|set| {
-                                        if set.contains(&tag) {
-                                            set.remove(&tag);
-                                        } else {
-                                            set.insert(tag);
-                                        }
-                                    });
+                                    let mut set = selected_tags.get();
+                                    if set.contains(&tag) {
+                                        set.remove(&tag);
+                                    } else {
+                                        set.insert(tag);
+                                    }
+                                    set_selected_tags(set);
+
                                 }
                             >
                                 {format!("{}", tag)}
@@ -271,7 +272,7 @@ where
         ))>
             <Button
                 use_as=ButtonUsecase::Button {
-                on_click: Box::new(
+                on_click: Callback::new(
                     move |_| {
                         set_items_count(items_count() + count_data.get().1)
                     }

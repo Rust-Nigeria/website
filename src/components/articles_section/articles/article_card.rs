@@ -45,7 +45,7 @@ pub fn ArticleCard(
                 </div>
 
                 <Button
-                    class="mt-4 w-fit"
+                    class="mt-4"
                     use_as=ButtonUsecase::Link { href: article.article_link }
                     color=ButtonColorVariants::Transparent
                     size=ButtonSizeVariants::Thin

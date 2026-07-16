@@ -40,7 +40,7 @@ pub fn CommunityStats() -> impl IntoView {
                 ))>
                     <Button
                         use_as=ButtonUsecase::Button {
-                        on_click: Box::new(
+                        on_click: Callback::new(
                             move |_| {
                                 open_join_dialog()
                             }
@@ -48,6 +48,7 @@ pub fn CommunityStats() -> impl IntoView {
                     }
                         color=ButtonColorVariants::White
                         size=ButtonSizeVariants::Lg
+                        icon=crate::components::button::ButtonIconTypes::RightArrow
                     >
                         Join the Community
                     </Button>
