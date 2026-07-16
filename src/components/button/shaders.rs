@@ -14,14 +14,12 @@ pub const FRAGMENT_SHADER: &str = r#"
 
     uniform vec2 u_canvas_resolution;
     uniform float u_extension_dimension;
+    uniform float u_progression;
+    uniform vec4 u_base_color;
+    uniform vec4 u_hover_color;
 
-    float inverseLerp(float v, float minValue, float maxValue) {
-      return (v - minValue) / (maxValue - minValue);
-    }
-
-    float remap(float v, float inMin, float inMax, float outMin, float outMax) {
-      float t = inverseLerp(v, inMin, inMax);
-      return mix(outMin, outMax, t);
+    vec3 srgbToLinear(vec3 c) {
+        return pow(c, vec3(2.2)); // or the exact piecewise sRGB curve if you want precision
     }
 
     // First arg is the coord, second is the dimensions from center and third is the radius of the corners
@@ -61,8 +59,12 @@ pub const FRAGMENT_SHADER: &str = r#"
     }
 
     void main() {
-        vec4 clear = vec4(0.0);
-        vec4 buttonColor = vec4(0.0, 1.0, 1.0, 1.0);
+        vec4 clear = vec4(srgbToLinear(vec3(0.0)).xyz, 0.0);
+        vec4 buttonColor = mix(
+            vec4(srgbToLinear(vec3(u_base_color.xyz) / 225.0).xyz, u_base_color.a),
+            vec4(srgbToLinear(vec3(u_hover_color.xyz) / 225.0).xyz, u_hover_color.a),
+            u_progression
+        );
 
         vec4 color = clear;
 
@@ -87,18 +89,26 @@ pub const FRAGMENT_SHADER: &str = r#"
             u_canvas_resolution.y * 0.5
         );
 
-        // Temporary Move. Move the circle to the rightmost part of the canvas
+        // Place Circle flush with right side of pill
+        vec2 posCircleWithPillBorder = buttonBg - vec2(extension * 0.5);
+
+        // Start the circle from within the pill
         vec2 circlePosition = placeSdf(
-             ((u_canvas_resolution) - vec2(10.0, 0.0)) - (extension * 0.5),
+             posCircleWithPillBorder + vec2(mix(-0.5 * extension, extension, u_progression), 0.0), // Lerp position
              coord
         );
 
-        float circle = circleSdf(circlePosition, extension * 0.5);
+        // Multiplying by some scaling constant to make it slightly smaller and look nicer (preference)
+        float circleRadius = ((extension - 5.0) * 0.5) * 0.9;
+
+        float circle = circleSdf(circlePosition, mix(circleRadius * 0.5, circleRadius, u_progression));
 
         // Draw Circle
 
-        float pillAndCircle = smin(pill, circle, 9.0);
+        float pillAndCircle = smin(pill, circle, 10.0);
 
+        // color += paintSdf(buttonColor, pill);
+        // color += paintSdf(vec4(1.0, 0.0, 0.0, 1.0), circle);
         color += paintSdf(buttonColor, pillAndCircle);
 
         gl_FragColor = color;

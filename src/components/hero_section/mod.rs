@@ -44,7 +44,7 @@ pub fn HeroSection() -> impl IntoView {
                 <Button
                     class="animate-scale-in mt-6 relative"
                     use_as=ButtonUsecase::Button {
-                        on_click: Box::new(
+                        on_click: Callback::new(
                             move |_| {
                                 open_join_dialog()
                             }

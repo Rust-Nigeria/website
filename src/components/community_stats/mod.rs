@@ -38,19 +38,20 @@ pub fn CommunityStats() -> impl IntoView {
                     "opacity-0 translate-y-8 duration-500 mt-6",
                      (section_in_view(), "opacity-100 translate-y-0 delay-300")
                 ))>
-                    // <Button
-                    //     use_as=ButtonUsecase::Button {
-                    //     on_click: Box::new(
-                    //         move |_| {
-                    //             open_join_dialog()
-                    //         }
-                    //     )
-                    // }
-                    //     color=ButtonColorVariants::White
-                    //     size=ButtonSizeVariants::Lg
-                    // >
-                    //     Join the Community
-                    // </Button>
+                    <Button
+                        use_as=ButtonUsecase::Button {
+                        on_click: Callback::new(
+                            move |_| {
+                                open_join_dialog()
+                            }
+                        )
+                    }
+                        color=ButtonColorVariants::White
+                        size=ButtonSizeVariants::Lg
+                        icon=crate::components::button::ButtonIconTypes::RightArrow
+                    >
+                        Join the Community
+                    </Button>
                 </div>
            </div>
            <Stats />

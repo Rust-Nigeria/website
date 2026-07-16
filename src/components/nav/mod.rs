@@ -1,7 +1,7 @@
 use leptos::{ev, prelude::*};
 
 use crate::cn;
-use crate::components::button::{Button, ButtonColorVariants, ButtonIconTypes, ButtonUsecase};
+use crate::components::button::{Button, ButtonColorVariants, ButtonUsecase};
 use crate::constants::urls;
 use crate::hooks::use_join_community_dialog::use_join_community_dialog;
 use crate::icons::rust_nigeria_logo::RustNigeriaLogo;
@@ -44,7 +44,7 @@ pub fn Nav() -> impl IntoView {
             >
                 <div
                     class=cn!(#(
-                        "max-w-6xl flex w-full justify-between items-center duration-300 rounded-full border border-transparent",
+                        "max-w-2xl lg:max-w-4xl 2xl:max-w-6xl flex w-full justify-between items-center duration-300 rounded-full border border-transparent",
                         (is_out_of_threshold(), "bg-background-main pl-4 pr-2 py-2 border-primary-50")
                     ))
                 >
@@ -68,20 +68,19 @@ pub fn Nav() -> impl IntoView {
                             ).collect_view()
                     }
                         <li>
-                            // <Button
-                            //     class="animate-scale-in"
-                            //     use_as=ButtonUsecase::Button {
-                            //         on_click: Box::new(
-                            //             move |_| {
-                            //                 open_join_dialog()
-                            //             }
-                            //         )
-                            //     }
-                            //     color=ButtonColorVariants::Black
-                            //     icon=ButtonIconTypes::RightArrow
-                            // >
-                            // Join Us!
-                            // </Button>
+                            <Button
+                                class="animate-scale-in"
+                                use_as=ButtonUsecase::Button {
+                                    on_click: Callback::new(
+                                        move |_| {
+                                            open_join_dialog()
+                                        }
+                                    )
+                                }
+                                color=ButtonColorVariants::Black
+                            >
+                            Join Us!
+                            </Button>
                         </li>
                     </ul>
                 </div>

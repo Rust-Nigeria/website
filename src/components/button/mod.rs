@@ -1,24 +1,39 @@
 mod button_backdrop;
 mod shaders;
 
-use leptos::{either::Either, ev::MouseEvent, html, prelude::*};
-use tailwind_fuse::*;
-
-use crate::{
-    components::button::button_backdrop::ButtonBackdropBuilder, icons::right_arrow::RightArrow,
+use std::{
+    cell::{Cell, RefCell},
+    rc::Rc,
 };
 
+use leptos::{either::Either, ev::MouseEvent, html, prelude::*};
+use tailwind_fuse::*;
+use wasm_bindgen::{prelude::Closure, JsCast};
+use web_sys::js_sys::Date;
+
+use crate::{
+    components::button::button_backdrop::{
+        ButtonBackdropBuilder, ButtonBackdropCfg, ButtonBackdropInstance,
+    },
+    icons::right_arrow::RightArrow,
+    utils::render_loop::RenderLoop,
+};
+use simple_bezier_easing::bezier;
+
+#[derive(Clone)]
 pub enum ButtonUsecase {
-    Button {
-        on_click: Box<dyn FnMut(MouseEvent)>,
-    },
-    Link {
-        href: String,
-    },
+    Button { on_click: Callback<MouseEvent> },
+    Link { href: String },
 }
 
+#[derive(Copy, Clone)]
 pub enum ButtonIconTypes {
     RightArrow,
+}
+
+pub struct StateRgbs {
+    pub base: [f32; 4],
+    pub hover: [f32; 4],
 }
 
 // Variant for color
@@ -26,7 +41,7 @@ pub enum ButtonIconTypes {
 pub enum ButtonColorVariants {
     #[tw(default, class = "bg-grey-100 hover:bg-grey-80 text-grey-10")]
     White,
-    #[tw(class = "bg-grey-10 text-grey-100 hover:bg-neutral-800")]
+    #[tw(class = "bg-grey-10 text-grey-90 hover:bg-neutral-800")]
     Black,
     #[tw(class = "bg-grey-30 text-grey-100 hover:bg-grey-50")]
     Grey,
@@ -34,9 +49,32 @@ pub enum ButtonColorVariants {
     Transparent,
 }
 
+impl ButtonColorVariants {
+    pub fn get_state_rgbs(&self) -> StateRgbs {
+        match self {
+            ButtonColorVariants::Black => StateRgbs {
+                base: [42.0, 42.0, 42.0, 1.0],
+                hover: [38.0, 38.0, 38.0, 1.0],
+            },
+            ButtonColorVariants::Grey => StateRgbs {
+                base: [42.0, 42.0, 42.0, 1.0],
+                hover: [79.0, 79.0, 79.0, 1.0],
+            },
+            ButtonColorVariants::White => StateRgbs {
+                base: [244.0, 244.0, 244.0, 1.0],
+                hover: [227.0, 227.0, 227.0, 1.0],
+            },
+            ButtonColorVariants::Transparent => StateRgbs {
+                base: [0.0, 0.0, 0.0, 0.0],
+                hover: [0.0, 0.0, 0.0, 0.0],
+            },
+        }
+    }
+}
+
 // Variant for size
 #[derive(TwVariant)]
-#[tw(class = "rounded-full [&_>_.btn-inner]:duration-300 [&_>_.btn-icon]:duration-300")]
+#[tw(class = "rounded-full [&_>_.btn-inner]:duration-500 [&_>_.btn-icon]:duration-500")]
 pub enum ButtonSizeVariants {
     #[tw(class = "group/size-sm text-base [&_>_.btn-icon]:size-5")]
     Thin,
@@ -51,11 +89,74 @@ pub enum ButtonSizeVariants {
 
 #[derive(TwClass)]
 #[tw(
-    class = "inline-flex relative gap-x-1 cursor-pointer items-center font-medium overflow-visible duration-300"
+    class = "inline-flex relative gap-x-1 cursor-pointer items-center font-medium overflow-visible duration-500"
 )]
 struct ButtonVariants {
     size: ButtonSizeVariants,
     color: ButtonColorVariants,
+}
+
+#[derive(Clone, Copy)]
+enum AnimationDirection {
+    Forwards,
+    Backwards,
+}
+
+const TOTAL_ANIMATION_DURATION_MS: f64 = 500.0;
+
+// My animaiton loop should pass in a value to my render funciton that ping pongs between 0 and 1 depending on the direction
+// of the animation. Frowards goes from 0 -> 1 and backwards goes from 1 -> 0. The idea is that its basically just playing a
+// predefined animation but giving us a normalised time value between 0 and 1
+fn start_animaiton_loop(backdrop: ButtonBackdropInstance, direction: Rc<Cell<AnimationDirection>>) {
+    let render_loop: Rc<RefCell<RenderLoop>> = Rc::new(RefCell::new(RenderLoop::default()));
+    let window = web_sys::window().unwrap();
+    let time = Cell::new(Date::now());
+    let timing = bezier(0.42, 0.0, 0.58, 1.0).unwrap();
+
+    let progression = Cell::new(0.0);
+
+    let closure: Closure<dyn Fn(f64)> = {
+        let window = web_sys::window().unwrap();
+        let render_loop = render_loop.clone();
+        Closure::wrap(Box::new(move |_| {
+            let now = Date::now();
+            let dt = now - time.get();
+            let multiplier = match direction.get() {
+                AnimationDirection::Backwards => -1.0,
+                AnimationDirection::Forwards => 1.0,
+            };
+
+            let time_progression =
+                (progression.get() + (dt * multiplier)).clamp(0.0, TOTAL_ANIMATION_DURATION_MS);
+
+            progression.replace(time_progression);
+
+            let normalised_time_progression = time_progression / TOTAL_ANIMATION_DURATION_MS;
+
+            let eased_progression = timing(normalised_time_progression as f32).unwrap();
+
+            time.replace(now);
+
+            backdrop.render(eased_progression);
+
+            let mut render_loop = render_loop.borrow_mut();
+            render_loop.animation_id = render_loop.closure.as_ref().map(|closure| {
+                window
+                    .request_animation_frame(closure.as_ref().unchecked_ref())
+                    .expect("cannot set animation frame")
+            })
+        }))
+    };
+
+    let mut render_loop = render_loop.borrow_mut();
+
+    render_loop.animation_id = Some(
+        window
+            .request_animation_frame(closure.as_ref().unchecked_ref())
+            .expect("cannot set animation frame"),
+    );
+
+    render_loop.closure = Some(closure)
 }
 
 #[component]
@@ -77,7 +178,7 @@ pub fn Button(
         None => None,
         Some(icon_type) => match icon_type {
             ButtonIconTypes::RightArrow => Some(
-                view! { <RightArrow {..} class="btn-icon group-hover/size-sm:translate-x-12 group-hover/size-md:translate-x-16 group-hover/size-lg:translate-x-20" /> },
+                view! { <RightArrow {..} class="btn-icon relative group-hover/size-sm:translate-x-14 group-hover/size-md:translate-x-16 xl:group-hover/size-md:translate-x-[70px] group-hover/size-lg:translate-x-24" /> },
             ),
         },
     };
@@ -94,75 +195,108 @@ pub fn Button(
 
     let (is_hovering, set_is_hovering) = signal(false);
 
-    // Effect::new(move || {
-    //     match use_as.clone() {
-    //         ButtonUsecase::Button { on_click: _ } => {
-    //             set_extension_dimension(
-    //                 button_ref
-    //                     .get()
-    //                     .map_or(None, |button| Some(button.client_height())),
-    //             );
-    //         }
-    //         ButtonUsecase::Link { href: _ } => {
-    //             set_extension_dimension(
-    //                 link_ref
-    //                     .get()
-    //                     .map_or(None, |link| Some(link.client_height())),
-    //             );
-    //         }
-    //     };
-    // });
+    let animation_direction = Rc::new(Cell::new(AnimationDirection::Backwards));
+    let anim_dir_clone = animation_direction.clone();
+
+    let use_as_clone = use_as.clone();
 
     Effect::new(move || {
-        set_extension_dimension(
-            button_ref
-                .get()
-                .map_or(None, |button| Some(button.client_height())),
-        );
+        if icon.is_none()
+            || matches!(size, ButtonSizeVariants::Thin)
+            || matches!(color, ButtonColorVariants::Transparent)
+        {
+            return;
+        }
+
+        match &use_as_clone {
+            ButtonUsecase::Button { .. } => {
+                if let Some(el) = button_ref.get() {
+                    request_animation_frame(move || {
+                        set_extension_dimension(Some(el.client_height()));
+                    });
+                }
+            }
+            ButtonUsecase::Link { .. } => {
+                if let Some(el) = link_ref.get() {
+                    request_animation_frame(move || {
+                        set_extension_dimension(Some(el.client_height()));
+                    });
+                }
+            }
+        }
     });
 
     Effect::new(move || {
         if let Some(canvas) = canvas_ref.get() {
             if let Some(backdrop_builder) = maybe_backdrop_builder.get() {
-                let backdrop = backdrop_builder.create_backdrop(canvas);
-                backdrop.render();
+                let backdrop =
+                    backdrop_builder.create_backdrop(canvas, ButtonBackdropCfg { color });
+                start_animaiton_loop(backdrop, animation_direction.clone());
             }
+        }
+    });
+
+    Effect::new(move || {
+        if is_hovering.get() {
+            anim_dir_clone.set(AnimationDirection::Forwards);
+        } else {
+            anim_dir_clone.set(AnimationDirection::Backwards);
         }
     });
 
     match use_as {
         ButtonUsecase::Button { on_click } => Either::Left(view! {
-          <button node_ref=button_ref class=tw_merge!(additional_class, class) on:click=on_click>
-            <span class="btn-inner group-hover/with-icon:translate-x-4">
+          <button
+            node_ref=button_ref
+            on:mouseenter=move |_| set_is_hovering(true)
+            on:mouseleave=move |_| set_is_hovering(false)
+            class=tw_merge!(additional_class, class)
+            on:click=move |e| on_click.run(e)
+          >
+
+            {move || extension_dimension().map(move |ext| {
+                view! {
+                    <canvas
+                        style=move || format!("width: calc(100% + {}px)", ext)
+                        node_ref=canvas_ref class="absolute pointer-events-none hidden sm:block top-0 h-full left-0"
+                    >
+                    </canvas>
+                }
+            })}
+
+            <span class="btn-inner relative group-hover/with-icon:translate-x-4">
                 {children()}
             </span>
-            {
-                move ||match extension_dimension() {
-                    Some(v) => {
-                       Either::Left(
-                           view! {
-                               <canvas
-                                   style=move || format!("width: calc(100% + {}px)", v)
-                                   node_ref=canvas_ref class="absolute top-0 h-full left-0"
-                               >
-                               </canvas>
-                           }
-                       )
-                    }
-                    None => {
-                        Either::Right(
-                            view!{
-                                <span>Tea</span>
-                            }
-                        )
-                    }
-                }
-            }
+
             {icon_el}
           </button>
         }),
         ButtonUsecase::Link { href } => Either::Right(view! {
-          <a class=tw_merge!(additional_class, class) href=href><span class="btn-inner group-hover/with-icon:translate-x-4">{children()}</span>{icon_el}</a>
+            <a
+                node_ref=link_ref
+                on:mouseenter=move |_| set_is_hovering(true)
+                on:mouseleave=move |_| set_is_hovering(false)
+                class=tw_merge!(additional_class, class)
+                href=href
+            >
+
+            {move || extension_dimension().map(move |ext| {
+                view! {
+                    <canvas
+                        style=move || format!("width: calc(100% + {}px)", ext)
+                        node_ref=canvas_ref class="absolute pointer-events-none hidden sm:block top-0 h-full left-0"
+                    >
+                    </canvas>
+                }
+            })}
+
+
+                <span class="btn-inner relative group-hover/with-icon:translate-x-4">
+                    {children()}
+                </span>
+
+                {icon_el}
+            </a>
         }),
     }
 }
