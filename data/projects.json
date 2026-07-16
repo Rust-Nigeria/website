@@ -65,6 +65,11 @@
     "tags": ["cli"]
   },
   {
+    "repo_url": "https://github.com/seun-ja/rpc-agent",
+    "banner": "https://opengraph.githubassets.com/1/seun-ja/rpc-agent",
+    "tags": ["rpc", "ai", "distributed_system"]
+  },
+  {
     "repo_url": "https://github.com/elcharitas/momenta",
     "banner": "https://opengraph.githubassets.com/1/elcharitas/momenta",
     "tags": ["crate", "framework", "web"]
