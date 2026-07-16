@@ -14,3 +14,16 @@ impl RenderLoop {
         }
     }
 }
+
+impl Drop for RenderLoop {
+    fn drop(&mut self) {
+        if let Some(animation_id) = self.animation_id {
+            let window =
+                web_sys::window().expect("Failed to get window when cleaning up animation loop");
+
+            window
+                .cancel_animation_frame(animation_id)
+                .expect("Cannot Cancel Animation Frame");
+        }
+    }
+}
