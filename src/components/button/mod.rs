@@ -189,7 +189,7 @@ pub fn Button(
         ""
     };
 
-    let maybe_backdrop_builder = LocalResource::new(move || ButtonBackdropBuilder::load());
+    let maybe_backdrop_builder = LocalResource::new(ButtonBackdropBuilder::load);
 
     let (extension_dimension, set_extension_dimension) = signal::<Option<i32>>(None);
 

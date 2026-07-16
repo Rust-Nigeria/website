@@ -138,13 +138,13 @@ impl ButtonBackdropInstance {
         );
 
         gl.uniform2fv_with_f32_array(
-            Some(&canvas_resolution_uniform_location),
+            Some(canvas_resolution_uniform_location),
             &[canvas_width, canvas_height],
         );
 
-        gl.uniform1f(Some(&extension_dimension_uniform_location), canvas_height);
+        gl.uniform1f(Some(extension_dimension_uniform_location), canvas_height);
 
-        gl.uniform1f(Some(&progression_uniform_location), progression);
+        gl.uniform1f(Some(progression_uniform_location), progression);
 
         gl.bind_buffer(Gl::ARRAY_BUFFER, Some(vertex_position_buffer));
         set_quad(gl, canvas_width, canvas_height);
