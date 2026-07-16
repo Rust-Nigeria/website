@@ -107,6 +107,7 @@ pub const FRAGMENT_SHADER: &str = r#"
 
         float pillAndCircle = smin(pill, circle, 10.0);
 
+        // Leaving these comments here because they are useful for debugging
         // color += paintSdf(buttonColor, pill);
         // color += paintSdf(vec4(1.0, 0.0, 0.0, 1.0), circle);
         color += paintSdf(buttonColor, pillAndCircle);
