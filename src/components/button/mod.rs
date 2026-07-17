@@ -15,6 +15,7 @@ use crate::{
     components::button::button_backdrop::{
         ButtonBackdropBuilder, ButtonBackdropCfg, ButtonBackdropInstance,
     },
+    hooks::use_in_view::{use_in_view, ElementVisibilityData, InViewOptions},
     icons::right_arrow::RightArrow,
     utils::render_loop::RenderLoop,
 };
@@ -57,8 +58,8 @@ impl ButtonColorVariants {
                 hover: [38.0, 38.0, 38.0, 1.0],
             },
             ButtonColorVariants::Grey => StateRgbs {
-                base: [62.0, 62.0, 62.0, 1.0], // TODO - Not the same as bg-grey-30. Fix
-                hover: [79.0, 79.0, 79.0, 1.0],
+                base: [79.0, 79.0, 79.0, 1.0], // TODO - Not the same as bg-grey-30. Fix
+                hover: [99.0, 99.0, 99.0, 1.0],
             },
             ButtonColorVariants::White => StateRgbs {
                 base: [244.0, 244.0, 244.0, 1.0],
@@ -104,21 +105,49 @@ enum AnimationDirection {
 
 const TOTAL_ANIMATION_DURATION_MS: f64 = 500.0;
 
-// My animaiton loop should pass in a value to my render funciton that ping pongs between 0 and 1 depending on the direction
+type RenderLoopPtr = Rc<RefCell<RenderLoop>>;
+
+/// Public handles to a running loop. These live *beside* the RenderLoop, not inside it, so
+/// calling one only borrows the loop's RefCell fresh — nothing else is holding it at the time.
+/// (Putting these on RenderLoop itself deadlocks: reaching the field needs a borrow, and the
+/// handle then wants borrow_mut on the same cell.)
+struct AnimationControls {
+    wake: Box<dyn Fn()>,
+    sleep: Box<dyn Fn()>,
+    // Tears the loop down when the component drops this (via the StoredValue). Replaces
+    // on_cleanup, whose Send + Sync bound an Rc/RefCell can't satisfy.
+    _handle: LoopHandle,
+}
+
+/// Owns the loop and cancels + frees it on drop.
+struct LoopHandle(RenderLoopPtr);
+
+impl Drop for LoopHandle {
+    fn drop(&mut self) {
+        let mut render_loop = self.0.borrow_mut();
+        render_loop.cancel();
+        // Drop the Closure so its captured Rc<RefCell<RenderLoop>> clone is released — otherwise
+        // the RenderLoop <-> Closure cycle keeps the loop alive forever.
+        render_loop.closure = None;
+    }
+}
+
+// Animaiton loop should pass in a value to render funciton that ping pongs between 0 and 1 depending on the direction
 // of the animation. Frowards goes from 0 -> 1 and backwards goes from 1 -> 0. The idea is that its basically just playing a
 // predefined animation but giving us a normalised time value between 0 and 1
-fn start_animaiton_loop(backdrop: ButtonBackdropInstance, direction: Rc<Cell<AnimationDirection>>) {
-    let render_loop: Rc<RefCell<RenderLoop>> = Rc::new(RefCell::new(RenderLoop::default()));
-    let window = web_sys::window().unwrap();
-    let time = Cell::new(Date::now());
+fn create_render_loop(
+    backdrop: ButtonBackdropInstance,
+    direction: Rc<Cell<AnimationDirection>>,
+) -> AnimationControls {
+    let render_loop: RenderLoopPtr = Rc::new(RefCell::new(RenderLoop::default()));
     let timing = bezier(0.42, 0.0, 0.58, 1.0).unwrap();
+    let time: Rc<Cell<f64>> = Rc::new(Cell::new(Date::now()));
+    let progression: Rc<Cell<f64>> = Rc::new(Cell::new(0.0));
+    let running: Rc<Cell<bool>> = Rc::new(Cell::new(false));
 
-    let progression = Cell::new(0.0);
-
-    let closure: Closure<dyn Fn(f64)> = {
-        let window = web_sys::window().unwrap();
-        let render_loop = render_loop.clone();
-        Closure::wrap(Box::new(move |_| {
+    let render_fn: Rc<dyn Fn()> = {
+        let (progression, time, direction) = (progression.clone(), time.clone(), direction.clone());
+        Rc::new(move || {
             let now = Date::now();
             let dt = now - time.get();
             let multiplier = match direction.get() {
@@ -128,16 +157,23 @@ fn start_animaiton_loop(backdrop: ButtonBackdropInstance, direction: Rc<Cell<Ani
 
             let time_progression =
                 (progression.get() + (dt * multiplier)).clamp(0.0, TOTAL_ANIMATION_DURATION_MS);
-
-            progression.replace(time_progression);
+            progression.set(time_progression);
 
             let normalised_time_progression = time_progression / TOTAL_ANIMATION_DURATION_MS;
-
             let eased_progression = timing(normalised_time_progression as f32).unwrap();
 
-            time.replace(now);
+            time.set(now);
 
             backdrop.render(eased_progression);
+        })
+    };
+
+    let closure: Closure<dyn Fn(f64)> = {
+        let window = web_sys::window().unwrap();
+        let (render_loop, render_fn) = (render_loop.clone(), render_fn.clone());
+
+        Closure::wrap(Box::new(move |_| {
+            render_fn();
 
             let mut render_loop = render_loop.borrow_mut();
             render_loop.animation_id = render_loop.closure.as_ref().map(|closure| {
@@ -148,15 +184,69 @@ fn start_animaiton_loop(backdrop: ButtonBackdropInstance, direction: Rc<Cell<Ani
         }))
     };
 
-    let mut render_loop = render_loop.borrow_mut();
+    render_loop.borrow_mut().closure = Some(closure);
 
-    render_loop.animation_id = Some(
-        window
-            .request_animation_frame(closure.as_ref().unchecked_ref())
-            .expect("cannot set animation frame"),
-    );
+    let wake: Box<dyn Fn()> = {
+        let window = web_sys::window().unwrap();
+        let (render_loop, progression, time, running) = (
+            render_loop.clone(),
+            progression.clone(),
+            time.clone(),
+            running.clone(),
+        );
 
-    render_loop.closure = Some(closure)
+        Box::new(move || {
+            // Guard first: a redundant wake must not reset progression mid-animation or start a
+            // parallel rAF chain (which would run the animation at double speed).
+            if running.replace(true) {
+                return;
+            }
+
+            // Fresh start from 0; reset the clock so the first frame doesn't see a stale dt.
+            progression.set(0.0);
+            time.set(Date::now());
+
+            let mut render_loop_borrow = render_loop.borrow_mut();
+            if let Some(closure) = &render_loop_borrow.closure {
+                render_loop_borrow.animation_id = Some(
+                    window
+                        .request_animation_frame(closure.as_ref().unchecked_ref())
+                        .expect("cannot set animation frame"),
+                );
+            }
+        })
+    };
+
+    let sleep: Box<dyn Fn()> = {
+        let (render_loop, progression, time, direction, running, render_fn) = (
+            render_loop.clone(),
+            progression.clone(),
+            time.clone(),
+            direction.clone(),
+            running.clone(),
+            render_fn.clone(),
+        );
+
+        Box::new(move || {
+            running.set(false);
+            progression.set(0.0);
+            time.set(Date::now());
+            direction.set(AnimationDirection::Backwards);
+
+            // Paint the resting frame once so the canvas isn't left mid-animation / blank.
+            render_fn();
+
+            render_loop.borrow().cancel();
+        })
+    };
+
+    // No on_cleanup: teardown rides on LoopHandle's Drop, which runs when the StoredValue holding
+    // these controls is disposed on unmount (or replaced if this effect re-runs).
+    AnimationControls {
+        wake,
+        sleep,
+        _handle: LoopHandle(render_loop),
+    }
 }
 
 #[component]
@@ -171,6 +261,10 @@ pub fn Button(
     let canvas_ref: NodeRef<html::Canvas> = NodeRef::new();
     let button_ref: NodeRef<html::Button> = NodeRef::new();
     let link_ref: NodeRef<html::A> = NodeRef::new();
+
+    // StoredValue is Copy, so the effects below capture it directly — no Rc<RefCell<Option<..>>>
+    // to clone around. new_local because the boxed closures aren't Send/Sync.
+    let controls = StoredValue::new_local(None::<AnimationControls>);
 
     let class = ButtonVariants { size, color }.with_class(class);
 
@@ -200,6 +294,16 @@ pub fn Button(
 
     let use_as_clone = use_as.clone();
 
+    let ElementVisibilityData {
+        in_view: canvas_in_view,
+    } = use_in_view(
+        canvas_ref,
+        Some(InViewOptions {
+            trigger_once: Some(false),
+            ..Default::default()
+        }),
+    );
+
     // TODO - This should respond to resizing. We might also benefit from making the backdrop
     // struct also get it's extension from here
 
@@ -214,27 +318,34 @@ pub fn Button(
         match &use_as_clone {
             ButtonUsecase::Button { .. } => {
                 if let Some(el) = button_ref.get() {
-                    request_animation_frame(move || {
-                        set_extension_dimension(Some(el.client_height()));
-                    });
+                    set_extension_dimension(Some(el.client_height()));
                 }
             }
             ButtonUsecase::Link { .. } => {
                 if let Some(el) = link_ref.get() {
-                    request_animation_frame(move || {
-                        set_extension_dimension(Some(el.client_height()));
-                    });
+                    set_extension_dimension(Some(el.client_height()));
                 }
             }
         }
     });
 
+    // Build the loop once canvas + backdrop builder are ready, apply the current visibility state
+    // immediately (untracked, so this effect stays keyed to canvas/builder only), then store it.
+    // The wake guard makes the initial wake safe even if the visibility effect also fires true.
     Effect::new(move || {
         if let Some(canvas) = canvas_ref.get() {
             if let Some(backdrop_builder) = maybe_backdrop_builder.get() {
                 let backdrop =
                     backdrop_builder.create_backdrop(canvas, ButtonBackdropCfg { color });
-                start_animaiton_loop(backdrop, animation_direction.clone());
+                let ctrls = create_render_loop(backdrop, animation_direction.clone());
+
+                if canvas_in_view.get_untracked() {
+                    (ctrls.wake)();
+                } else {
+                    (ctrls.sleep)();
+                }
+
+                controls.set_value(Some(ctrls));
             }
         }
     });
@@ -245,6 +356,21 @@ pub fn Button(
         } else {
             anim_dir_clone.set(AnimationDirection::Backwards);
         }
+    });
+
+    // Drive wake/sleep off visibility. Read the signal FIRST and unconditionally, or the effect
+    // registers no dependency on its early-exit run and never fires again.
+    Effect::new(move || {
+        let in_view = canvas_in_view.get();
+        controls.with_value(|c| {
+            if let Some(c) = c {
+                if in_view {
+                    (c.wake)();
+                } else {
+                    (c.sleep)();
+                }
+            }
+        });
     });
 
     match use_as {
