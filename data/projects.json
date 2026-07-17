@@ -72,6 +72,6 @@
   {
     "repo_url": "https://github.com/elcharitas/momenta",
     "banner": "https://opengraph.githubassets.com/1/elcharitas/momenta",
-    "tags": ["crate", "framework", "web"]
+    "tags": ["crate", "web"]
   }
 ]

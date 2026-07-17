@@ -206,7 +206,7 @@ where
         </Show>
 
         <div class=cn!(#(
-            "flex mt-3 items-center gap-x-2 flex-wrap opacity-0 duration-300 delay-100",
+            "flex mt-3 items-center gap-2 flex-wrap opacity-0 duration-300 delay-100",
               (section_in_view(), "opacity-100")
         ))>
             {move ||
