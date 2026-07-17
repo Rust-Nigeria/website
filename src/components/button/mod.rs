@@ -318,16 +318,12 @@ pub fn Button(
         match &use_as_clone {
             ButtonUsecase::Button { .. } => {
                 if let Some(el) = button_ref.get() {
-                    request_animation_frame(move || {
-                        set_extension_dimension(Some(el.client_height()));
-                    });
+                    set_extension_dimension(Some(el.client_height()));
                 }
             }
             ButtonUsecase::Link { .. } => {
                 if let Some(el) = link_ref.get() {
-                    request_animation_frame(move || {
-                        set_extension_dimension(Some(el.client_height()));
-                    });
+                    set_extension_dimension(Some(el.client_height()));
                 }
             }
         }
