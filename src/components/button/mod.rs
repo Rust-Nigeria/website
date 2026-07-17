@@ -58,8 +58,8 @@ impl ButtonColorVariants {
                 hover: [38.0, 38.0, 38.0, 1.0],
             },
             ButtonColorVariants::Grey => StateRgbs {
-                base: [62.0, 62.0, 62.0, 1.0], // TODO - Not the same as bg-grey-30. Fix
-                hover: [79.0, 79.0, 79.0, 1.0],
+                base: [79.0, 79.0, 79.0, 1.0], // TODO - Not the same as bg-grey-30. Fix
+                hover: [99.0, 99.0, 99.0, 1.0],
             },
             ButtonColorVariants::White => StateRgbs {
                 base: [244.0, 244.0, 244.0, 1.0],

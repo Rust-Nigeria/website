@@ -11,18 +11,18 @@ actix-files = { version = "0.6.8", optional = true }
 actix-web = { version = "4", optional = true, features = ["macros"] }
 console_error_panic_hook = "0.1"
 http = { version = "1.3.1", optional = true }
-leptos = { version = "0.8.12", features = ["nightly"] }
-leptos_meta = { version = "0.8.5" }
-leptos_actix = { version = "0.8.6", optional = true }
-leptos_router = { version = "0.8.9", features = ["nightly"] }
-wasm-bindgen = "=0.2.105"
+leptos = { version = "0.8.20", features = ["nightly"] }
+leptos_meta = { version = "0.8.6" }
+leptos_actix = { version = "0.8.7", optional = true }
+leptos_router = { version = "0.8.14", features = ["nightly"] }
+wasm-bindgen = "=0.2.126"
 tailwind_fuse = { version = "0.3.1", features = ["variant"] }
 futures = "0.3.31"
 stylance = "0.7.1"
 serde = "1.0.228"
 serde_json = "1.0"
 chrono = {version = "0.4.42", features = ["serde"]}
-leptos-use = "0.16.3"
+leptos-use = "0.19.0"
 simple-bezier-easing = "0.1.1"
 
 [dependencies.web-sys]
@@ -136,6 +136,3 @@ scss_prelude = '''
 @use "sass:math";
 @use "sass:list";
 '''
-
-
-

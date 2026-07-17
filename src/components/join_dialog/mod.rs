@@ -42,15 +42,17 @@ pub fn JoinDialog() -> impl IntoView {
         To protect members’ privacy, we add new members" <b> manually. </b>
                 </p>
                 <p class="mt-2">"Please send us a message on" <a href=urls::RUST_NIGERIA_X class="link"> X (Twitter) </a> "and we’ll get you added!"</p>
-                <Button
-                    class="mt-6"
-                    use_as=ButtonUsecase::Link { href: String::from(urls::RUST_NIGERIA_X) }
-                    color=ButtonColorVariants::Grey
-                    size=ButtonSizeVariants::Md
-                    icon={ButtonIconTypes::RightArrow}
-                >
-                Message us on X
-                </Button>
+                   <Show when=move || should_show()>
+                        <Button
+                            class="mt-6"
+                            use_as=ButtonUsecase::Link { href: String::from(urls::RUST_NIGERIA_X) }
+                            color=ButtonColorVariants::Grey
+                            size=ButtonSizeVariants::Md
+                            icon={ButtonIconTypes::RightArrow}
+                        >
+                            Message us on X
+                        </Button>
+                   </Show>
             </div>
         </div>
     }
