@@ -330,8 +330,8 @@ pub fn Button(
         if let Some(window) = web_sys::window() {
             let no_amiations = window
                 .match_media("(prefers-reduced-motion: reduce)")
-                .map_or(false, |maybe_motion_query| {
-                    return maybe_motion_query.map_or(false, |motion_query| motion_query.matches());
+                .is_ok_and(|maybe_motion_query| {
+                    maybe_motion_query.is_some_and(|motion_query| motion_query.matches())
                 });
             if !no_amiations {
                 if let Some(canvas) = canvas_ref.get() {
@@ -385,11 +385,11 @@ pub fn Button(
                 base = tw_join!(base, "group/with-icon");
             };
 
-            if !extension_dimension.get().is_some() {
+            if extension_dimension.get().is_none() {
                 base = tw_join!(base, "overflow-x-hidden");
-            }
+            };
 
-            return base;
+            base
         }
     };
 
