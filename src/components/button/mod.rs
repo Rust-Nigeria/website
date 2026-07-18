@@ -277,12 +277,6 @@ pub fn Button(
         },
     };
 
-    let additional_class = if icon_el.is_some() {
-        "group/with-icon"
-    } else {
-        ""
-    };
-
     let maybe_backdrop_builder = LocalResource::new(ButtonBackdropBuilder::load);
 
     let (extension_dimension, set_extension_dimension) = signal::<Option<i32>>(None);
@@ -333,19 +327,28 @@ pub fn Button(
     // immediately (untracked, so this effect stays keyed to canvas/builder only), then store it.
     // The wake guard makes the initial wake safe even if the visibility effect also fires true.
     Effect::new(move || {
-        if let Some(canvas) = canvas_ref.get() {
-            if let Some(backdrop_builder) = maybe_backdrop_builder.get() {
-                let backdrop =
-                    backdrop_builder.create_backdrop(canvas, ButtonBackdropCfg { color });
-                let ctrls = create_render_loop(backdrop, animation_direction.clone());
+        if let Some(window) = web_sys::window() {
+            let no_amiations = window
+                .match_media("(prefers-reduced-motion: reduce)")
+                .is_ok_and(|maybe_motion_query| {
+                    maybe_motion_query.is_some_and(|motion_query| motion_query.matches())
+                });
+            if !no_amiations {
+                if let Some(canvas) = canvas_ref.get() {
+                    if let Some(backdrop_builder) = maybe_backdrop_builder.get() {
+                        let backdrop =
+                            backdrop_builder.create_backdrop(canvas, ButtonBackdropCfg { color });
+                        let ctrls = create_render_loop(backdrop, animation_direction.clone());
 
-                if canvas_in_view.get_untracked() {
-                    (ctrls.wake)();
-                } else {
-                    (ctrls.sleep)();
+                        if canvas_in_view.get_untracked() {
+                            (ctrls.wake)();
+                        } else {
+                            (ctrls.sleep)();
+                        }
+
+                        controls.set_value(Some(ctrls));
+                    }
                 }
-
-                controls.set_value(Some(ctrls));
             }
         }
     });
@@ -373,13 +376,30 @@ pub fn Button(
         });
     });
 
+    let additional_class = {
+        let has_icon = icon_el.is_some();
+        move || {
+            let mut base = String::from("");
+
+            if has_icon {
+                base = tw_join!(base, "group/with-icon");
+            };
+
+            if extension_dimension.get().is_none() {
+                base = tw_join!(base, "overflow-x-hidden");
+            };
+
+            base
+        }
+    };
+
     match use_as {
         ButtonUsecase::Button { on_click } => Either::Left(view! {
           <button
             node_ref=button_ref
             on:mouseenter=move |_| set_is_hovering(true)
             on:mouseleave=move |_| set_is_hovering(false)
-            class=tw_merge!(additional_class, class)
+            class=move|| tw_merge!(&class, additional_class())
             on:click=move |e| on_click.run(e)
           >
 
@@ -405,7 +425,7 @@ pub fn Button(
                 node_ref=link_ref
                 on:mouseenter=move |_| set_is_hovering(true)
                 on:mouseleave=move |_| set_is_hovering(false)
-                class=tw_merge!(additional_class, class)
+                class=move|| tw_merge!(&class, additional_class())
                 href=href
             >
 
