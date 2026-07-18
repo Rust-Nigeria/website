@@ -1,4 +1,4 @@
-FROM rust:1.92.0-alpine3.23 AS base
+FROM rust:1.97.1-alpine3.23 AS base
 
 RUN apk add --no-cache \
     bash \
@@ -14,14 +14,14 @@ RUN apk add --no-cache \
     perl \
     python3 \
     cmake
-    
+
 COPY rust-toolchain.toml ./
 RUN rustup show
 # Install all Rust tools once in base
 RUN cargo install cargo-binstall
-RUN cargo install cargo-chef 
+RUN cargo install cargo-chef
 RUN npm install -g sass
-RUN cargo install stylance-cli 
+RUN cargo install stylance-cli
 RUN cargo binstall cargo-leptos -y
 RUN cargo install -f wasm-bindgen-cli --version 0.2.105
 RUN rustup target add wasm32-unknown-unknown
