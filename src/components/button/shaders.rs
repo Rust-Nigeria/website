@@ -98,7 +98,7 @@ pub const FRAGMENT_SHADER: &str = r#"
         );
 
         // Multiplying by some scaling constant to make it slightly smaller and look nicer (preference)
-        float circleRadius = ((extension - 5.0) * 0.5) * 0.9;
+        float circleRadius = ((extension - 5.0) * 0.5) * 0.6;
 
         float circle = circleSdf(circlePosition, mix(circleRadius * 0.5, circleRadius, u_progression));
 
