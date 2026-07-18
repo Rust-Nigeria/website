@@ -16,6 +16,8 @@ pub enum ProjectTags {
     RateLimiting,
     Template,
     Cli,
+    Rpc,
+    Web,
 }
 
 impl fmt::Display for ProjectTags {
@@ -31,6 +33,8 @@ impl fmt::Display for ProjectTags {
             ProjectTags::RateLimiting => "Rate Limiting",
             ProjectTags::Template => "Template",
             ProjectTags::Cli => "CLI",
+            ProjectTags::Rpc => "RPC",
+            ProjectTags::Web => "Web",
         };
         write!(f, "{}", s)
     }

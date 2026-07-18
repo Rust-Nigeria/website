@@ -1,4 +1,5 @@
-FROM rust:1.92.0-alpine3.23 AS base
+###### Base stage — image toolchain (1.97.1) builds the tools ######
+FROM rust:1.97.1-alpine3.23 AS base
 
 RUN apk add --no-cache \
     bash \
@@ -14,74 +15,63 @@ RUN apk add --no-cache \
     perl \
     python3 \
     cmake
-    
-COPY rust-toolchain.toml ./
-RUN rustup show
-# Install all Rust tools once in base
-RUN cargo install cargo-binstall
-RUN cargo install cargo-chef 
+
+# IMPORTANT: install tooling BEFORE rust-toolchain.toml is copied in.
+# Otherwise the pinned nightly overrides the image toolchain and tool
+# dependencies (kstring, vergen, ...) fail their rustc version checks.
+RUN cargo install --locked cargo-binstall
+RUN cargo binstall -y --locked cargo-chef stylance-cli cargo-leptos
+RUN cargo binstall -y wasm-bindgen-cli --version 0.2.126
 RUN npm install -g sass
-RUN cargo install stylance-cli 
-RUN cargo binstall cargo-leptos -y
-RUN cargo install -f wasm-bindgen-cli --version 0.2.105
-RUN rustup target add wasm32-unknown-unknown
+
+# Now pin the project toolchain and add the wasm target to *it*
+COPY rust-toolchain.toml ./
+RUN rustup show \
+    && rustup target add wasm32-unknown-unknown
 
 WORKDIR /work
 
-###### Planner stage ####
+###### Planner stage ######
 FROM base AS planner
-
-# Only copy dependency files, NOT source code
 COPY . .
 RUN cargo chef prepare --recipe-path recipe.json
 
-###### Chef stage - cook dependencies ####
+###### Chef stage — cook dependencies ######
 FROM base AS chef
-
 COPY --from=planner /work/recipe.json recipe.json
 RUN cargo chef cook --release --recipe-path recipe.json
 
 ###### Builder stage ######
 FROM base AS builder
-
 WORKDIR /work
 
-# Copy cooked dependencies
+# Reuse cooked dependency artifacts
 COPY --from=chef /work/target target
 COPY --from=chef /usr/local/cargo /usr/local/cargo
 
-# Now copy source code
 COPY . .
 
-# Run stylance and build
 RUN stylance .
 RUN cargo leptos build --release -vv
 
-##### Production runner #####
+###### Production runner ######
 FROM debian:bookworm-slim AS runner
-
 WORKDIR /app
 
-# Install runtime dependencies
 RUN apt-get update -y \
     && apt-get install -y --no-install-recommends openssl ca-certificates \
     && apt-get autoremove -y \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy only what's needed for runtime
 COPY --from=builder /work/data /app/data
 COPY --from=builder /work/target/release/rust-nigeria-website /app/
 COPY --from=builder /work/target/site /app/site
 COPY --from=builder /work/Cargo.toml /app/
-
-
-
 
 ENV RUST_LOG="debug"
 ENV LEPTOS_SITE_ADDR="0.0.0.0:8080"
 ENV LEPTOS_SITE_ROOT=./site
 
 EXPOSE 8080
-
 CMD ["/app/rust-nigeria-website"]

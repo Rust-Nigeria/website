@@ -15,10 +15,10 @@ pub fn ArticleCard(
     #[prop(default = "")] class: &'static str,
     #[prop(default = 0)] index: usize,
 ) -> impl IntoView {
-    let date = RwSignal::new(None);
+    let (date, set_date) = signal(None);
 
     Effect::new(move || {
-        date.set(Some(parse_iso_js(&article.date.to_rfc3339())));
+        set_date(Some(parse_iso_js(&article.date.to_rfc3339())));
     });
 
     view! {
@@ -45,7 +45,7 @@ pub fn ArticleCard(
                 </div>
 
                 <Button
-                    class="mt-4 w-fit"
+                    class="mt-4"
                     use_as=ButtonUsecase::Link { href: article.article_link }
                     color=ButtonColorVariants::Transparent
                     size=ButtonSizeVariants::Thin
