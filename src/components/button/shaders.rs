@@ -50,12 +50,12 @@ pub const FRAGMENT_SHADER: &str = r#"
       return desiredPosition - coord;
     }
 
-    // exponential
+    // quadratic polynomial
     float smin( float a, float b, float k )
     {
-        k *= 1.0;
-        float r = exp2(-a/k) + exp2(-b/k);
-        return -k*log2(r);
+        k *= 4.0;
+        float h = max( k-abs(a-b), 0.0 )/k;
+        return min(a,b) - h*h*k*(1.0/4.0);
     }
 
     void main() {
@@ -98,13 +98,13 @@ pub const FRAGMENT_SHADER: &str = r#"
         );
 
         // Multiplying by some scaling constant to make it slightly smaller and look nicer (preference)
-        float circleRadius = ((extension - 5.0) * 0.5) * 0.6;
+        float circleRadius = ((extension - 5.0) * 0.5) * 0.7;
 
-        float circle = circleSdf(circlePosition, mix(circleRadius * 0.5, circleRadius, u_progression));
+        float circle = circleSdf(circlePosition, circleRadius);
 
         // Draw Circle
 
-        float pillAndCircle = smin(pill, circle, 10.0);
+        float pillAndCircle = smin(pill, circle, extension * 0.05);
 
         // Leaving these comments here because they are useful for debugging
         // color += paintSdf(buttonColor, pill);
