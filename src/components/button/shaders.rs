@@ -50,6 +50,7 @@ pub const FRAGMENT_SHADER: &str = r#"
       return desiredPosition - coord;
     }
 
+    // This was gotten from here: https://iquilezles.org/articles/smin
     // quadratic polynomial
     float smin( float a, float b, float k )
     {
