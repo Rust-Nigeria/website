@@ -81,7 +81,7 @@ pub enum ButtonSizeVariants {
     Thin,
     #[tw(
         default,
-        class = "group/size-md py-4 px-6 xl:px-8 [&_>_.btn-icon]:size-6"
+        class = "group/size-md py-4 px-6 xl:px-8 [&_>_.btn-icon]:size-5"
     )]
     Md,
     #[tw(class = "group/size-lg py-6 px-10 text-lg 2xl:text-2xl [&_>_.btn-icon]:size-8")]
